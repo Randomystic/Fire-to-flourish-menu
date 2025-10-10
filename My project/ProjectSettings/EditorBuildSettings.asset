@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Narrative.unity
     guid: f72c6030c6a0bf14c884d3d1480afb43
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelect.unity
+    guid: e28b0e78c9047e240a60bcb46b49415b
+  - enabled: 1
+    path: Assets/Scenes/Scenario.unity
+    guid: ab8802b32f52298478cf7302a802b829
   m_configObjects: {}

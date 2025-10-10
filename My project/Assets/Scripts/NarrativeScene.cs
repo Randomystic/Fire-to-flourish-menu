@@ -3,26 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class NarrativeScene : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI dialogueText;
+    // [SerializeField] private TextMeshProUGUI dialogueText;
+    public GameObject continueButton;
 
-    int currentIndex = 1;
+    public VideoPlayer videoPlayer;
+    public VideoClip[] videos;
 
-    // Dictionary for the diagloue
-    private Dictionary<int, string> dialogueLines = new Dictionary<int, string>()
-    {
-        { 1, "Narrative Dialogue" },
-        { 2, "Dialogue 1" },
-        { 3, "Dialogue 2" },
-        { 4, "Dialogue 3" },
-    };
+    int currentIndex = 0;
+    bool waiting;
+
+    // // Dictionary for the diagloue
+    // private Dictionary<int, string> dialogueLines = new Dictionary<int, string>()
+    // {
+    //     { 1, "Narrative Dialogue" },
+    //     { 2, "Dialogue 1" },
+    //     { 3, "Dialogue 2" },
+    //     { 4, "Dialogue 3" },
+    // };
+
 
     // Start is called before the first frame update
     void Start()
     {
-        ShowLine(currentIndex);
+        // ShowLine(currentIndex);
+        
+        videoPlayer.clip = videos[currentIndex];
+        videoPlayer.isLooping = false;
+        videoPlayer.loopPointReached += OnEnd;
+        videoPlayer.Play();
     }
 
     // Update is called once per frame
@@ -30,32 +42,56 @@ public class NarrativeScene : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShowNextLine();
+            NextVideo();
         }
     }
 
-    public void ShowNextLine()
+    void OnEnd(VideoPlayer vp)
     {
-        currentIndex++;
+        videoPlayer.Pause();
+        waiting = true;
+    }
 
-        if (currentIndex > dialogueLines.Count)
-        {
-            // //Loops back to 1
-            // currentIndex = 1;
+
+    public void NextVideo()
+    {
+        if (currentIndex + 1 >= videos.Length) {
             SceneManager.LoadScene("CharacterSelect");
-            
+            currentIndex = 1;
         }
-        ShowLine(currentIndex);
+
+        currentIndex++;
+        waiting = false;
+        videoPlayer.clip = videos[currentIndex];
+        videoPlayer.Play();
+
     }
 
-    // Gets the index number of dictionary, displays corresponding text
-    void ShowLine(int index)
-    {
-        if (dialogueLines.ContainsKey(index))
-            dialogueText.text = dialogueLines[index];
-        else
-            dialogueText.text = "[Missing Line]";
-            Debug.Log("Dialogue Line missing!");
-    }
+    // public void ShowNextLine()
+    // {
+    //     currentIndex++;
+
+    //     Debug.Log($"{currentIndex} / {dialogueLines.Count}");
+
+    //     if (currentIndex > dialogueLines.Count)
+    //     {
+    //         // //Loops back to 1
+    //         // currentIndex = 1;
+    //         SceneManager.LoadScene("CharacterSelect");
+            
+    //     }
+    //     ShowLine(currentIndex);
+    // }
+
+    // // Gets the index number of dictionary, displays corresponding text
+    // void ShowLine(int index)
+    // {   
+    //     print(index);
+    //     if (dialogueLines.ContainsKey(index))
+    //         dialogueText.text = dialogueLines[index];
+    //     else
+    //         dialogueText.text = "[Missing Line]";
+    //         Debug.Log("Dialogue Line missing!");
+    // }
 
 }
