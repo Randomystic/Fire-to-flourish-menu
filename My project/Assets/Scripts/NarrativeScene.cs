@@ -42,7 +42,7 @@ public class NarrativeScene : MonoBehaviour
         {
             // //Loops back to 1
             // currentIndex = 1;
-            SceneManager.LoadScene("TestScene");
+            SceneManager.LoadScene("CharacterSelect");
             
         }
         ShowLine(currentIndex);
