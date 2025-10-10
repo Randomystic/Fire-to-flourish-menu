@@ -38,7 +38,7 @@ public class CharacterSelect : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("Scenario");
     }
 
     // Start is called before the first frame update

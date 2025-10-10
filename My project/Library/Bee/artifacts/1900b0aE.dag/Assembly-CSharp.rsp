@@ -355,6 +355,7 @@
 "Assets/Scripts/CharacterSelect.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/NarrativeScene.cs"
+"Assets/Scripts/Scenario.cs"
 "Assets/Scripts/SceneLoader.cs"
 -langversion:9.0
 /deterministic
