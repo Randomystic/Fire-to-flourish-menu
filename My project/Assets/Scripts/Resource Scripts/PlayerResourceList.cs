@@ -10,7 +10,9 @@ public class PlayerResourceList
     public int respect;
 
     public void AdjustMoney(float amount) => money += amount;
+    
     public void AdjustMorale(int amount) => morale += amount;
+
     public void AdjustRespect(int amount) => respect += amount;
 
     public void UpdateAllResources()

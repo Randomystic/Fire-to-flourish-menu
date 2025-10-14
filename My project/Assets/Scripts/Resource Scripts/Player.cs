@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     public void useActionCard(ActionCard card)
     {
-        Debug.Log(name + " is using card: " + card.cardName);
+        Debug.Log(name + " is using card: " + card.name);
         // Apply card effects to resources here
     }
 }

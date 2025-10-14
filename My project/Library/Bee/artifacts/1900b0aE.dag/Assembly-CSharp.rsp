@@ -360,6 +360,7 @@
 "Assets/Scripts/Resource Scripts/ActionCard.cs"
 "Assets/Scripts/Resource Scripts/ActionCardManager.cs"
 "Assets/Scripts/Resource Scripts/Map.cs"
+"Assets/Scripts/Resource Scripts/MapTile.cs"
 "Assets/Scripts/Resource Scripts/Player.cs"
 "Assets/Scripts/Resource Scripts/PlayerResourceList.cs"
 "Assets/Scripts/Resource Scripts/ResourceDashboard.cs"

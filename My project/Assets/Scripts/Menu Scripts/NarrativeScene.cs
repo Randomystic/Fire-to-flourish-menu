@@ -14,7 +14,7 @@ public class NarrativeScene : MonoBehaviour
     public VideoClip[] videos;
 
     int currentIndex = 0;
-    bool waiting;
+    bool waiting = false;
 
     // // Dictionary for the diagloue
     // private Dictionary<int, string> dialogueLines = new Dictionary<int, string>()

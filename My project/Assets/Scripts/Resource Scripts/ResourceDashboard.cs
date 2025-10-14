@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class ResourceDashboard : MonoBehaviour
 {
-    public Map map; // Assuming you have a Map class
+    public Map map;
     public List<Player> players = new List<Player>();
     public TownResourceList townResource;
 
-    public object GetDashboardContent()
+    public DashboardContent GetDashboardContent()
     {
-        return new
+        if (townResource == null) return new DashboardContent();
+        return new DashboardContent
         {
             Provisions = townResource.provisions,
-            Education = townResource.education,
+            Education  = townResource.education,
             Population = townResource.population
         };
     }
 }
- 
+
+public class DashboardContent
+{
+    public int Provisions;
+    public int Education;
+    public int Population;
+}
