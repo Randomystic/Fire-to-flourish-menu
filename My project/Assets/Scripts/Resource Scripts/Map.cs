@@ -19,7 +19,7 @@ public class Map : MonoBehaviour
     public int width = 5;           // columns
     public int height = 7;          // rows
 
-    private readonly Dictionary<Vector3Int, MapTile> tiles = new();
+    public readonly Dictionary<Vector3Int, MapTile> tiles = new();
     private readonly List<MapTileData> allTileAssets = new();
 
 

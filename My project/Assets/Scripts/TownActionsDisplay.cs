@@ -13,6 +13,8 @@ public class TownActionsDisplay : MonoBehaviour
     public TMP_Text resourceChangesText;
     public Button saveButton;
 
+    public Map map;
+
     private Dictionary<RoleType, string> selectedCards => ActionCardInput.lastSelections;
     
     private TownResourceList beforeChanges;
@@ -82,6 +84,24 @@ public class TownActionsDisplay : MonoBehaviour
                 case "morale": player.resources.AdjustMorale(e.value); break;
                 case "respect": player.resources.AdjustRespect(e.value); break;
             }
+
+
+            if (e.resourceName.ToLower() == "population" || e.resourceName.ToLower() == "fuel_load")
+            {
+
+                if (map != null && map.tiles.Count > 0)
+                {
+                    var randomTile = new List<MapTile>(map.tiles.Values)[Random.Range(0, map.tiles.Count)];
+
+                    if (e.resourceName.ToLower() == "population") randomTile.fuelLoad += e.value;
+                    if (e.resourceName.ToLower() == "fuel_load")  randomTile.fuelLoad += e.value;
+
+                    Debug.Log($"Tile updated → Coord {randomTile.cubeCoord} | Name: {randomTile.tileName} | Type: {randomTile.tileType} | FuelLoad: {randomTile.fuelLoad}");
+                }
+            
+            }
+     
+     
         }
     }
 
@@ -113,6 +133,8 @@ public class TownActionsDisplay : MonoBehaviour
         $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
         $"Wind Speed: {beforeChanges.windSpeed} -> {townResources.windSpeed}\n" +
         $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}";
+        
+        resourceChangesText.text += "\nTile updates applied to random tiles affecting Population/Fuel Load.";
     }
 
      void Save()
