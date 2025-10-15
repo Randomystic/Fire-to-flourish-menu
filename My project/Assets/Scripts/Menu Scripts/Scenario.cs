@@ -10,6 +10,7 @@ public class ScenarioData
     public string name;
     public string effect;
     public string description;
+    public Dictionary<string, int> resources = new(); // must be initialized
 }
 
 public class Scenario : MonoBehaviour
@@ -21,32 +22,48 @@ public class Scenario : MonoBehaviour
 
     public List<ScenarioData> scenarios = new List<ScenarioData>();
 
-    Dictionary<string, ScenarioData> scenarioDict = new Dictionary<string, ScenarioData>();
+    public Dictionary<string, ScenarioData> scenarioDict = new Dictionary<string, ScenarioData>();
     int index;
 
     void Awake()
     {
         if (scenarios.Count == 0)
         {
-            scenarios.Add(new ScenarioData 
-            { 
-                name = "Sustained Heatwave", 
-                effect = "+1 Temperature (all tiles), -2 Morale across the town", 
-                description = "An extended period of oppressive heat pushes both people and the environment to their limits. Vegetation dries rapidly, drastically increasing fuel availability. Residents struggle with heat exhaustion and irritability, making coordinated efforts more difficult." 
+            scenarios.Add(new ScenarioData
+            {
+                name = "Sustained Heatwave",
+                effect = "+1 Temperature, -2 Morale",
+                description = "An extended period of oppressive heat...",
+                resources = new Dictionary<string, int>
+                {
+                    { "temperatureSeason", 1 },
+                    { "morale", -2 }
+                }
             });
 
-            scenarios.Add(new ScenarioData 
-            { 
-                name = "Severe Wind Surge", 
-                effect = "+1 Wind Speed, +1 Fuel Load on exposed tiles (Forest/Grassland)", 
-                description = "Unexpectedly strong winds roar through the region, whipping up loose debris and drying out already stressed landscapes. Efforts to clear land or build breaks face setbacks as vegetation is scattered and boundary lines eroded." 
+            scenarios.Add(new ScenarioData
+            {
+                name = "Severe Wind Surge",
+                effect = "+1 Wind Speed, +1 Fuel Load",
+                description = "Unexpectedly strong winds roar through the region...",
+                resources = new Dictionary<string, int>
+                {
+                    { "windSpeed", 1 },
+                    { "fuelLoad", 1 }
+                }
             });
 
-            scenarios.Add(new ScenarioData 
-            { 
-                name = "Government Budget Freeze", 
-                effect = "−2 Firefighting Equipment, −5 Education, +1 Fuel Load across tiles", 
-                description = "Due to unexpected budget tightening at the state level, existing grants and support programs have been suspended. Planned fire safety upgrades are delayed, training sessions are cancelled. The town must now operate with fewer resources, just when resilience efforts matter." 
+            scenarios.Add(new ScenarioData
+            {
+                name = "Government Budget Freeze",
+                effect = "−2 Equipment, −5 Education, +1 Fuel Load",
+                description = "Due to unexpected budget tightening...",
+                resources = new Dictionary<string, int>
+                {
+                    { "firefightingEquipment", -2 },
+                    { "education", -5 },
+                    { "fuelLoad", 1 }
+                }
             });
         }
 
@@ -81,7 +98,7 @@ public class Scenario : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("ScenarioResolve");
     }
 
 }

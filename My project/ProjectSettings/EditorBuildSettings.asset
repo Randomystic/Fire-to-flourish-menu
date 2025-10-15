@@ -38,4 +38,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TownActionsDisplay.unity
     guid: e6144733b2440f6439d9ac826153d648
+  - enabled: 1
+    path: Assets/Scenes/ScenarioResolve.unity
+    guid: ca0cb3df960c5f943ae3e9d78feb8e11
+  - enabled: 1
+    path: Assets/Scenes/FireSimulation.unity
+    guid: dc42cdaf5ad80f1499afe32c409389ed
+  - enabled: 1
+    path: Assets/Scenes/PreparationPhase.unity
+    guid: 3498f0c4f051f3d489d0fd5ff2f26306
+  - enabled: 1
+    path: Assets/Scenes/DiscussionPhase.unity
+    guid: f76559c197eddcb40863b1900d660b0c
   m_configObjects: {}

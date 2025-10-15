@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class PreparationTimer : MonoBehaviour
@@ -17,6 +18,8 @@ public class PreparationTimer : MonoBehaviour
 
     float remainingTime;
     bool isTimerRunning = false;
+
+    private static int index = 1;
 
     void Start()
     {
@@ -81,5 +84,24 @@ public class PreparationTimer : MonoBehaviour
             timerInput.text = timerSeconds.ToString();
         }
     }
+    
+    public void Save()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
 
+        if (currentScene == "DiscussionPhase")
+        {
+            if (index > 3)
+                SceneManager.LoadScene("FireSimulation");
+            else
+            {
+                index += 1;
+                SceneManager.LoadScene("Scenario");
+            }
+        }
+        else if (currentScene == "PreparationPhase")
+        {
+            SceneManager.LoadScene("ActionCardUI");
+        }
+    }
 }

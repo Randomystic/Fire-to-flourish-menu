@@ -14,10 +14,11 @@ public class Map : MonoBehaviour
     public float yOffset = 0f;
     public float evenRowXOffset = 0f;
 
+
     [Header("Map Settings")]
-    public GameObject tilePrefab;   // prefab with SpriteRenderer + MapTile
-    public int width = 5;           // columns
-    public int height = 7;          // rows
+    public GameObject tilePrefab;
+    public int width = 5;
+    public int height = 7;
 
     public readonly Dictionary<Vector3Int, MapTile> tiles = new();
     private readonly List<MapTileData> allTileAssets = new();
@@ -62,10 +63,10 @@ public class Map : MonoBehaviour
 
         // World-space size of the sprite at scale = 1
         var baseSize = sr.sprite.bounds.size;
-        float hexWidthWorld  = baseSize.x * tileScale;              // across flats
-        float hexHeightWorld = baseSize.y * tileScale;              // point-to-point height
+        float hexWidthWorld  = baseSize.x * tileScale;
+        float hexHeightWorld = baseSize.y * tileScale;
 
-        // Flat-top spacing: xSpacing = 0.75 * width; ySpacing = full height
+
         if (xOffset <= 0f) xOffset = hexWidthWorld * 0.75f;
         if (yOffset <= 0f) yOffset = hexHeightWorld;
 
@@ -91,13 +92,13 @@ public class Map : MonoBehaviour
                 float xPos = startX + rowXShift + col * xOffset;
                 float yPos = startY - row * yOffset;
 
-                // Instantiate + scale
+                // Instantiate
                 var obj = Instantiate(tilePrefab, tilesParent);
                 obj.name = $"Tile_{data.tileName}_{col}_{row}";
                 obj.transform.position = new Vector3(xPos, yPos, 0f);
                 obj.transform.localScale = Vector3.one * tileScale;
 
-                // Sprite swap (expects sprite at Resources/Sprites/Tiles/<tileName>)
+                // Assign sprite
                 var sr = obj.GetComponent<SpriteRenderer>();
                 if (sr)
                 {

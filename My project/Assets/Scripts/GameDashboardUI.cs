@@ -75,4 +75,9 @@ public class GameDashboardUI : MonoBehaviour
             SceneManager.LoadScene("GameDashboard"); // Replace with your exact dashboard scene name
     }
 
+    public void Save()
+    {
+        SceneManager.LoadScene("PreparationPhase");
+    }
+
 }

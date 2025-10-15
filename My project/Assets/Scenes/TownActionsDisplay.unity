@@ -455,6 +455,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf836215ffe247459af5f47795ff4cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startX: 0
+  startY: 0
+  tileScale: 1
+  tilesParent: {fileID: 0}
+  xOffset: 0
+  yOffset: 0
+  evenRowXOffset: 0
   tilePrefab: {fileID: 0}
   width: 5
   height: 7
@@ -608,7 +615,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1140334900}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1826794299}
+        m_TargetAssemblyTypeName: TownActionsDisplay, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1140334900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,6 +1133,7 @@ MonoBehaviour:
   actionsText: {fileID: 1710327772}
   resourceChangesText: {fileID: 899685215}
   saveButton: {fileID: 1140334899}
+  map: {fileID: 848611848781834317, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
 --- !u!1 &1907783614
 GameObject:
   m_ObjectHideFlags: 0

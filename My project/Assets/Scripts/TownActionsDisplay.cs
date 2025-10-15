@@ -137,8 +137,8 @@ public class TownActionsDisplay : MonoBehaviour
         resourceChangesText.text += "\nTile updates applied to random tiles affecting Population/Fuel Load.";
     }
 
-     void Save()
+    public void Save()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("DiscussionPhase");
     }
 }
