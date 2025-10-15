@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    public GameObject tilePrefab;  // assign your MapTile prefab in the Inspector
+    public MapTileData farmlandTileData; // assign your Farmland.asset in the Inspector
+
+    public int width = 5;
+    public int height = 7;
+
     // Use cube coordinates (x,y,z) with x+y+z = 0 for hex grids
     public Dictionary<Vector3Int, MapTile> tiles = new Dictionary<Vector3Int, MapTile>();
 

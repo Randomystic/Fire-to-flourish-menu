@@ -106,11 +106,13 @@ public class TownActionsDisplay : MonoBehaviour
     void DisplayResourceUpdates()
     {
         resourceChangesText.text =
-            $"Provisions: {beforeChanges.provisions} → {townResources.provisions}\n" +
-            $"Education: {beforeChanges.education} → {townResources.education}\n" +
-            $"Population: {beforeChanges.population} → {townResources.population}\n" +
-            $"Firefighting Equipment: {beforeChanges.firefightingEquipment} → {townResources.firefightingEquipment}\n" +
-            $"Fire Safety Rating: {beforeChanges.fireSafetyRating} → {townResources.fireSafetyRating}";
+        $"Provisions: {beforeChanges.provisions} -> {townResources.provisions}\n" +
+        $"Education: {beforeChanges.education} -> {townResources.education}\n" +
+        $"Population: {beforeChanges.population} -> {townResources.population}\n" +
+        $"Firefighting Equipment: {beforeChanges.firefightingEquipment} -> {townResources.firefightingEquipment}\n" +
+        $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
+        $"Wind Speed: {beforeChanges.windSpeed} -> {townResources.windSpeed}\n" +
+        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}";
     }
 
      void Save()
