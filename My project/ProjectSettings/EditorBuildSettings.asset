@@ -21,12 +21,18 @@ EditorBuildSettings:
     path: Assets/Scenes/Scenario.unity
     guid: ab8802b32f52298478cf7302a802b829
   - enabled: 1
-    path: Assets/Scenes/ActionCardInput.unity
-    guid: f8eaaceef6335cd4a92e19624c8f2e9d
-  - enabled: 1
     path: Assets/Scenes/BushfirePhase.unity
     guid: 7c9d9e292c733174b883fcf2c144d7b1
   - enabled: 1
     path: Assets/Scenes/ReflectionPhase.unity
     guid: f6bb6593137d36745981f7e71cb8afe0
+  - enabled: 1
+    path: Assets/Scenes/ActionCardUI.unity
+    guid: 6903ad8eb4247a34491fedc95c071e53
+  - enabled: 1
+    path: Assets/Scenes/ResourceDashboard.unity
+    guid: b3e5e91eb2c23324c80e981380c76063
+  - enabled: 1
+    path: Assets/Scenes/GameDashboard.unity
+    guid: 67d9faf7f5edc3f47ad2683c3f106295
   m_configObjects: {}
