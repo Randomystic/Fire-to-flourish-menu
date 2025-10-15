@@ -18,18 +18,35 @@ public class Player : MonoBehaviour
     public RoleType role;
     public PlayerResourceList resources;
     
+    public static Dictionary<RoleType, Player> allPlayers = new();
 
-
-    private void takeTurn()
+    
+    void Awake()
     {
-        // Logic for taking a turn
+        if (!allPlayers.ContainsKey(role))
+            allPlayers.Add(role, this);
     }
 
-    public void useActionCard(ActionCard card)
+
+   public void UseActionCard(ActionCardData card)
     {
-        Debug.Log(name + " is using card: " + card.name);
-        // Apply card effects to resources here
+        Debug.Log($"{playerName} is using card: {card.cardName}");
+        foreach (var effect in card.effects)
+        {
+            ApplyEffect(effect);
+        }
     }
+
+    void ApplyEffect(ResourceEffect effect)
+    {
+        switch (effect.resourceName.ToLower())
+        {
+            case "money": resources.AdjustMoney(effect.value); break;
+            case "morale": resources.AdjustMorale(effect.value); break;
+            case "respect": resources.AdjustRespect(effect.value); break;
+        }
+    }
+
 
     public RoleType GetRole()
     {

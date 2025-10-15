@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameDashboard.unity
     guid: 67d9faf7f5edc3f47ad2683c3f106295
+  - enabled: 1
+    path: Assets/Scenes/TownActionsDisplay.unity
+    guid: e6144733b2440f6439d9ac826153d648
   m_configObjects: {}

@@ -35,12 +35,11 @@ public enum EffectType { RESOURCE, TILE }
 [System.Serializable]
 public class Effect
 {
+    public string name;
+    public float value;
     public EffectType effectType;
 
-    public void ApplyEffect()
-    {
-        // TO DO: implement effect
-    }
+    public void ApplyEffect() { }
 }
 
 [System.Serializable]

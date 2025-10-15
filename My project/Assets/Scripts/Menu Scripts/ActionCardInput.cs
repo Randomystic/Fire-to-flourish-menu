@@ -13,6 +13,8 @@ public class ActionCardInput : MonoBehaviour
     public Vector2 dropdownSize = new Vector2(320, 34);
 
     public Dictionary<RoleType, string> selectedCardsDict = new();
+    public static Dictionary<RoleType, string> lastSelections = new();
+
 
     [SerializeField] bool constantFontSize = true;
     [SerializeField] float dropdownFontSize = 16f;
@@ -82,15 +84,15 @@ public class ActionCardInput : MonoBehaviour
         foreach (var kv in roleDropdowns)
         {
             var role = kv.Key;
-            var roleDropdown = kv.Value;
-            if (roleDropdown && roleDropdown.options.Count > 0)
-                selectedCardsDict[role] = roleCardIDs[role][roleDropdown.value];
-
-            Debug.Log($"Role: {role}, Selected Card: {selectedCardsDict[role]}");
+            var dropdown = kv.Value;
+            if (dropdown && dropdown.options.Count > 0)
+                selectedCardsDict[role] = roleCardIDs[role][dropdown.value];
         }
 
-        SceneManager.LoadScene("BushfirePhase");
+        lastSelections = new Dictionary<RoleType, string>(selectedCardsDict);
+        SceneManager.LoadScene("TownActionsDisplay");
     }
+
 
     void ConfigureTMP(TMP_Dropdown roleDropdown)
     {
