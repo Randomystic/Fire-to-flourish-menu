@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5628dc96906884db16944b3d12e0ca, type: 3}
+  m_Name: participate_in_emergency_planning
+  m_EditorClassIdentifier: 
+  cardName: participate_in_emergency_planning
+  role: 0
+  actionDescription: Coordinate emergency plans with other services and local groups.
+  effects:
+  - resourceName: Education
+    value: 3
+  - resourceName: Respect
+    value: 5
+  civilianBonus:
+  - resourceName: Education
+    value: 5

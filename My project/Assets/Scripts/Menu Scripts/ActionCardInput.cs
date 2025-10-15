@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class PreperationPhase : MonoBehaviour
+public class ActionCardInput : MonoBehaviour
 {
     public TMP_Dropdown dropdownPrefab;
     public Transform roleTitlesParent;
@@ -22,7 +22,7 @@ public class PreperationPhase : MonoBehaviour
     [SerializeField] float dropdownOffsetY = -50f;
 
     readonly Dictionary<RoleType, TMP_Dropdown> roleDropdowns = new();
-    readonly Dictionary<RoleType, List<string>> roleCardIds = new();
+    readonly Dictionary<RoleType, List<string>> roleCardIDs  = new();
 
     void Start()
     {
@@ -52,13 +52,13 @@ public class PreperationPhase : MonoBehaviour
 
             if (RoleCards.roleCardsDict.TryGetValue(role, out var ids))
             {
-                roleCardIds[role] = ids;
+                roleCardIDs[role] = ids;
                 var labels = new List<string>(ids.Count);
 
                 foreach (var id in ids) labels.Add(id.Replace("_", " "));
                 roleDropdown.AddOptions(labels);
             }
-            else roleCardIds[role] = new List<string>();
+            else roleCardIDs[role] = new List<string>();
 
             ConfigureTMP(roleDropdown);
             var rectTransform = roleDropdown.GetComponent<RectTransform>();
@@ -66,6 +66,7 @@ public class PreperationPhase : MonoBehaviour
             rectTransform.anchorMin = new Vector2(0.5f, 1f);
             rectTransform.anchorMax = new Vector2(0.5f, 1f);
             rectTransform.pivot     = new Vector2(0.5f, 1f);
+
             rectTransform.anchoredPosition = new Vector2(dropdownOffsetX, dropdownOffsetY);
             rectTransform.localScale = dropdownScale;
 
@@ -83,7 +84,7 @@ public class PreperationPhase : MonoBehaviour
             var role = kv.Key;
             var roleDropdown = kv.Value;
             if (roleDropdown && roleDropdown.options.Count > 0)
-                selectedCardsDict[role] = roleCardIds[role][roleDropdown.value];
+                selectedCardsDict[role] = roleCardIDs[role][roleDropdown.value];
 
             Debug.Log($"Role: {role}, Selected Card: {selectedCardsDict[role]}");
         }
