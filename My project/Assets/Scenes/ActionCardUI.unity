@@ -2029,7 +2029,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1298501340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a31e2ba2ae8e6f4eb5a120e0f22c091, type: 3}
+  m_Script: {fileID: 11500000, guid: 490973cabe3abd942b40e29525846b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dropdownPrefab: {fileID: 613031200}
@@ -2038,9 +2038,9 @@ MonoBehaviour:
   dropdownSize: {x: 320, y: 34}
   constantFontSize: 1
   dropdownFontSize: 9
-  dropdownScale: {x: 2.5, y: 2.5, z: 1}
-  dropdownOffsetX: -50
-  dropdownOffsetY: -80
+  dropdownScale: {x: 3, y: 3, z: 1}
+  dropdownOffsetX: -60
+  dropdownOffsetY: -60
 --- !u!1 &1490034783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2098,7 +2098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Prep Phase (GM view only)
+  m_text: Action Card Input (GM)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

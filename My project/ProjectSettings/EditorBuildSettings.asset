@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Scenario.unity
     guid: ab8802b32f52298478cf7302a802b829
   - enabled: 1
-    path: Assets/Scenes/PreperationPhase.unity
+    path: Assets/Scenes/ActionCardInput.unity
     guid: f8eaaceef6335cd4a92e19624c8f2e9d
   - enabled: 1
     path: Assets/Scenes/BushfirePhase.unity

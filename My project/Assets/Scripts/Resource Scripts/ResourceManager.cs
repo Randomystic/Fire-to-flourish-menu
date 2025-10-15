@@ -1,22 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager instance;
-
     public TownResourceList townResources;
-
     private readonly Dictionary<Player, PlayerResourceList> playerResources = new();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void EnsureExists()
+    {
+        if (instance == null)
+        {
+            var go = new GameObject("ResourceManager");
+            var rm = go.AddComponent<ResourceManager>();
+
+            rm.townResources = Resources.Load<TownResourceList>("TownResources");
+        }
+    }
 
     private void Awake()
     {
         if (instance != null && instance != this) { Destroy(gameObject); return; }
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
 
+        // fallback if not set via Resources.Load or Inspector
+        if (townResources == null)
+            townResources = Resources.Load<TownResourceList>("TownResources");
+    }
 
     public static ResourceManager GetInstance() => instance;
 
