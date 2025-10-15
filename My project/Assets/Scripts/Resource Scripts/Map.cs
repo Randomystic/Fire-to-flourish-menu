@@ -3,85 +3,129 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    public GameObject tilePrefab;
-    public int width = 5;
-    public int height = 7;
+    [Header("Tile Position Settings")]
+    public float startX = 0f;
+    public float startY = 0f;
+    public float tileScale = 1f;
+    [SerializeField] private Transform tilesParent;
 
-    private Dictionary<Vector3Int, MapTile> tiles = new Dictionary<Vector3Int, MapTile>();
-    private List<MapTileData> allTileAssets = new List<MapTileData>();
+    [Header("Hex Offsets (flat-top)")]
+    public float xOffset = 0f;
+    public float yOffset = 0f;
+    public float evenRowXOffset = 0f;
+
+    [Header("Map Settings")]
+    public GameObject tilePrefab;   // prefab with SpriteRenderer + MapTile
+    public int width = 5;           // columns
+    public int height = 7;          // rows
+
+    private readonly Dictionary<Vector3Int, MapTile> tiles = new();
+    private readonly List<MapTileData> allTileAssets = new();
+
 
     void Start()
     {
+        EnsureParent();
         LoadAllTileAssets();
+        AutoFillOffsetsFromSpriteIfNeeded();
         GenerateRandomMap();
         PrintTileSummary();
+    }
+
+    void EnsureParent()
+    {
+        if (!tilesParent)
+        {
+            var existing = GameObject.Find("Tiles");
+            tilesParent = existing ? existing.transform : new GameObject("Tiles").transform;
+            tilesParent.SetParent(transform, false);
+        }
     }
 
     void LoadAllTileAssets()
     {
         allTileAssets.Clear();
-        MapTileData[] loadedTiles = Resources.LoadAll<MapTileData>("Tiles");
-
-        if (loadedTiles.Length == 0)
+        var loaded = Resources.LoadAll<MapTileData>("Tiles");
+        if (loaded.Length == 0)
         {
             Debug.LogError("No MapTileData assets found in Resources/Tiles/");
             return;
         }
+        allTileAssets.AddRange(loaded);
+    }
 
-        allTileAssets.AddRange(loadedTiles);
-        Debug.Log($"Loaded {allTileAssets.Count} tile assets.");
+    void AutoFillOffsetsFromSpriteIfNeeded()
+    {
+        if (!tilePrefab) return;
+        var sr = tilePrefab.GetComponent<SpriteRenderer>();
+        if (!sr || !sr.sprite) return;
+
+        // World-space size of the sprite at scale = 1
+        var baseSize = sr.sprite.bounds.size;
+        float hexWidthWorld  = baseSize.x * tileScale;              // across flats
+        float hexHeightWorld = baseSize.y * tileScale;              // point-to-point height
+
+        // Flat-top spacing: xSpacing = 0.75 * width; ySpacing = full height
+        if (xOffset <= 0f) xOffset = hexWidthWorld * 0.75f;
+        if (yOffset <= 0f) yOffset = hexHeightWorld;
+
+
     }
 
     void GenerateRandomMap()
     {
-        if (!tilePrefab)
-        {
-            Debug.LogError("Missing tilePrefab reference!");
-            return;
-        }
+        if (!tilePrefab || allTileAssets.Count == 0) return;
 
         tiles.Clear();
 
-        for (int q = 0; q < width; q++)
+        for (int row = 0; row < width; row++)
         {
-            for (int r = 0; r < height; r++)
+            bool isEvenRow = (row % 2) == 0;
+            float rowXShift = isEvenRow ? evenRowXOffset : 0f;
+
+            for (int col = 0; col < height; col++)
             {
-                // pick a random tile asset
-                MapTileData data = allTileAssets[Random.Range(0, allTileAssets.Count)];
+                var data = allTileAssets[Random.Range(0, allTileAssets.Count)];
 
-                // hex cube coordinate (x + y + z = 0)
-                int x = q;
-                int z = r;
-                int y = -x - z;
-                var cubeCoord = new Vector3Int(x, y, z);
+                // Position (flat-top, row-staggered)
+                float xPos = startX + rowXShift + col * xOffset;
+                float yPos = startY - row * yOffset;
 
-                // instantiate
-                var obj = Instantiate(tilePrefab, transform);
-                obj.name = $"Tile_{data.tileName}_{q}_{r}";
-                obj.transform.position = new Vector3(q * 1.1f, 0, r * 1.0f);
+                // Instantiate + scale
+                var obj = Instantiate(tilePrefab, tilesParent);
+                obj.name = $"Tile_{data.tileName}_{col}_{row}";
+                obj.transform.position = new Vector3(xPos, yPos, 0f);
+                obj.transform.localScale = Vector3.one * tileScale;
 
-                // apply data
+                // Sprite swap (expects sprite at Resources/Sprites/Tiles/<tileName>)
+                var sr = obj.GetComponent<SpriteRenderer>();
+                if (sr)
+                {
+                    var sprite = Resources.Load<Sprite>($"Tiles/Images/{data.tileName}");
+                    if (sprite) sr.sprite = sprite;
+                    sr.sortingOrder = 1;
+                }
+
+                // Assign data to component
                 var mapTile = obj.GetComponent<MapTile>();
                 mapTile.tileName = data.tileName;
                 mapTile.tileType = data.tileType;
-                mapTile.onFire = data.onFire;
-                mapTile.burnt = data.burnt;
+                mapTile.onFire   = data.onFire;
+                mapTile.burnt    = data.burnt;
                 mapTile.fuelLoad = data.fuelLoad;
-                mapTile.cubeCoord = cubeCoord;
 
-                var renderer = obj.GetComponent<SpriteRenderer>();
-                if (renderer)
-                {
-                    var sprite = Resources.Load<Sprite>($"Tiles/Images/{data.tileName}");
-                    if (sprite) renderer.sprite = sprite;
-                    else Debug.LogWarning($"Missing sprite for {data.tileName}");
-                }
+                // Cube coord (even-r offset → axial → cube)
+                // axial q = col - (row/2), r = row
+                int qAx = col - (row / 2);
+                int rAx = row;
+                int x = qAx;
+                int z = rAx;
+                int y = -x - z;
+                mapTile.cubeCoord = new Vector3Int(x, y, z);
 
-                tiles[cubeCoord] = mapTile;
+                tiles[mapTile.cubeCoord] = mapTile;
             }
         }
-
-        Debug.Log($"Generated random map with {tiles.Count} tiles.");
     }
 
     void PrintTileSummary()
@@ -89,19 +133,10 @@ public class Map : MonoBehaviour
         Debug.Log("----- TILE SUMMARY -----");
         foreach (var kv in tiles)
         {
-            Vector3Int c = kv.Key;
-            MapTile t = kv.Value;
-
-            Debug.Log(
-                $"Coord ({c.x},{c.y},{c.z}) | " +
-                $"Name: {t.tileName} | " +
-                $"Type: {t.tileType} | " +
-                $"OnFire: {t.onFire} | " +
-                $"Burnt: {t.burnt} | " +
-                $"FuelLoad: {t.fuelLoad}"
-            );
+            var c = kv.Key;
+            var t = kv.Value;
+            Debug.Log($"Coord ({c.x},{c.y},{c.z}) | Name: {t.tileName} | Type: {t.tileType} | OnFire: {t.onFire} | Burnt: {t.burnt} | FuelLoad: {t.fuelLoad}");
         }
         Debug.Log("------------------------");
     }
-    
 }
