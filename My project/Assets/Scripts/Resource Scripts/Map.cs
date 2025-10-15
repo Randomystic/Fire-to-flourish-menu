@@ -3,40 +3,97 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    public GameObject tilePrefab;  // assign your MapTile prefab in the Inspector
-    public MapTileData farmlandTileData; // assign your Farmland.asset in the Inspector
-
+    public GameObject tilePrefab;
     public int width = 5;
     public int height = 7;
 
-    // Use cube coordinates (x,y,z) with x+y+z = 0 for hex grids
-    public Dictionary<Vector3Int, MapTile> tiles = new Dictionary<Vector3Int, MapTile>();
+    private Dictionary<Vector3Int, MapTile> tiles = new Dictionary<Vector3Int, MapTile>();
+    private List<MapTileData> allTileAssets = new List<MapTileData>();
 
-    public MapTile GetTile(int x, int y, int z)
+    void Start()
     {
-        tiles.TryGetValue(new Vector3Int(x, y, z), out var t);
-        return t; // null if not found
+        LoadAllTileAssets();
+        GenerateRandomMap();
+        PrintTileSummary();
     }
 
-    public List<MapTile> GetNeighbors(int x, int y, int z)
+    void LoadAllTileAssets()
     {
-        var origin = new Vector3Int(x, y, z);
-        var dirs = new[]
-        {
-            new Vector3Int( 1, -1,  0),
-            new Vector3Int( 1,  0, -1),
-            new Vector3Int( 0,  1, -1),
-            new Vector3Int(-1,  1,  0),
-            new Vector3Int(-1,  0,  1),
-            new Vector3Int( 0, -1,  1),
-        };
+        allTileAssets.Clear();
+        MapTileData[] loadedTiles = Resources.LoadAll<MapTileData>("Tiles");
 
-        var result = new List<MapTile>();
-        foreach (var d in dirs)
+        if (loadedTiles.Length == 0)
         {
-            if (tiles.TryGetValue(origin + d, out var n))
-                result.Add(n);
+            Debug.LogError("No MapTileData assets found in Resources/Tiles/");
+            return;
         }
-        return result;
+
+        allTileAssets.AddRange(loadedTiles);
+        Debug.Log($"Loaded {allTileAssets.Count} tile assets.");
     }
+
+    void GenerateRandomMap()
+    {
+        if (!tilePrefab)
+        {
+            Debug.LogError("Missing tilePrefab reference!");
+            return;
+        }
+
+        tiles.Clear();
+
+        for (int q = 0; q < width; q++)
+        {
+            for (int r = 0; r < height; r++)
+            {
+                // pick a random tile asset
+                MapTileData data = allTileAssets[Random.Range(0, allTileAssets.Count)];
+
+                // hex cube coordinate (x + y + z = 0)
+                int x = q;
+                int z = r;
+                int y = -x - z;
+                var cubeCoord = new Vector3Int(x, y, z);
+
+                // instantiate
+                var obj = Instantiate(tilePrefab, transform);
+                obj.name = $"Tile_{data.tileName}_{q}_{r}";
+                obj.transform.position = new Vector3(q * 1.1f, 0, r * 1.0f);
+
+                // apply data
+                var mapTile = obj.GetComponent<MapTile>();
+                mapTile.tileName = data.tileName;
+                mapTile.tileType = data.tileType;
+                mapTile.onFire = data.onFire;
+                mapTile.burnt = data.burnt;
+                mapTile.fuelLoad = data.fuelLoad;
+                mapTile.cubeCoord = cubeCoord;
+
+                tiles[cubeCoord] = mapTile;
+            }
+        }
+
+        Debug.Log($"Generated random map with {tiles.Count} tiles.");
+    }
+
+    void PrintTileSummary()
+    {
+        Debug.Log("----- TILE SUMMARY -----");
+        foreach (var kv in tiles)
+        {
+            Vector3Int c = kv.Key;
+            MapTile t = kv.Value;
+
+            Debug.Log(
+                $"Coord ({c.x},{c.y},{c.z}) | " +
+                $"Name: {t.tileName} | " +
+                $"Type: {t.tileType} | " +
+                $"OnFire: {t.onFire} | " +
+                $"Burnt: {t.burnt} | " +
+                $"FuelLoad: {t.fuelLoad}"
+            );
+        }
+        Debug.Log("------------------------");
+    }
+    
 }
