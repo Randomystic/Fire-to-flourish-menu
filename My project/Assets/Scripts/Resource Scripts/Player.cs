@@ -30,4 +30,10 @@ public class Player : MonoBehaviour
         Debug.Log(name + " is using card: " + card.name);
         // Apply card effects to resources here
     }
+
+    public RoleType GetRole()
+    {
+        return role;
+    }
+
 }
