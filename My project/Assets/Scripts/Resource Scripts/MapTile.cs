@@ -3,7 +3,7 @@ using UnityEngine;
 public class MapTile : MonoBehaviour
 {
     public string tileName;
-    public TileType tileType;      // was Tile tiletype (wrong type)
+    public TileType tileType;
     public bool onFire;
     public bool burnt;
     public int fuelLoad;
@@ -20,9 +20,6 @@ public enum TileType
     FOREST,
     GRASSLAND,
     FARMLAND,
-    FIELD,
-    HOME,
     BUILDING,
-    RIVER,
-    LAKE,
+    RIVER
 }
