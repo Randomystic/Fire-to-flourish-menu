@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PreperationPhase : MonoBehaviour
@@ -33,6 +34,7 @@ public class PreperationPhase : MonoBehaviour
 
         foreach (RoleType role in Enum.GetValues(typeof(RoleType)))
         {
+
             var title = roleTitlesParent ? roleTitlesParent.Find(role.ToString()) : null;
             if (!title)
             {
@@ -43,6 +45,7 @@ public class PreperationPhase : MonoBehaviour
             }
 
             var roleDropdown = Instantiate(dropdownPrefab, title, false);
+
             roleDropdown.gameObject.SetActive(true);
             roleDropdown.gameObject.name = $"{role}_Dropdown";
             roleDropdown.ClearOptions();
@@ -51,6 +54,7 @@ public class PreperationPhase : MonoBehaviour
             {
                 roleCardIds[role] = ids;
                 var labels = new List<string>(ids.Count);
+
                 foreach (var id in ids) labels.Add(id.Replace("_", " "));
                 roleDropdown.AddOptions(labels);
             }
@@ -80,7 +84,11 @@ public class PreperationPhase : MonoBehaviour
             var roleDropdown = kv.Value;
             if (roleDropdown && roleDropdown.options.Count > 0)
                 selectedCardsDict[role] = roleCardIds[role][roleDropdown.value];
+
+            Debug.Log($"Role: {role}, Selected Card: {selectedCardsDict[role]}");
         }
+
+        SceneManager.LoadScene("BushfirePhase");
     }
 
     void ConfigureTMP(TMP_Dropdown roleDropdown)

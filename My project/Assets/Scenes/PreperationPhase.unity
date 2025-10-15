@@ -2008,8 +2008,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1082030476}
-  - {fileID: 1994400412}
   - {fileID: 1490034784}
+  - {fileID: 1994400412}
   - {fileID: 613031199}
   - {fileID: 2048399342}
   - {fileID: 394109753}
@@ -2037,7 +2037,7 @@ MonoBehaviour:
   saveButton: {fileID: 2048399343}
   dropdownSize: {x: 320, y: 34}
   constantFontSize: 1
-  dropdownFontSize: 8
+  dropdownFontSize: 9
   dropdownScale: {x: 2.5, y: 2.5, z: 1}
   dropdownOffsetX: -50
   dropdownOffsetY: -80
@@ -2098,7 +2098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Prep Phase
+  m_text: Prep Phase (GM view only)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2141,7 +2141,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -2783,7 +2783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 288, y: 385}
+  m_AnchoredPosition: {x: 288, y: 402}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1994400413

@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scenario.unity
     guid: ab8802b32f52298478cf7302a802b829
+  - enabled: 1
+    path: Assets/Scenes/PreperationPhase.unity
+    guid: f8eaaceef6335cd4a92e19624c8f2e9d
+  - enabled: 1
+    path: Assets/Scenes/BushfirePhase.unity
+    guid: 7c9d9e292c733174b883fcf2c144d7b1
+  - enabled: 1
+    path: Assets/Scenes/ReflectionPhase.unity
+    guid: f6bb6593137d36745981f7e71cb8afe0
   m_configObjects: {}
