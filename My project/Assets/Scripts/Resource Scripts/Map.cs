@@ -69,6 +69,14 @@ public class Map : MonoBehaviour
                 mapTile.fuelLoad = data.fuelLoad;
                 mapTile.cubeCoord = cubeCoord;
 
+                var renderer = obj.GetComponent<SpriteRenderer>();
+                if (renderer)
+                {
+                    var sprite = Resources.Load<Sprite>($"Tiles/Images/{data.tileName}");
+                    if (sprite) renderer.sprite = sprite;
+                    else Debug.LogWarning($"Missing sprite for {data.tileName}");
+                }
+
                 tiles[cubeCoord] = mapTile;
             }
         }
