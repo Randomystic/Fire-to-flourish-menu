@@ -78,7 +78,7 @@ public class GameDashboardUI : MonoBehaviour
 
     public void Save()
     {
-        SceneManager.LoadScene("PreparationPhase");
+        SceneManager.LoadScene("Map");
     }
 
 }

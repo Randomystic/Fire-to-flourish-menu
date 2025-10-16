@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Map : MonoBehaviour
 {
@@ -25,6 +27,8 @@ public class Map : MonoBehaviour
     private readonly List<MapTileData> allTileAssets = new();
 
     public static Map Instance;
+
+    public Button saveButton;
 
     private bool _initialized; // guard
 
@@ -56,6 +60,14 @@ public class Map : MonoBehaviour
     {
         EnsureInitialized();
         Generate_1_2_3_2_1();
+
+        if (saveButton != null)
+            saveButton.onClick.AddListener(Save);
+    }
+
+    void Save()
+    {
+        SceneManager.LoadScene("PreparationPhase");
     }
 
     public void EnsureInitialized()
