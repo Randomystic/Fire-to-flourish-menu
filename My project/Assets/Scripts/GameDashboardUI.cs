@@ -27,6 +27,10 @@ public class GameDashboardUI : MonoBehaviour
         if (confirmButton) confirmButton.onClick.AddListener(SwitchScene);
 
         UpdateTownStats();
+
+        sceneDropdown.AddOptions(new List<string>(GetSceneNames()));
+        sceneDropdown.value = 0;
+        sceneDropdown.RefreshShownValue();
     }
 
     void UpdateTownStats()
@@ -50,15 +54,21 @@ public class GameDashboardUI : MonoBehaviour
             $"Temperature Season: {town.temperatureSeason}";
     }
 
-    List<string> GetSceneNames()
+   List<string> GetSceneNames()
     {
-        List<string> names = new List<string>();
-        string path = Application.dataPath + "/Scenes";
-        if (Directory.Exists(path))
+        var names = new List<string>();
+
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
         {
-            foreach (var file in Directory.GetFiles(path, "*.unity"))
-                names.Add(Path.GetFileNameWithoutExtension(file));
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            if (!string.IsNullOrEmpty(path))
+                names.Add(Path.GetFileNameWithoutExtension(path));
         }
+
+        if (names.Count == 0 && sceneNames != null && sceneNames.Length > 0)
+            names.AddRange(sceneNames);
+
         return names;
     }
 
@@ -78,19 +88,7 @@ public class GameDashboardUI : MonoBehaviour
 
     public void Save()
     {
-        // // Ensure only one Map survives
-        // var existingMap = FindObjectOfType<Map>();
-        // if (existingMap == null)
-        // {
-        //     Debug.Log("No Map found in current scene — safe to load.");
-        //     SceneManager.LoadScene("Map");
-        // }
-        // else
-        // {
-        //     Debug.Log("Persistent Map already exists, re-enabling UI instead of reloading.");
-        //     existingMap.SetMapVisibility(true);
-        //     SceneManager.LoadScene("Map");
-        // }
+
         SceneManager.LoadScene("Map");
     }
 
