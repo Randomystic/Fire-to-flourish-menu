@@ -683,8 +683,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4873166542139485342, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_text
-      value: Left click tiles to upgrade them, right click to loop all tiles. (Currently
-        only Town Center and Indigenous Land)
+      value: Left click tiles to upgrade them, right click to loop all tiles. (Visual
+        Only)
       objectReference: {fileID: 0}
     - target: {fileID: 4873166542139485342, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_fontSize

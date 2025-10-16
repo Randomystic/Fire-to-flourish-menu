@@ -53,7 +53,10 @@ public class Map : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        // DontDestroyOnLoad(gameObject);
+        
+        if (tilesParent && !tilesParent.gameObject.scene.IsValid())
+            tilesParent = null;
+
     }
 
     void Start()
@@ -145,13 +148,16 @@ public class Map : MonoBehaviour
 
     void EnsureParent()
     {
+        if (tilesParent && !tilesParent.gameObject.scene.IsValid())
+            tilesParent = null;
+
         if (!tilesParent)
         {
-            var existing = GameObject.Find("Tiles");
-            tilesParent = existing ? existing.transform : new GameObject("Tiles").transform;
+            tilesParent = new GameObject("Tiles (Runtime)").transform;
             tilesParent.SetParent(transform, false);
         }
     }
+
 
     void LoadAllTileAssets()
     {

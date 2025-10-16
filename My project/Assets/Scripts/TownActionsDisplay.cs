@@ -21,7 +21,7 @@ public class TownActionsDisplay : MonoBehaviour
 
     void Start()
     {
-        map = Map.Instance;                    // ignore any serialized ref in Inspector
+        map = Map.Instance;
         if (!map) { Debug.LogError("TownActionsDisplay: No Map instance found."); return; }
         map.EnsureInitialized();
         Debug.Log($"TownActionsDisplay: Map tiles = {map.tiles.Count} (InstanceID {map.GetInstanceID()})");

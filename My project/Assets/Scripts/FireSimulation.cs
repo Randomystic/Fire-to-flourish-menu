@@ -18,14 +18,12 @@ public class FireSimulation : MonoBehaviour
 
     void Start()
     {
-        // 1) Prefer whatever was set in the Inspector
-        if (!map) map = Map.Instance;                 // use singleton if it exists
-        if (!map) map = FindObjectOfType<Map>(true);  // try find in scene (even inactive)
+        // --- GET OR SPAWN MAP ---
+        if (!map) map = Map.Instance;
+        if (!map) map = FindObjectOfType<Map>(true);
 
-        // 2) If still missing, spawn from Resources with the correct name
         if (!map)
         {
-            // Put MapRunTime.prefab under Assets/Resources/ (or adjust this path to match)
             var prefabGO = Resources.Load<GameObject>("MapRunTime");
             if (prefabGO)
             {
@@ -35,41 +33,58 @@ public class FireSimulation : MonoBehaviour
             }
             else
             {
-                Debug.LogError("FireSimulation: Map prefab not found. Put 'MapRunTime.prefab' in Assets/Resources/ or assign 'map' in the Inspector.");
+                Debug.LogError("FireSimulation: No Map found or spawned.");
                 return;
             }
         }
 
+        // --- ENSURE THE MAP IS INITIALIZED & GENERATED ---
         map.EnsureInitialized();
-        map.SetMapVisibility(false);
-        totalTiles = map.tiles.Count;
-        Debug.Log($"FireSimulation started on map with {totalTiles} tiles.");
 
-        // Ensure Town Resources
+        // If tiles aren't generated yet, force-generate using its method
+        if (map.tiles.Count == 0)
+        {
+            Debug.LogWarning("FireSimulation: Map has no tiles. Generating now...");
+            
+            // Try to generate using its default pattern
+            var generateMethod = map.GetType().GetMethod("Generate_1_2_3_2_1", 
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (generateMethod != null)
+                generateMethod.Invoke(map, null);
+        }
+
+        Debug.Log($"FireSimulation Ready → Found {map.tiles.Count} tiles.");
+        if (map.tiles.Count == 0)
+        {
+            Debug.LogError("FireSimulation: Still no tiles after trying to generate. Aborting.");
+            return;
+        }
+
+        map.SetMapVisibility(false);
+
+        // --- ENSURE TOWN RESOURCES ---
+        if (!townResources)
+            townResources = Resources.Load<TownResourceList>("TownResources");
+
         if (!townResources)
         {
-            townResources = Resources.Load<TownResourceList>("TownResources");
-            if (!townResources)
-            {
-                Debug.LogError("FireSimulation: TownResources not found in Resources/");
-                return;
-            }
+            Debug.LogError("FireSimulation: No TownResources found.");
+            return;
         }
 
+        // --- RUN SIMULATION ---
         RunSimulation();
     }
+
 
     void RunSimulation()
     {
         burnedTiles.Clear();
 
-        float fireSafety = Mathf.Clamp01(townResources.fireSafetyRating / 100f);
-
-        foreach (var kv in map.tiles)
+        foreach (var tile in map.tiles.Values)  // <-- USING THE DICTIONARY DIRECTLY
         {
-            var tile = kv.Value;
-            float tileRisk = fireSafety * (2f * burnMultiplier * tile.fuelLoad);
-            bool burns = Random.value < tileRisk;
+            float risk = Mathf.Clamp01(townResources.fireSafetyRating / 100f) * (2f * burnMultiplier * tile.fuelLoad);
+            bool burns = Random.value < risk;
 
             if (burns)
             {
@@ -79,6 +94,8 @@ public class FireSimulation : MonoBehaviour
             }
         }
 
+        totalTiles = map.tiles.Count;
+        Debug.Log($"Simulation Complete → Burned {burnedTiles.Count} / {totalTiles} tiles.");
         CheckGameEndConditions();
     }
 
@@ -161,10 +178,6 @@ public class FireSimulation : MonoBehaviour
         return satisfaction < 20f;
     }
 
-    // void ReturnToMenu()
-    // {
-    //     SceneManager.LoadScene("GameOverScreen");
-    // }
 
     public void Save()
     {   

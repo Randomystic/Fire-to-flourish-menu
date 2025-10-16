@@ -47,7 +47,7 @@ public class ReflectionPhase : MonoBehaviour
 
     void GenerateReflectionReport()
     {
-        float avgFuelLoad = map.GetAverageFuelLoad();
+        float avgFuelLoad = townResources.averageFuelLoad;
         float avgMoney = 0, avgMorale = 0, avgRespect = 0;
         int playerCount = Player.allPlayers.Count;
 

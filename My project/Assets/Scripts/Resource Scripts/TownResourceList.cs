@@ -22,7 +22,7 @@ public class TownResourceList : ScriptableObject
             (2f * (education / 10f)) -
             (2f * firefightingEquipment);
 
-        fireSafetyRating = Mathf.RoundToInt(result);
+        fireSafetyRating = Mathf.Clamp(Mathf.RoundToInt(result), 0, 100);
         return fireSafetyRating;
     }
 
