@@ -27,12 +27,16 @@ public class Scenario : MonoBehaviour
     public static Scenario Instance;
     public int index;
 
+    private static bool returningFromResolve = false;
 
     void Awake()
     {
+        
         if (Instance != null && Instance != this) {Destroy(gameObject); return;}
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (scenarios.Count == 0)
         {
@@ -106,7 +110,26 @@ public class Scenario : MonoBehaviour
         foreach (var canvas in GetComponentsInChildren<Canvas>(true))
         canvas.gameObject.SetActive(false);
 
+        returningFromResolve = true;
         SceneManager.LoadScene("ScenarioResolve");
     }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Scenario" && returningFromResolve)
+        {
+            foreach (var canvas in GetComponentsInChildren<Canvas>(true))
+                canvas.gameObject.SetActive(true);
+
+            returningFromResolve = false;
+        }
+    }
+
 
 }

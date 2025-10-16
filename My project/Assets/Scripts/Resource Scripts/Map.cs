@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -26,7 +27,7 @@ public class Map : MonoBehaviour
     public static Map Instance;
 
     private bool _initialized; // guard
-    
+
     void Awake()
 
     {
@@ -172,4 +173,31 @@ public class Map : MonoBehaviour
         }
         Debug.Log("_____________________________");
     }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool showMap = scene.name == "Map";
+        SetMapVisibility(showMap);
+    }
+
+    void SetMapVisibility(bool visible)
+    {
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
+            sr.enabled = visible;
+
+        foreach (var col in GetComponentsInChildren<Collider2D>(true))
+            col.enabled = visible;
+    }
+
 }

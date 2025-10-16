@@ -114,7 +114,7 @@ public class ActionCardInput : MonoBehaviour
 
     void Save()
     {
-        // collect selections
+        //Collect selections
         selectedCardsDict.Clear();
         foreach (var kv in roleDropdowns)
         {
@@ -125,27 +125,49 @@ public class ActionCardInput : MonoBehaviour
         }
         lastSelections = new Dictionary<RoleType, string>(selectedCardsDict);
 
-        // if we already spawned inputs, only proceed when all confirmed
+        //Refresh roles needing tile input
+        rolesNeedingTile.Clear();
+        foreach (var kv in lastSelections)
+            if (CardHasFuelEffect(kv.Value))
+                rolesNeedingTile.Add(kv.Key);
+
+        // If we had previously spawned tile inputs, check if still relevant
         if (awaitingTileInputs)
         {
+            // If no more roles need tiles (user changed card), skip validation
+            if (rolesNeedingTile.Count == 0)
+            {
+                awaitingTileInputs = false;
+                // remove any leftover UI from old fuel-load cards
+                foreach (var kv in roleTileUI)
+                {
+                    if (kv.Value.x) Destroy(kv.Value.x.gameObject);
+                    if (kv.Value.y) Destroy(kv.Value.y.gameObject);
+                    if (kv.Value.z) Destroy(kv.Value.z.gameObject);
+                    if (kv.Value.name) Destroy(kv.Value.name.gameObject);
+                    if (kv.Value.confirm) Destroy(kv.Value.confirm.gameObject);
+                }
+                roleTileUI.Clear();
+
+                Debug.Log("Tile inputs cleared – proceeding to next scene.");
+                SceneManager.LoadScene("TownActionsDisplay");
+                return;
+            }
+
+            // Otherwise still require confirmations
             foreach (var r in rolesNeedingTile)
                 if (!roleTileUI.TryGetValue(r, out var ui) || !ui.confirmed)
-                { 
-                    Debug.Log("Tile inputs not confirmed yet."); 
-                    debugText.text = "Tile inputs not confirmed yet."; 
-                    return; 
+                {
+                    Debug.Log("Tile inputs not confirmed yet.");
+                    debugText.text = "Tile inputs not confirmed yet.";
+                    return;
                 }
 
             SceneManager.LoadScene("TownActionsDisplay");
             return;
         }
 
-        // first click: detect which roles need tile input (fuel_load)
-        rolesNeedingTile.Clear();
-        foreach (var kv in lastSelections)
-            if (CardHasFuelEffect(kv.Value))
-                rolesNeedingTile.Add(kv.Key);
-
+        // Need tile inputs for some roles
         if (rolesNeedingTile.Count > 0)
         {
             SpawnTileInputsForRoles();
@@ -155,7 +177,7 @@ public class ActionCardInput : MonoBehaviour
             return;
         }
 
-        // no tile input needed, or all confirmed
+
         SceneManager.LoadScene("TownActionsDisplay");
     }
 
