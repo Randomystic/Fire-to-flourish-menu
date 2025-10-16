@@ -78,7 +78,20 @@ public class GameDashboardUI : MonoBehaviour
 
     public void Save()
     {
-        SceneManager.LoadScene("Map");
+        // // Ensure only one Map survives
+        // var existingMap = FindObjectOfType<Map>();
+        // if (existingMap == null)
+        // {
+        //     Debug.Log("No Map found in current scene — safe to load.");
+        //     SceneManager.LoadScene("Map");
+        // }
+        // else
+        // {
+        //     Debug.Log("Persistent Map already exists, re-enabling UI instead of reloading.");
+        //     existingMap.SetMapVisibility(true);
+        //     SceneManager.LoadScene("Map");
+        // }
+        SceneManager.LoadScene("PreparationPhase");
     }
 
 }

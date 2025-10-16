@@ -161,22 +161,7 @@ public class Map : MonoBehaviour
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        bool showMap = scene.name == "Map";
-        SetMapVisibility(showMap);
-    }
-
-    void SetMapVisibility(bool visible)
-    {
-        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
-            sr.enabled = visible;
-
-        foreach (var col in GetComponentsInChildren<Collider2D>(true))
-            col.enabled = visible;
+        _initialized = false;
     }
 
 
@@ -321,5 +306,55 @@ public class Map : MonoBehaviour
         CreateTileAtCube(southCube, southWorld, logAngle:true, angleDeg:270f);
 
     }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool showMap = scene.name == "Map";
+        SetMapVisibility(showMap);
+
+        // Re-enable Canvas if we're in the Map scene
+        if (showMap)
+        {
+            // Find *any* disabled Canvas in the scene
+            Canvas[] allCanvases = Resources.FindObjectsOfTypeAll<Canvas>();
+            bool found = false;
+
+            foreach (var canvas in allCanvases)
+            {
+                // Skip canvases from other scenes (persistent objects)
+                if (canvas.gameObject.scene.name != scene.name) continue;
+
+                // Reactivate hidden canvases
+                if (!canvas.gameObject.activeInHierarchy)
+                    canvas.gameObject.SetActive(true);
+
+                canvas.enabled = true;
+                found = true;
+                Debug.Log($"Map: Re-enabled Canvas '{canvas.name}' in scene '{scene.name}'.");
+            }
+
+            if (!found)
+                Debug.LogWarning("Map: No Canvas found in Map scene.");
+        }
+    }
+
+    public void SetMapVisibility(bool visible)
+    {
+        // Toggle map visuals (tiles, sprites, colliders)
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
+            sr.enabled = visible;
+
+        foreach (var col in GetComponentsInChildren<Collider2D>(true))
+            col.enabled = visible;
+
+        // Also toggle any Canvas attached to this persistent Map (if exists)
+        foreach (var canvas in GetComponentsInChildren<Canvas>(true))
+            canvas.enabled = visible;
+
+        Debug.Log($"Map visibility set to {visible}");
+    }
+
+
+
 
 }

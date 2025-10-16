@@ -128,7 +128,7 @@ public class TownActionsDisplay : MonoBehaviour
         $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n";
         
         resourceChangesText.text +=
-        $"Updated Fire Safety Rating → {townResources.fireSafetyRating} (avg fuel {townResources.averageFuelLoad:F1})\n";;
+        $"Fire Safety Rating: → {townResources.fireSafetyRating} (avg fuel {townResources.averageFuelLoad:F1})\n";;
         
         // TownActionsDisplay.cs — inside DisplayResourceUpdates()
         if (ActionCardInput.updatedTiles != null && ActionCardInput.updatedTiles.Count > 0)

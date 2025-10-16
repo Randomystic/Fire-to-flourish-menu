@@ -59,6 +59,7 @@ public class ScenarioResolve : MonoBehaviour
         }
 
         ResourceDashboard.RecalculateFireSafety(Map.Instance, townResources);
+        if (dashboardText) dashboardText.text += $"Fire Safety Rating: {townResources.fireSafetyRating}\n";
     }
 
     public void Save() {
