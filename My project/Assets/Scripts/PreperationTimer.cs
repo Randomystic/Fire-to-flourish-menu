@@ -91,7 +91,7 @@ public class PreparationTimer : MonoBehaviour
 
         if (currentScene == "DiscussionPhase")
         {
-            if (index > 3)
+            if (index >= 3)
                 SceneManager.LoadScene("FireSimulation");
             else
             {

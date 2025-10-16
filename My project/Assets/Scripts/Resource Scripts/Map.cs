@@ -79,12 +79,12 @@ public class Map : MonoBehaviour
 
         tiles.Clear();
 
-        for (int row = 0; row < width; row++)
+        for (int row = 0; row < height; row++)
         {
             bool isEvenRow = (row % 2) == 0;
             float rowXShift = isEvenRow ? evenRowXOffset : 0f;
 
-            for (int col = 0; col < height; col++)
+            for (int col = 0; col < width; col++)
             {
                 var data = allTileAssets[Random.Range(0, allTileAssets.Count)];
 
@@ -131,13 +131,13 @@ public class Map : MonoBehaviour
 
     void PrintTileSummary()
     {
-        Debug.Log("----- TILE SUMMARY -----");
+        Debug.Log("TILE SUMMARY");
         foreach (var kv in tiles)
         {
             var c = kv.Key;
             var t = kv.Value;
             Debug.Log($"Coord ({c.x},{c.y},{c.z}) | Name: {t.tileName} | Type: {t.tileType} | OnFire: {t.onFire} | Burnt: {t.burnt} | FuelLoad: {t.fuelLoad}");
         }
-        Debug.Log("------------------------");
+        Debug.Log("_____________________________");
     }
 }

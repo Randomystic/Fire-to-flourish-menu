@@ -7,7 +7,7 @@ public class TownResourceList : ScriptableObject
     public int education = 20;
     public int population = 4000;
     public int firefightingEquipment = 2;
-    public int fireSafetyRating = 60;
+    public int fireSafetyRating = 60; // Should be calculated instead of constant
     public int windSpeed = 2;
     public int temperatureSeason = 2;
 
