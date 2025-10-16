@@ -63,61 +63,55 @@ public class TownActionsDisplay : MonoBehaviour
                 continue;
             }
 
-            //Apply card effects to player and town
-            if (Player.allPlayers.TryGetValue(role, out var player))
-            {
-                player.UseActionCard(card);
-            }
+            foreach (var p in Player.allPlayers)
+                Debug.Log($"Registered Player: {p.Key} -> {p.Value.playerName}");
 
+            // Apply player + tile effects
+            if (Player.allPlayers.TryGetValue(role, out var player))
+                ApplyPlayerEffects(player, card);
+
+            // Apply town effects
             ApplyTownEffects(card.effects);
+
         
         }
     }
 
-    void ApplyPlayerEffects(Player player, List<ResourceEffect> effects)
+    void ApplyPlayerEffects(Player player, ActionCardData card)
     {
-        foreach (var e in effects)
+        // User player applies card effects to self
+        player.UseActionCard(card);
+        Debug.Log($"Applied effects of {card.cardName} to player {player.playerName}");
+
+        // Handle tile-related side effects
+        foreach (var e in card.effects)
         {
-            switch (e.resourceName.ToLower())
+            var key = e.resourceName.ToLower();
+            if ((key == "population" || key == "fuel_load") && map != null && map.tiles.Count > 0)
             {
-                case "money": player.resources.AdjustMoney(e.value); break;
-                case "morale": player.resources.AdjustMorale(e.value); break;
-                case "respect": player.resources.AdjustRespect(e.value); break;
+                var randomTile = new List<MapTile>(map.tiles.Values)[Random.Range(0, map.tiles.Count)];
+                if (key == "fuel_load")  randomTile.fuelLoad += e.value;
+
+                Debug.Log($"Tile updated → Coord {randomTile.cubeCoord} | Name: {randomTile.tileName} | Type: {randomTile.tileType} | FuelLoad: {randomTile.fuelLoad}");
             }
-
-
-            if (e.resourceName.ToLower() == "population" || e.resourceName.ToLower() == "fuel_load")
-            {
-
-                if (map != null && map.tiles.Count > 0)
-                {
-                    var randomTile = new List<MapTile>(map.tiles.Values)[Random.Range(0, map.tiles.Count)];
-
-                    if (e.resourceName.ToLower() == "population") randomTile.fuelLoad += e.value;
-                    if (e.resourceName.ToLower() == "fuel_load")  randomTile.fuelLoad += e.value;
-
-                    Debug.Log($"Tile updated → Coord {randomTile.cubeCoord} | Name: {randomTile.tileName} | Type: {randomTile.tileType} | FuelLoad: {randomTile.fuelLoad}");
-                }
-            
-            }
-     
-     
         }
     }
+
 
     void ApplyTownEffects(List<ResourceEffect> effects)
     {
         foreach (var e in effects)
         {
-            switch (e.resourceName.ToLower())
+            string key = e.resourceName.Replace("_", "").ToLower();
+            switch (key)
             {
                 case "provisions": townResources.AdjustProvisions(e.value); break;
                 case "education": townResources.AdjustEducation(e.value); break;
                 case "population": townResources.AdjustPopulation(e.value); break;
-                case "firefighting_equipment": townResources.AdjustFireFightingEquipment(e.value); break;
-                case "fire_safety_rating": townResources.fireSafetyRating += e.value; break;
-                case "wind_speed": townResources.AdjustWindSpeed(e.value); break;
-                case "temperature_season": townResources.AdjustTemperatureSeason(e.value); break;
+                case "firefightingequipment": townResources.AdjustFireFightingEquipment(e.value); break;
+                case "firesafetyrating": townResources.fireSafetyRating += e.value; break;
+                case "windspeed": townResources.AdjustWindSpeed(e.value); break;
+                case "temperatureseason": townResources.AdjustTemperatureSeason(e.value); break;
             }
         }
     }

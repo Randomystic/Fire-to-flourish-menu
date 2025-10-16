@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
     {
         if (!allPlayers.ContainsKey(role))
             allPlayers.Add(role, this);
+
+        if (resources == null) resources = new PlayerResourceList();
+        DontDestroyOnLoad(gameObject);
     }
 
 
