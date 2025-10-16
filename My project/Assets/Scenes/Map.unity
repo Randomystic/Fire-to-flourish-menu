@@ -484,6 +484,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 427874165367136645, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 427874165367136645, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 248
+      objectReference: {fileID: 0}
+    - target: {fileID: 427874165367136645, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -457
+      objectReference: {fileID: 0}
     - target: {fileID: 732325381172197851, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -522,7 +534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1629823878575959412, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3267698165164555600, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_Camera
@@ -547,6 +559,10 @@ PrefabInstance:
     - target: {fileID: 3267698165164555600, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_VertexColorAlwaysGammaSpace
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3972266927145348334, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4626261362376898880, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_Pivot.x
@@ -646,7 +662,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4696490180881287382, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873166542139485342, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_text
+      value: Click tiles to upgrade them. (Currently only Town Center and Indigenous
+        Land)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873166542139485342, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873166542139485342, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5266057403532443391, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
       propertyPath: m_LocalPosition.z
@@ -712,6 +741,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 6612394905980811693, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
     - {fileID: 732325381172197851, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
+    - {fileID: 4696490180881287382, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6114bb2e66ba00b42bc273b53c4d6a49, type: 3}
