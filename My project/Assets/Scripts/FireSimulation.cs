@@ -53,7 +53,7 @@ public class FireSimulation : MonoBehaviour
                 generateMethod.Invoke(map, null);
         }
 
-        Debug.Log($"FireSimulation Ready → Found {map.tiles.Count} tiles.");
+        Debug.Log($"FireSimulation Ready -> Found {map.tiles.Count} tiles.");
         if (map.tiles.Count == 0)
         {
             Debug.LogError("FireSimulation: Still no tiles after trying to generate. Aborting.");
@@ -95,7 +95,7 @@ public class FireSimulation : MonoBehaviour
         }
 
         totalTiles = map.tiles.Count;
-        Debug.Log($"Simulation Complete → Burned {burnedTiles.Count} / {totalTiles} tiles.");
+        Debug.Log($"Simulation Complete -> Burned {burnedTiles.Count} / {totalTiles} tiles.");
         CheckGameEndConditions();
     }
 
@@ -174,7 +174,7 @@ public class FireSimulation : MonoBehaviour
         float avgMorale = (count > 0) ? totalMorale / count : 50f;
         satisfaction = (localSatisfaction * 0.5f) + (avgMorale * 0.5f);
 
-        Debug.Log($"Satisfaction Check → Local: {localSatisfaction:F1}, Morale: {avgMorale:F1}, Weighted: {satisfaction:F1}");
+        Debug.Log($"Satisfaction Check -> Local: {localSatisfaction:F1}, Morale: {avgMorale:F1}, Weighted: {satisfaction:F1}");
         return satisfaction < 20f;
     }
 

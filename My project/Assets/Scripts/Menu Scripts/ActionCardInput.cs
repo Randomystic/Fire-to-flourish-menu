@@ -99,7 +99,7 @@ public class ActionCardInput : MonoBehaviour
 
             if (RoleCards.roleCardsDict.TryGetValue(role, out var ids))
             {
-                roleCardIDs[role] = ids;
+                roleCardIDs[role] = (ids != null) ? new List<string>(ids) : new List<string>();
                 foreach (var id in ids) roleDropdown.options.Add(new TMP_Dropdown.OptionData(id.Replace("_", " ")));
             }
             else roleCardIDs[role] = new List<string>();
@@ -329,8 +329,8 @@ public class ActionCardInput : MonoBehaviour
             return;
         }
 
-        // NEW: pull cube from dropdown selection
-        if (ui.tileDropdown == null || ui.tileDropdown.value <= 0 || ui.tileDropdown.value >= ui.coordByIndex.Count)
+        //Pull cube from dropdown selection
+        if (ui.tileDropdown == null || ui.tileDropdown.value < 0 || ui.tileDropdown.value >= ui.coordByIndex.Count)
         {
             Debug.Log("Invalid Syntax");
             debugText.text = "Please select a tile.";
@@ -359,7 +359,7 @@ public class ActionCardInput : MonoBehaviour
         if (ui.confirm) ui.confirm.interactable = false;
         ui.confirmed = true;
 
-        Debug.Log($"Input Accepted → {role} applied Fuel:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
+        Debug.Log($"Input Accepted -> {role} applied Fuel:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
         debugText.text = $"{role} applied Fuel:{delta} to Tile {tile.tileName} at {key}".ToLower();
         updatedTiles[key] = debugText.text;
 

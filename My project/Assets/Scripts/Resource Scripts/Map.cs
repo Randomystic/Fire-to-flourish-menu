@@ -356,7 +356,7 @@ public class Map : MonoBehaviour
         tiles[cube] = t;
 
         if (logAngle)
-            Debug.Log($"Placed {t.tileName} (fixed index {fixedIndex - 1}) at angle {angleDeg:0}° → world {worldPos}");
+            Debug.Log($"Placed {t.tileName} (fixed index {fixedIndex - 1}) at angle {angleDeg:0}° -> world {worldPos}");
     }
 
 

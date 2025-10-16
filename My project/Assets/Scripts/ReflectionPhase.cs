@@ -125,7 +125,7 @@ public class ReflectionPhase : MonoBehaviour
                     : "Your community struggled to recover - critical systems failed to maintain balance and safety.");
         }
 
-        Debug.Log($"ReflectionPhase → Final Grade: {finalScore:F1}/100");
+        Debug.Log($"ReflectionPhase -> Final Grade: {finalScore:F1}/100");
     }
 
     string CalculateGrade(float score)

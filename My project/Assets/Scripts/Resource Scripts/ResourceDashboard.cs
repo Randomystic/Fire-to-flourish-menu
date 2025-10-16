@@ -32,7 +32,7 @@ public class ResourceDashboard : MonoBehaviour
         float newRating = town.CalculateFireSafety();
         town.fireSafetyRating = Mathf.RoundToInt(newRating);
 
-        Debug.Log($"Fire Safety recalculated → {newRating:F2} (AvgFuel={town.averageFuelLoad:F2})");
+        Debug.Log($"Fire Safety recalculated -> {newRating:F2} (AvgFuel={town.averageFuelLoad:F2})");
     }
 
     

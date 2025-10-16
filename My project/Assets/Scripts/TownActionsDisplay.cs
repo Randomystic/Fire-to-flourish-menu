@@ -128,7 +128,7 @@ public class TownActionsDisplay : MonoBehaviour
         $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n";
         
         resourceChangesText.text +=
-        $"Fire Safety Rating: → {townResources.fireSafetyRating} (avg fuel {townResources.averageFuelLoad:F1})\n";;
+        $"Fire Safety Rating: -> {townResources.fireSafetyRating} (avg fuel {townResources.averageFuelLoad:F1})\n";;
         
         // TownActionsDisplay.cs — inside DisplayResourceUpdates()
         if (ActionCardInput.updatedTiles != null && ActionCardInput.updatedTiles.Count > 0)
@@ -136,8 +136,8 @@ public class TownActionsDisplay : MonoBehaviour
             foreach (var entry in ActionCardInput.updatedTiles)
             {
                 var coord = entry.Key;
-                var msg = entry.Value; // "Input Accepted → ..."
-
+                var msg = entry.Value;
+                
                 if (map && map.tiles.TryGetValue(coord, out var tile))
                 {
                     resourceChangesText.text +=
