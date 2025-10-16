@@ -42,7 +42,8 @@ public class GameDashboardUI : MonoBehaviour
         townStatsText.text =
             $"Provisions: {town.provisions}\n" +
             $"Education: {town.education}\n" +
-            $"Population: {town.population}\n" +
+            // $"Population: {town.population}\n" +
+            $"Happiness: {town.happiness}\n" +
             $"Firefighting Equipment: {town.firefightingEquipment}\n" +
             $"Fire Safety Rating: {town.fireSafetyRating}\n" +
             $"Wind Speed: {town.windSpeed}\n" +

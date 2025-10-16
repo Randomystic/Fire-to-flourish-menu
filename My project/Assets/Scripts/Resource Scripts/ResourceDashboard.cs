@@ -15,7 +15,12 @@ public class ResourceDashboard : MonoBehaviour
         {
             Provisions = townResource.provisions,
             Education  = townResource.education,
-            Population = townResource.population
+            // Population = townResource.population
+            Happiness = townResource.happiness,
+            FirefightingEquipment = townResource.firefightingEquipment,
+            FireSafetyRating = townResource.fireSafetyRating,
+            WindSpeed = townResource.windSpeed,
+            TemperatureSeason = townResource.temperatureSeason
         };
     }
 }
@@ -24,5 +29,10 @@ public class DashboardContent
 {
     public int Provisions;
     public int Education;
-    public int Population;
+    // public int Population;
+    public int Happiness;
+    public int FirefightingEquipment;
+    public int FireSafetyRating;
+    public int WindSpeed;
+    public int TemperatureSeason;
 }

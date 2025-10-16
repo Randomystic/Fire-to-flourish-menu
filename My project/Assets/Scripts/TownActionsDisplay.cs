@@ -38,7 +38,8 @@ public class TownActionsDisplay : MonoBehaviour
         beforeChanges = ScriptableObject.CreateInstance<TownResourceList>();
         beforeChanges.provisions = townResources.provisions;
         beforeChanges.education = townResources.education;
-        beforeChanges.population = townResources.population;
+        // beforeChanges.population = townResources.population;
+        beforeChanges.happiness = townResources.happiness;
         beforeChanges.firefightingEquipment = townResources.firefightingEquipment;
         beforeChanges.fireSafetyRating = townResources.fireSafetyRating;
     }
@@ -101,7 +102,8 @@ public class TownActionsDisplay : MonoBehaviour
             {
                 case "provisions": townResources.AdjustProvisions(e.value); break;
                 case "education": townResources.AdjustEducation(e.value); break;
-                case "population": townResources.AdjustPopulation(e.value); break;
+                // case "population": townResources.AdjustPopulation(e.value); break;
+                case "happiness": townResources.AdjustHappiness(e.value); break;
                 case "firefightingequipment": townResources.AdjustFireFightingEquipment(e.value); break;
                 case "firesafetyrating": townResources.fireSafetyRating += e.value; break;
                 case "windspeed": townResources.AdjustWindSpeed(e.value); break;
@@ -116,11 +118,12 @@ public class TownActionsDisplay : MonoBehaviour
         resourceChangesText.text =
         $"Provisions: {beforeChanges.provisions} -> {townResources.provisions}\n" +
         $"Education: {beforeChanges.education} -> {townResources.education}\n" +
-        $"Population: {beforeChanges.population} -> {townResources.population}\n" +
+        // $"Population: {beforeChanges.population} -> {townResources.population}\n" +
+        $"Happiness: {beforeChanges.happiness} -> {townResources.happiness}\n" +
         $"Firefighting Equipment: {beforeChanges.firefightingEquipment} -> {townResources.firefightingEquipment}\n" +
         $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
         $"Wind Speed: {beforeChanges.windSpeed} -> {townResources.windSpeed}\n" +
-        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n";
+        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n\n";
         
         // TownActionsDisplay.cs — inside DisplayResourceUpdates()
         if (ActionCardInput.updatedTiles != null && ActionCardInput.updatedTiles.Count > 0)
