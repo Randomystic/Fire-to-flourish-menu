@@ -120,6 +120,7 @@ public class ActionCardInput : MonoBehaviour
             rectTransform.localScale = dropdownScale;
 
             roleDropdowns[role] = roleDropdown;
+            roleDropdown.onValueChanged.AddListener(_ => OnRoleCardChanged(role));
         }
 
         if (saveButton) saveButton.onClick.AddListener(Save);
@@ -130,6 +131,47 @@ public class ActionCardInput : MonoBehaviour
         {
             map.EnsureInitialized();
             Debug.Log($"ActionCardInput: Map tiles = {map.tiles.Count}");
+        }
+    }
+
+    void OnRoleCardChanged(RoleType role)
+    {
+        if (!roleDropdowns.TryGetValue(role, out var dd)) return;
+        if (!roleCardIDs.TryGetValue(role, out var ids)) return;
+
+        var idx = dd.value;
+        if (idx < 0 || idx >= ids.Count) return;
+
+        string cardId = ids[idx];
+        bool needsTile = CardHasFuelEffect(cardId);
+
+        // If the new card does NOT need a tile, remove any existing tile UI immediately
+        if (!needsTile)
+        {
+            if (roleTileUI.TryGetValue(role, out var ui))
+            {
+                if (ui.tileDropdown) Destroy(ui.tileDropdown.gameObject);
+                if (ui.confirm) Destroy(ui.confirm.gameObject);
+                if (ui.x) Destroy(ui.x.gameObject);
+                if (ui.y) Destroy(ui.y.gameObject);
+                if (ui.z) Destroy(ui.z.gameObject);
+                if (ui.name) Destroy(ui.name.gameObject);
+                roleTileUI.Remove(role);
+            }
+            rolesNeedingTile.Remove(role);
+            return;
+        }
+
+        // Still needs a tile: either spawn UI or reset confirmation so user can confirm again
+        if (!roleTileUI.TryGetValue(role, out var existing))
+        {
+            rolesNeedingTile.Add(role);
+            SpawnTileInputsForRoles(); // reuses your existing spawner; it will create only missing UIs
+        }
+        else
+        {
+            existing.confirmed = false;
+            if (existing.confirm) existing.confirm.interactable = true;
         }
     }
 
