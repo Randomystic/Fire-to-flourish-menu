@@ -53,9 +53,13 @@ public class ActionCardInput : MonoBehaviour
             if (go) roleTitlesParent = go.transform;
         }
 
+        // Cache civilian card IDs once
+        List<string> civilianIds = null;
+        if (RoleCards.roleCardsDict.TryGetValue(RoleType.CIVILIAN, out var civIds))
+            civilianIds = civIds;
+
         foreach (RoleType role in Enum.GetValues(typeof(RoleType)))
         {
-
             var title = roleTitlesParent ? roleTitlesParent.Find(role.ToString()) : null;
             if (!title)
             {
@@ -68,7 +72,6 @@ public class ActionCardInput : MonoBehaviour
             roleTitles[role] = title;
 
             var roleDropdown = Instantiate(dropdownPrefab, title, false);
-
             roleDropdown.gameObject.SetActive(true);
             roleDropdown.gameObject.name = $"{role}_Dropdown";
             roleDropdown.ClearOptions();
@@ -76,20 +79,22 @@ public class ActionCardInput : MonoBehaviour
             if (RoleCards.roleCardsDict.TryGetValue(role, out var ids))
             {
                 roleCardIDs[role] = ids;
-                var labels = new List<string>(ids.Count);
-
-                foreach (var id in ids) labels.Add(id.Replace("_", " "));
-                roleDropdown.AddOptions(labels);
+                foreach (var id in ids) roleDropdown.options.Add(new TMP_Dropdown.OptionData(id.Replace("_", " ")));
             }
             else roleCardIDs[role] = new List<string>();
 
+            if (civilianIds != null && role != RoleType.CIVILIAN)
+            {
+                foreach (var id in civilianIds)
+                    roleDropdown.options.Add(new TMP_Dropdown.OptionData(id.Replace("_", " ")));
+
+                roleCardIDs[role].AddRange(civilianIds);
+            }
+
             ConfigureTMP(roleDropdown);
             var rectTransform = roleDropdown.GetComponent<RectTransform>();
-
-            rectTransform.anchorMin = new Vector2(0.5f, 1f);
-            rectTransform.anchorMax = new Vector2(0.5f, 1f);
-            rectTransform.pivot     = new Vector2(0.5f, 1f);
-
+            rectTransform.anchorMin = rectTransform.anchorMax = new Vector2(0.5f, 1f);
+            rectTransform.pivot = new Vector2(0.5f, 1f);
             rectTransform.anchoredPosition = new Vector2(dropdownOffsetX, dropdownOffsetY);
             rectTransform.localScale = dropdownScale;
 
@@ -99,15 +104,12 @@ public class ActionCardInput : MonoBehaviour
         if (saveButton) saveButton.onClick.AddListener(Save);
 
         map = Map.Instance;
-        if (map == null) { Debug.LogError("No persistent Map found."); }
-
+        if (map == null) Debug.LogError("No persistent Map found.");
         else
         {
-            map.EnsureInitialized(); // <-- make sure tiles are built
+            map.EnsureInitialized();
             Debug.Log($"ActionCardInput: Map tiles = {map.tiles.Count}");
         }
-
-
     }
 
     void Save()

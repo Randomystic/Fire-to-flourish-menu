@@ -97,6 +97,7 @@ public class Scenario : MonoBehaviour
 
     public void ChangeScene()
     {
+        NextScenario();
         SceneManager.LoadScene("ScenarioResolve");
     }
 
