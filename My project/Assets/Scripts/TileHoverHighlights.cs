@@ -100,7 +100,40 @@ public class TileHoverHighlight : MonoBehaviour, IPointerEnterHandler, IPointerE
 
                 // Keep MapTile data in sync with visual
                 var mt = GetComponent<MapTile>();
-                if (mt != null) mt.tileName = nextName;
+                if (mt != null)
+                {
+                    mt.tileName = nextName;
+
+                    // (Optional but useful) sync other fields from MapTileData if present
+                    var data = Resources.Load<MapTileData>($"Tiles/{nextName}");
+                    if (data != null)
+                    {
+                        mt.tileType = data.tileType;
+                        mt.fuelLoad = data.fuelLoad;
+                        mt.onFire   = data.onFire;
+                        mt.burnt    = data.burnt;
+                    }
+
+                    // Update the Map.Instance.tiles dictionary entry <<<
+                    var map = Map.Instance;
+                    if (map != null)
+                    {
+                        // Ensure the dictionary points to THIS MapTile for its cube coord
+                        if (map.tiles.ContainsKey(mt.cubeCoord))
+                            map.tiles[mt.cubeCoord] = mt;
+                        else
+                            map.tiles.Add(mt.cubeCoord, mt);
+
+                        // Keep GameObject name consistent (optional, helps debugging)
+                        gameObject.name = $"Tile_{mt.tileName}_{mt.cubeCoord.x}_{mt.cubeCoord.z}";
+
+                        Debug.Log($"[Hover] Updated Map.tiles at {mt.cubeCoord} -> {mt.tileName}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[Hover] Map.Instance is null; cannot sync tiles dictionary.");
+                    }
+                }
 
                 Debug.Log($"[Hover] Click cycle on '{gameObject.name}': switched to '{nextName}' (variantIndex={variantIndex})");
                 return;
