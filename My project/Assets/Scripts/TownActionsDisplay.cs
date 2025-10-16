@@ -142,7 +142,7 @@ public class TownActionsDisplay : MonoBehaviour
                 {
                     resourceChangesText.text +=
                         $"{msg}\n" +
-                        $"→ Current FuelLoad: {tile.fuelLoad}\n";
+                        $" -> Current FuelLoad: {tile.fuelLoad}\n";
                 }
                 else
                 {

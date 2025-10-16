@@ -13,6 +13,12 @@ public class MapTile : MonoBehaviour
 
     public bool IsOnFire() => onFire;
     public bool IsBurnt()  => burnt;
+
+    public void AdjustFuelLoad(int amount)
+    {
+        fuelLoad = Mathf.Clamp(fuelLoad + amount, 0, 4);
+    }
+    
 }
 
 public enum TileType

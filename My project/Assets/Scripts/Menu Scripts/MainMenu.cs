@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public VideoPlayer videoPlayer;
     public GameObject menuImage;
     public GameObject menuButtons;
+    public TownResourceList townResources;
 
 
     public void ExitButton()
@@ -25,6 +26,8 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        townResources.ResetToDefaults();
+
         menuImage.SetActive(false);
         menuButtons.SetActive(false);
         videoPlayer.loopPointReached += VideoFinished;
@@ -36,5 +39,6 @@ public class MainMenu : MonoBehaviour
         menuImage.SetActive(true);
         menuButtons.SetActive(true);
     }
+
 
 }

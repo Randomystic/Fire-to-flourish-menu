@@ -738,6 +738,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 390308768}
   menuImage: {fileID: 1432006153}
   menuButtons: {fileID: 1430475288}
+  townResources: {fileID: 11400000, guid: d356f5db4cbb6b54e96417da2afc3709, type: 2}
 --- !u!1 &690785814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,60 +1391,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432006153}
   m_CullTransparentMesh: 0
---- !u!1 &1479849480
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1479849482}
-  - component: {fileID: 1479849481}
-  m_Layer: 0
-  m_Name: Map
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1479849481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479849480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcf836215ffe247459af5f47795ff4cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startX: 0
-  startY: 0
-  tileScale: 1
-  tilesParent: {fileID: 0}
-  xOffset: 0
-  yOffset: 0
-  evenRowXOffset: 0
-  tilePrefab: {fileID: 1621159429832346479, guid: 59de3dc6ae211fc4ea0d881792366598, type: 3}
-  width: 5
-  height: 7
---- !u!4 &1479849482
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479849480}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 212.85545, y: 53.87325, z: -63.31426}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612222639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1990,4 +1937,3 @@ SceneRoots:
   - {fileID: 1631371421}
   - {fileID: 1362545186}
   - {fileID: 1612222641}
-  - {fileID: 1479849482}

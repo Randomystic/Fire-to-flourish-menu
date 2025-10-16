@@ -5,15 +5,24 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerResourceList
 {
-    public float money;
-    public int morale;
-    public int respect;
+    public float money = 0;
+    public int morale = 0;
+    public int respect = 0;
 
-    public void AdjustMoney(float amount) => money += amount;
-    
-    public void AdjustMorale(int amount) => morale += amount;
+    public void AdjustMorale(int amount)
+    {
+        morale = Mathf.Clamp(morale + amount, 0, 25);
+    }
 
-    public void AdjustRespect(int amount) => respect += amount;
+    public void AdjustRespect(int amount)
+    {
+        respect = Mathf.Clamp(respect + amount, 0, 20);
+    }
+
+    public void AdjustMoney(int amount)
+    {
+        money = Mathf.Max(money + amount, 0);
+    }
 
     public void UpdateAllResources()
     {

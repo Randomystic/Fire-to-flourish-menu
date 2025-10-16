@@ -18,27 +18,30 @@ public class FireSimulation : MonoBehaviour
 
     void Start()
     {
-        // Ensure Map exists
-        map = Map.Instance;
-        if (map == null)
+        // 1) Prefer whatever was set in the Inspector
+        if (!map) map = Map.Instance;                 // use singleton if it exists
+        if (!map) map = FindObjectOfType<Map>(true);  // try find in scene (even inactive)
+
+        // 2) If still missing, spawn from Resources with the correct name
+        if (!map)
         {
-            Debug.LogWarning("No existing Map instance found. Creating one from prefab...");
-            var prefab = Resources.Load<GameObject>("Map");
-            if (prefab)
+            // Put MapRunTime.prefab under Assets/Resources/ (or adjust this path to match)
+            var prefabGO = Resources.Load<GameObject>("MapRunTime");
+            if (prefabGO)
             {
-                var mapObj = Instantiate(prefab);
-                mapObj.name = "PersistentMap";
-                map = mapObj.GetComponent<Map>();
-                map.EnsureInitialized();
+                var inst = Instantiate(prefabGO);
+                inst.name = "MapRunTime (spawned)";
+                map = inst.GetComponent<Map>();
             }
             else
             {
-                Debug.LogError("FireSimulation: No Map prefab found in Resources/Map!");
+                Debug.LogError("FireSimulation: Map prefab not found. Put 'MapRunTime.prefab' in Assets/Resources/ or assign 'map' in the Inspector.");
                 return;
             }
         }
 
-        map.SetMapVisibility(false); // No visuals shown
+        map.EnsureInitialized();
+        map.SetMapVisibility(false);
         totalTiles = map.tiles.Count;
         Debug.Log($"FireSimulation started on map with {totalTiles} tiles.");
 
@@ -158,13 +161,14 @@ public class FireSimulation : MonoBehaviour
         return satisfaction < 20f;
     }
 
-    void ReturnToMenu()
-    {
-        SceneManager.LoadScene("GameOverScreen");
-    }
+    // void ReturnToMenu()
+    // {
+    //     SceneManager.LoadScene("GameOverScreen");
+    // }
 
     public void Save()
-    {
+    {   
+        Debug.Log("FireSimulation complete, returning to ReflectionPhase.");
         SceneManager.LoadScene("ReflectionPhase");
     }
 }

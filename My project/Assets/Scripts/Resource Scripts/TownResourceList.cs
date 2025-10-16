@@ -5,7 +5,6 @@ public class TownResourceList : ScriptableObject
 {
     public int provisions = 12;
     public int education = 20;
-    // public int population = 4000;
     public int firefightingEquipment = 2;
     public int fireSafetyRating = 0;
     public int windSpeed = 2;
@@ -27,11 +26,51 @@ public class TownResourceList : ScriptableObject
         return fireSafetyRating;
     }
 
-    public void AdjustProvisions(int amount) => provisions += amount;
-    public void AdjustEducation(int amount) => education += amount;
-    // public void AdjustPopulation(int amount) => population += amount;
-    public void AdjustFireFightingEquipment(int amount) => firefightingEquipment += amount;
-    public void AdjustWindSpeed(int amount) => windSpeed += amount;
-    public void AdjustTemperatureSeason(int amount) => temperatureSeason += amount;
-    public void AdjustHappiness(int amount) => happiness += amount;
+    public void AdjustProvisions(int amount)
+    {
+        provisions = Mathf.Clamp(provisions + amount, 0, 25);
+    }
+
+    public void AdjustEducation(int amount)
+    {
+        education = Mathf.Clamp(education + amount, 0, 50);
+    }
+
+    public void AdjustHappiness(int amount)
+    {
+        happiness = Mathf.Clamp(happiness + amount, 0, 25);
+    }
+
+    public void AdjustFireFightingEquipment(int amount)
+    {
+        firefightingEquipment = Mathf.Clamp(firefightingEquipment + amount, 0, 5);
+    }
+
+    public void AdjustWindSpeed(int amount)
+    {
+        windSpeed = Mathf.Clamp(windSpeed + amount, 1, 4);
+    }
+
+    public void AdjustTemperatureSeason(int amount)
+    {
+        temperatureSeason = Mathf.Clamp(temperatureSeason + amount, 1, 5);
+    }
+
+    public void AdjustFireSafetyRating(int amount)
+    {
+        fireSafetyRating = Mathf.Clamp(fireSafetyRating + amount, 0, 100);
+    }
+
+
+    public void ResetToDefaults()
+    {
+        provisions = 12;
+        education = 20;
+        firefightingEquipment = 2;
+        fireSafetyRating = 0;
+        windSpeed = 2;
+        temperatureSeason = 2;
+        happiness = 15;
+        averageFuelLoad = 2f;
+    }
 }

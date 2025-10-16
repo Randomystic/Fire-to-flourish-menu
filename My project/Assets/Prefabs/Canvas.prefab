@@ -1369,11 +1369,22 @@ MonoBehaviour:
   roleTitlesParent: {fileID: 8769679341247874404}
   saveButton: {fileID: 2069408887353073662}
   dropdownSize: {x: 320, y: 34}
+  debugText: {fileID: 0}
+  inputPrefab: {fileID: 0}
+  confirmButtonPrefab: {fileID: 0}
+  statusText: {fileID: 0}
+  tileDropdownSize: {x: 320, y: 34}
+  tileDropdownScale: {x: 0.25, y: 0.25, z: 1}
+  tileDropdownOffsetX: -100
+  tileDropdownOffsetY: -160
+  tileConfirmOffset: {x: 60, y: -100}
   constantFontSize: 1
   dropdownFontSize: 9
   dropdownScale: {x: 3, y: 3, z: 1}
   dropdownOffsetX: -60
   dropdownOffsetY: -60
+  townResources: {fileID: 11400000, guid: d356f5db4cbb6b54e96417da2afc3709, type: 2}
+  map: {fileID: 3405890780682589737, guid: ea713fa3a35ee4843bf9e83471960083, type: 3}
 --- !u!1 &4095891018816456410
 GameObject:
   m_ObjectHideFlags: 0
