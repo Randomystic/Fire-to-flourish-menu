@@ -43,6 +43,7 @@ public class ActionCardInput : MonoBehaviour
     
     public Map map;
 
+    public static Dictionary<Vector3Int, string> updatedTiles = new();
 
     void Start()
     {
@@ -98,16 +99,12 @@ public class ActionCardInput : MonoBehaviour
         if (saveButton) saveButton.onClick.AddListener(Save);
 
         map = Map.Instance;
-        if (map == null)
-            Debug.LogError("No persistent Map found.");
+        if (map == null) { Debug.LogError("No persistent Map found."); }
 
-        if (map != null && map.tiles != null && map.tiles.Count > 0)
-        {
-            Debug.Log($"Map loaded with reference: {map}, Tiles count: {map.tiles?.Count}");
-        }
         else
         {
-            Debug.LogWarning("Map not found or tiles dictionary is empty.");
+            map.EnsureInitialized(); // <-- make sure tiles are built
+            Debug.Log($"ActionCardInput: Map tiles = {map.tiles.Count}");
         }
 
 
@@ -248,8 +245,9 @@ public class ActionCardInput : MonoBehaviour
 
         if (!roleTileUI.TryGetValue(role, out var ui)) return;
         if (!int.TryParse(ui.x.text, out int x) ||
-            !int.TryParse(ui.y.text, out int y) ||
+             !int.TryParse(ui.y.text, out int y) ||
             !int.TryParse(ui.z.text, out int z) ||
+
             string.IsNullOrWhiteSpace(ui.name.text))
         { 
             Debug.Log("Invalid Syntax"); 
@@ -296,13 +294,16 @@ public class ActionCardInput : MonoBehaviour
 
 
         int delta = GetFuelDeltaForCard(cardId);
-        tile.fuelLoad += delta;
+        tile.fuelLoad = Mathf.Max(0, tile.fuelLoad + delta);
 
         ui.confirm.interactable = false;
         ui.confirmed = true;
 
         Debug.Log($"Input Accepted → {role} applied Fuel:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
-        debugText.text = $"Input Accepted → {role} applied FuelΔ:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).";
+        debugText.text = $"{role} applied Fuel:{delta} to Tile {tile.tileName} at {key}".ToLower();
+        updatedTiles[key] = debugText.text;
+
+        Debug.Log($"Stored update info for TownActionsDisplay");
     }
 
 

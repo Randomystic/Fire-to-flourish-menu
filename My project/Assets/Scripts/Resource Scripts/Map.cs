@@ -25,22 +25,44 @@ public class Map : MonoBehaviour
 
     public static Map Instance;
 
+    private bool _initialized; // guard
+    
     void Awake()
+
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-
-
     void Start()
     {
+        EnsureInitialized();
+    }
+
+    public void EnsureInitialized()
+    {
+        if (_initialized) return;
+
         EnsureParent();
         LoadAllTileAssets();
         AutoFillOffsetsFromSpriteIfNeeded();
+
+        if (!tilePrefab)
+        {
+            Debug.LogError("Map: tilePrefab not assigned on the persistent Map.");
+            return;
+        }
+        if (allTileAssets.Count == 0)
+        {
+            Debug.LogError("Map: no MapTileData in Resources/Tiles/.");
+            return;
+        }
+
         GenerateRandomMap();
         PrintTileSummary();
+        _initialized = tiles.Count > 0;
+        Debug.Log($"Map initialized with {tiles.Count} tiles. (InstanceID {GetInstanceID()})");
     }
 
     void EnsureParent()

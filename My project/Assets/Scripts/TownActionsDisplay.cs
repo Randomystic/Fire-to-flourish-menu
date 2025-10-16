@@ -21,11 +21,17 @@ public class TownActionsDisplay : MonoBehaviour
 
     void Start()
     {
+        map = Map.Instance;                    // ignore any serialized ref in Inspector
+        if (!map) { Debug.LogError("TownActionsDisplay: No Map instance found."); return; }
+        map.EnsureInitialized();
+        Debug.Log($"TownActionsDisplay: Map tiles = {map.tiles.Count} (InstanceID {map.GetInstanceID()})");
+
         CacheStartingTownValues();
         DisplayActions();
         ApplyCardEffects();
         DisplayResourceUpdates();
     }
+
 
     void CacheStartingTownValues()
     {
@@ -83,18 +89,6 @@ public class TownActionsDisplay : MonoBehaviour
         player.UseActionCard(card);
         Debug.Log($"Applied effects of {card.cardName} to player {player.playerName}");
 
-        // Handle tile-related side effects
-        foreach (var e in card.effects)
-        {
-            var key = e.resourceName.ToLower();
-            if ((key == "population" || key == "fuel_load") && map != null && map.tiles.Count > 0)
-            {
-                var randomTile = new List<MapTile>(map.tiles.Values)[Random.Range(0, map.tiles.Count)];
-                if (key == "fuel_load")  randomTile.fuelLoad += e.value;
-
-                Debug.Log($"Tile updated → Coord {randomTile.cubeCoord} | Name: {randomTile.tileName} | Type: {randomTile.tileType} | FuelLoad: {randomTile.fuelLoad}");
-            }
-        }
     }
 
 
@@ -126,13 +120,38 @@ public class TownActionsDisplay : MonoBehaviour
         $"Firefighting Equipment: {beforeChanges.firefightingEquipment} -> {townResources.firefightingEquipment}\n" +
         $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
         $"Wind Speed: {beforeChanges.windSpeed} -> {townResources.windSpeed}\n" +
-        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}";
+        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n";
         
-        resourceChangesText.text += "\nTile updates applied to random tiles affecting Population/Fuel Load.";
+        // TownActionsDisplay.cs — inside DisplayResourceUpdates()
+        if (ActionCardInput.updatedTiles != null && ActionCardInput.updatedTiles.Count > 0)
+        {
+            foreach (var entry in ActionCardInput.updatedTiles)
+            {
+                var coord = entry.Key;
+                var msg = entry.Value; // "Input Accepted → ..."
+
+                if (map && map.tiles.TryGetValue(coord, out var tile))
+                {
+                    resourceChangesText.text +=
+                        $"{msg}\n" +
+                        $"→ Current FuelLoad: {tile.fuelLoad}\n";
+                }
+                else
+                {
+                    resourceChangesText.text += $"{msg}\n(Warning: tile not found in current Map)\n";
+                }
+            }
+        }
+        else
+        {
+            resourceChangesText.text += "No manual tile updates this round.\n";
+        }
+
     }
 
     public void Save()
     {
+        ActionCardInput.updatedTiles.Clear();
         SceneManager.LoadScene("DiscussionPhase");
     }
 }
