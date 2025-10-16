@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Map : MonoBehaviour
 {
@@ -62,7 +63,37 @@ public class Map : MonoBehaviour
 
         if (saveButton != null)
             saveButton.onClick.AddListener(Save);
+
+        var cam = Camera.main;
+        if (cam && cam.GetComponent<Physics2DRaycaster>() == null)
+            cam.gameObject.AddComponent<Physics2DRaycaster>();
+        
+        // --- DEBUG: input pipeline + canvas state ---
+    
+        if (EventSystem.current == null)
+            Debug.LogWarning("DEBUG Map: No EventSystem found in scene.");
+        else
+            Debug.Log($"DEBUG Map: EventSystem present -> {EventSystem.current.gameObject.name}");
+
+        if (!cam) Debug.LogWarning("DEBUG Map: Camera.main is NULL.");
+        else
+        {
+            var pr2d = cam.GetComponent<Physics2DRaycaster>();
+            Debug.Log($"DEBUG Map: Camera.main '{cam.name}', Physics2DRaycaster attached: {(pr2d ? "YES" : "NO")}" +
+                    (pr2d ? $" (eventMask={pr2d.eventMask})" : ""));
+        }
+
+        // List canvases + raycasters so we can see who might block pointer hits
+        var canvases = FindObjectsOfType<Canvas>(true);
+        foreach (var c in canvases)
+        {
+            var gr = c.GetComponent<UnityEngine.UI.GraphicRaycaster>();
+            Debug.Log($"DEBUG Map: Canvas '{c.name}' active={c.gameObject.activeInHierarchy}, enabled={c.enabled}, " +
+                    $"renderMode={c.renderMode}, worldCam={(c.worldCamera ? c.worldCamera.name : "null")}, " +
+                    $"planeDistance={c.planeDistance}, sortingOrder={c.sortingOrder}, GraphicRaycaster={(gr ? "YES" : "NO")}");
+        }
     }
+    
 
     void Save()
     {
@@ -239,10 +270,13 @@ public class Map : MonoBehaviour
         }
 
         // instantiate tile object
+        // instantiate tile object
         var obj = Instantiate(tilePrefab, tilesParent);
         obj.name = $"Tile_{data.tileName}_{cube.x}_{cube.z}";
         obj.transform.position = worldPos;
         obj.transform.localScale = Vector3.one * tileScale;
+
+        Debug.Log($"DEBUG Map: Spawning '{data.tileName}' at world {worldPos} cube {cube} layer={obj.layer}");
 
         // assign sprite
         var sr = obj.GetComponent<SpriteRenderer>();
@@ -251,7 +285,58 @@ public class Map : MonoBehaviour
             var sprite = Resources.Load<Sprite>($"Tiles/Images/{data.tileName}");
             if (sprite) sr.sprite = sprite;
             sr.sortingOrder = 1;
+            Debug.Log($"DEBUG Map: SpriteRenderer OK. sortingLayer='{sr.sortingLayerName}', order={sr.sortingOrder}, color={sr.color}");
         }
+        else
+        {
+            Debug.LogWarning("DEBUG Map: Tile has NO SpriteRenderer (hover won't tint).");
+        }
+
+        // ensure there's a 2D collider
+        Collider2D col = obj.GetComponent<Collider2D>();
+        if (!col)
+        {
+            col = obj.AddComponent<PolygonCollider2D>(); // or BoxCollider2D
+            ((PolygonCollider2D)col).isTrigger = true;
+            Debug.Log("DEBUG Map: Added PolygonCollider2D (isTrigger=true).");
+        }
+        else
+        {
+            Debug.Log($"DEBUG Map: Found existing collider -> {col.GetType().Name}.");
+        }
+
+        // add/verify the hover highlight behavior
+        if (!obj.TryGetComponent<TileHoverHighlight>(out var hover))
+        {
+            hover = obj.AddComponent<TileHoverHighlight>();
+            Debug.Log("DEBUG Map: Added TileHoverHighlight.");
+        }
+        else
+        {
+            Debug.Log("DEBUG Map: TileHoverHighlight already present.");
+        }
+
+
+        // assign sprite
+        // var sr = obj.GetComponent<SpriteRenderer>();
+        if (sr)
+        {
+            var sprite = Resources.Load<Sprite>($"Tiles/Images/{data.tileName}");
+            if (sprite) sr.sprite = sprite;
+            sr.sortingOrder = 1;
+        }
+
+        // ensure there's a 2D collider so OnMouseEnter/Exit can fire
+        if (!obj.GetComponent<Collider2D>())
+        {
+            var poly = obj.AddComponent<PolygonCollider2D>(); // or BoxCollider2D
+            poly.isTrigger = true; // optional
+        }
+
+        // add the hover highlight behavior
+        if (!obj.GetComponent<Collider2D>()) obj.AddComponent<PolygonCollider2D>(); // or BoxCollider2D
+        if (!obj.GetComponent<TileHoverHighlight>()) obj.AddComponent<TileHoverHighlight>();
+
 
         // assign tile data
         var t = obj.GetComponent<MapTile>();
@@ -310,49 +395,47 @@ public class Map : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         bool showMap = scene.name == "Map";
+        Debug.Log($"DEBUG Map: OnSceneLoaded -> '{scene.name}', showMap={showMap}");
         SetMapVisibility(showMap);
 
-        // Re-enable Canvas if we're in the Map scene
         if (showMap)
         {
-            // Find *any* disabled Canvas in the scene
             Canvas[] allCanvases = Resources.FindObjectsOfTypeAll<Canvas>();
             bool found = false;
-
             foreach (var canvas in allCanvases)
             {
-                // Skip canvases from other scenes (persistent objects)
                 if (canvas.gameObject.scene.name != scene.name) continue;
-
-                // Reactivate hidden canvases
-                if (!canvas.gameObject.activeInHierarchy)
-                    canvas.gameObject.SetActive(true);
-
+                if (!canvas.gameObject.activeInHierarchy) canvas.gameObject.SetActive(true);
                 canvas.enabled = true;
                 found = true;
-                Debug.Log($"Map: Re-enabled Canvas '{canvas.name}' in scene '{scene.name}'.");
+                Debug.Log($"DEBUG Map: Re-enabled Canvas '{canvas.name}' in scene '{scene.name}'.");
             }
-
-            if (!found)
-                Debug.LogWarning("Map: No Canvas found in Map scene.");
+            if (!found) Debug.LogWarning("DEBUG Map: No Canvas found in Map scene.");
         }
     }
 
     public void SetMapVisibility(bool visible)
     {
-        // Toggle map visuals (tiles, sprites, colliders)
         foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
-            sr.enabled = visible;
+        {
+            if (!sr.gameObject.name.StartsWith("Tile_")) // <-- avoid disabling tiles
+                sr.enabled = visible;
+        }
 
         foreach (var col in GetComponentsInChildren<Collider2D>(true))
-            col.enabled = visible;
+        {
+            if (!col.gameObject.name.StartsWith("Tile_")) // <-- avoid disabling tile colliders
+                col.enabled = visible;
+        }
 
-        // Also toggle any Canvas attached to this persistent Map (if exists)
         foreach (var canvas in GetComponentsInChildren<Canvas>(true))
             canvas.enabled = visible;
 
         Debug.Log($"Map visibility set to {visible}");
     }
+
+
+
 
 
 
