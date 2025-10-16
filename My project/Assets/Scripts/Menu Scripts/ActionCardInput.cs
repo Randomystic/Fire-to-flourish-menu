@@ -38,6 +38,8 @@ public class ActionCardInput : MonoBehaviour
     [SerializeField] float dropdownOffsetX = 0f;
     [SerializeField] float dropdownOffsetY = -50f;
 
+    [SerializeField] private TownResourceList townResources;
+
     readonly Dictionary<RoleType, TMP_Dropdown> roleDropdowns = new();
     readonly Dictionary<RoleType, List<string>> roleCardIDs  = new();
     
@@ -113,7 +115,9 @@ public class ActionCardInput : MonoBehaviour
     }
 
     void Save()
-    {
+    {   
+        ResourceDashboard.RecalculateFireSafety(Map.Instance, townResources);
+
         //Collect selections
         selectedCardsDict.Clear();
         foreach (var kv in roleDropdowns)

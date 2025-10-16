@@ -12,7 +12,20 @@ public class TownResourceList : ScriptableObject
     public int temperatureSeason = 2;
     public int happiness = 15;
 
-    public float CalculateFireSafety() => (fireSafetyRating + firefightingEquipment) * 0.5f;
+    public float averageFuelLoad = 2f;
+
+    public float CalculateFireSafety()
+    {
+        float result =
+            20f +
+            (averageFuelLoad * 10f) +
+            (2f * (temperatureSeason * windSpeed)) -
+            (2f * (education / 10f)) -
+            (2f * firefightingEquipment);
+
+        fireSafetyRating = Mathf.RoundToInt(result);
+        return fireSafetyRating;
+    }
 
     public void AdjustProvisions(int amount) => provisions += amount;
     public void AdjustEducation(int amount) => education += amount;

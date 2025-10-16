@@ -57,6 +57,8 @@ public class ScenarioResolve : MonoBehaviour
             int newVal = oldVal + kv.Value;
             if (dashboardText) dashboardText.text += $"{kv.Key}: {oldVal} -> {newVal}\n";
         }
+
+        ResourceDashboard.RecalculateFireSafety(Map.Instance, townResources);
     }
 
     public void Save() {

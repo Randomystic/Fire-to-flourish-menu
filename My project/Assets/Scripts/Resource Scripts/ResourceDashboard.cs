@@ -23,6 +23,19 @@ public class ResourceDashboard : MonoBehaviour
             TemperatureSeason = townResource.temperatureSeason
         };
     }
+
+    public static void RecalculateFireSafety(Map map, TownResourceList town)
+    {
+        if (map == null || town == null) return;
+
+        town.averageFuelLoad = map.GetAverageFuelLoad();
+        float newRating = town.CalculateFireSafety();
+        town.fireSafetyRating = Mathf.RoundToInt(newRating);
+
+        Debug.Log($"Fire Safety recalculated → {newRating:F2} (AvgFuel={town.averageFuelLoad:F2})");
+    }
+
+    
 }
 
 public class DashboardContent

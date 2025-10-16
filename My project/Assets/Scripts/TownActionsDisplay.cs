@@ -115,15 +115,20 @@ public class TownActionsDisplay : MonoBehaviour
 
     void DisplayResourceUpdates()
     {
+        ResourceDashboard.RecalculateFireSafety(Map.Instance, townResources);
+
         resourceChangesText.text =
         $"Provisions: {beforeChanges.provisions} -> {townResources.provisions}\n" +
         $"Education: {beforeChanges.education} -> {townResources.education}\n" +
         // $"Population: {beforeChanges.population} -> {townResources.population}\n" +
         $"Happiness: {beforeChanges.happiness} -> {townResources.happiness}\n" +
         $"Firefighting Equipment: {beforeChanges.firefightingEquipment} -> {townResources.firefightingEquipment}\n" +
-        $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
+        // $"Fire Safety Rating: {beforeChanges.fireSafetyRating} -> {townResources.fireSafetyRating}\n" +
         $"Wind Speed: {beforeChanges.windSpeed} -> {townResources.windSpeed}\n" +
-        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n\n";
+        $"Temperature Season: {beforeChanges.temperatureSeason} -> {townResources.temperatureSeason}\n";
+        
+        resourceChangesText.text +=
+        $"Updated Fire Safety Rating → {townResources.fireSafetyRating} (avg fuel {townResources.averageFuelLoad:F1})\n";;
         
         // TownActionsDisplay.cs — inside DisplayResourceUpdates()
         if (ActionCardInput.updatedTiles != null && ActionCardInput.updatedTiles.Count > 0)

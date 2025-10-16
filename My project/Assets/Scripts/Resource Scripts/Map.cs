@@ -49,7 +49,6 @@ public class Map : MonoBehaviour
     
 
     void Awake()
-
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
@@ -69,6 +68,25 @@ public class Map : MonoBehaviour
     {
         SceneManager.LoadScene("PreparationPhase");
     }
+
+    public float GetAverageFuelLoad()
+    {
+        if (tiles == null || tiles.Count == 0)
+            return 0f;
+
+        float totalFuel = 0f;
+        int count = 0;
+
+        foreach (var kv in tiles)
+        {
+            var tile = kv.Value;
+            totalFuel += tile.fuelLoad;
+            count++;
+        }
+
+        return count > 0 ? totalFuel / count : 0f;
+    }
+
 
     public void EnsureInitialized()
     {
