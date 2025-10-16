@@ -11,6 +11,7 @@ public class ActionCardInput : MonoBehaviour
     public Transform roleTitlesParent;
     public Button saveButton;
     public Vector2 dropdownSize = new Vector2(320, 34);
+    public TMP_Text debugText; 
 
     public Dictionary<RoleType, string> selectedCardsDict = new();
     public static Dictionary<RoleType, string> lastSelections = new();
@@ -18,7 +19,6 @@ public class ActionCardInput : MonoBehaviour
     public TMP_InputField inputPrefab;       // assign a TMP_InputField prefab
     public Button confirmButtonPrefab;       // assign a Button prefab
     public TMP_Text statusText;              // optional TMP text for feedback
-    public Map map;                          // link or it will auto-find
 
     // keep a handle to each role's title transform (so we can spawn under it)
     readonly Dictionary<RoleType, Transform> roleTitles = new();
@@ -40,6 +40,9 @@ public class ActionCardInput : MonoBehaviour
 
     readonly Dictionary<RoleType, TMP_Dropdown> roleDropdowns = new();
     readonly Dictionary<RoleType, List<string>> roleCardIDs  = new();
+    
+    public Map map;
+
 
     void Start()
     {
@@ -93,7 +96,21 @@ public class ActionCardInput : MonoBehaviour
         }
 
         if (saveButton) saveButton.onClick.AddListener(Save);
-        if (!map) map = FindObjectOfType<Map>();
+
+        map = Map.Instance;
+        if (map == null)
+            Debug.LogError("No persistent Map found.");
+
+        if (map != null && map.tiles != null && map.tiles.Count > 0)
+        {
+            Debug.Log($"Map loaded with reference: {map}, Tiles count: {map.tiles?.Count}");
+        }
+        else
+        {
+            Debug.LogWarning("Map not found or tiles dictionary is empty.");
+        }
+
+
     }
 
     void Save()
@@ -114,7 +131,11 @@ public class ActionCardInput : MonoBehaviour
         {
             foreach (var r in rolesNeedingTile)
                 if (!roleTileUI.TryGetValue(r, out var ui) || !ui.confirmed)
-                { Debug.Log("Tile inputs not confirmed yet."); return; }
+                { 
+                    Debug.Log("Tile inputs not confirmed yet."); 
+                    debugText.text = "Tile inputs not confirmed yet."; 
+                    return; 
+                }
 
             SceneManager.LoadScene("TownActionsDisplay");
             return;
@@ -131,6 +152,7 @@ public class ActionCardInput : MonoBehaviour
             SpawnTileInputsForRoles();
             awaitingTileInputs = true;
             Debug.Log("Enter tile coords + name under roles with fuel load effects, then press Confirm. Press Save again to continue.");
+            debugText.text = "Enter tile coords + name under roles with fuel load effects, then press Confirm. Press Save again to continue.";
             return;
         }
 
@@ -220,34 +242,67 @@ public class ActionCardInput : MonoBehaviour
 
     void ConfirmTileForRole(RoleType role)
     {
+        foreach (var kv in map.tiles)
+            Debug.Log($"TILE KEY: ({kv.Key.x},{kv.Key.y},{kv.Key.z}) -> {kv.Value.tileName}");
+
+
         if (!roleTileUI.TryGetValue(role, out var ui)) return;
         if (!int.TryParse(ui.x.text, out int x) ||
             !int.TryParse(ui.y.text, out int y) ||
             !int.TryParse(ui.z.text, out int z) ||
             string.IsNullOrWhiteSpace(ui.name.text))
-        { Debug.Log("Invalid Syntax"); return; }
+        { 
+            Debug.Log("Invalid Syntax"); 
+            debugText.text = "Invalid Syntax";
+            return; 
+        }
 
-        if (x + y + z != 0) { Debug.Log("Invalid Syntax (x+y+z must equal 0)"); return; }
-        if (!map || map.tiles == null) { Debug.Log("Map not found"); return; }
+        if (x + y + z != 0) { 
+            Debug.Log("Invalid Syntax (x+y+z must equal 0)"); 
+            debugText.text = "Invalid Syntax (x+y+z must equal 0)";
+            return; 
+            }
+
+        if (!map || map.tiles == null) 
+        { 
+            Debug.Log("Map not found"); 
+            debugText.text = "Map not found";
+            return; 
+            }
 
         var key = new Vector3Int(x, y, z);
-        if (!map.tiles.TryGetValue(key, out var tile)) { Debug.Log("Invalid Syntax (tile not found)"); return; }
+        if (!map.tiles.TryGetValue(key, out var tile)) { 
+            Debug.Log("Invalid Syntax (tile not found)"); 
+            debugText.text = "Invalid Syntax (tile not found)";
+            return; 
+            }
 
         // optional name check (case/underscore insensitive)
         var inputName = Normalize(ui.name.text);
         var tileName  = Normalize(tile.tileName);
         if (inputName.Length > 0 && inputName != tileName)
-        { Debug.Log("Invalid Syntax (tile name mismatch)"); return; }
+        { 
+            Debug.Log("Invalid Syntax (tile name mismatch)"); 
+            debugText.text = "Invalid Syntax (tile name mismatch)";
+            return; 
+            }
 
         // apply the fuel delta for THIS role's selected card
-        if (!lastSelections.TryGetValue(role, out var cardId)) { Debug.Log("No card for role"); return; }
+        if (!lastSelections.TryGetValue(role, out var cardId)) { 
+            Debug.Log("No card for role"); 
+            debugText.text = "No card for role";
+            return; 
+            }
+
+
         int delta = GetFuelDeltaForCard(cardId);
         tile.fuelLoad += delta;
 
         ui.confirm.interactable = false;
         ui.confirmed = true;
 
-        Debug.Log($"Input Accepted → {role} applied FuelΔ:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
+        Debug.Log($"Input Accepted → {role} applied Fuel:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
+        debugText.text = $"Input Accepted → {role} applied FuelΔ:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).";
     }
 
 

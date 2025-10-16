@@ -23,6 +23,16 @@ public class Map : MonoBehaviour
     public readonly Dictionary<Vector3Int, MapTile> tiles = new();
     private readonly List<MapTileData> allTileAssets = new();
 
+    public static Map Instance;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+
 
     void Start()
     {
