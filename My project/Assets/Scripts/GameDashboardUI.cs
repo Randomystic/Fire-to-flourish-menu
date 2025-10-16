@@ -91,7 +91,7 @@ public class GameDashboardUI : MonoBehaviour
         //     existingMap.SetMapVisibility(true);
         //     SceneManager.LoadScene("Map");
         // }
-        SceneManager.LoadScene("PreparationPhase");
+        SceneManager.LoadScene("Map");
     }
 
 }

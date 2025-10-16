@@ -15,7 +15,7 @@ public class ResourceManager : MonoBehaviour
         {
             var go = new GameObject("ResourceManager");
             var rm = go.AddComponent<ResourceManager>();
-
+            instance = rm;
             rm.townResources = Resources.Load<TownResourceList>("TownResources");
         }
     }
