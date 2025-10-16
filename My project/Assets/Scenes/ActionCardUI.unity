@@ -2775,6 +2775,11 @@ MonoBehaviour:
   inputPrefab: {fileID: 1562878469513127796, guid: 0cbae7e318970b94ea4c618f61dd4bf6, type: 3}
   confirmButtonPrefab: {fileID: 6517312440913114500}
   statusText: {fileID: 1970634194}
+  tileDropdownSize: {x: 150, y: 30}
+  tileDropdownScale: {x: 2, y: 2, z: 2}
+  tileDropdownOffsetX: -60
+  tileDropdownOffsetY: -160
+  tileConfirmOffset: {x: 0, y: -70}
   constantFontSize: 1
   dropdownFontSize: 9
   dropdownScale: {x: 3, y: 3, z: 1}

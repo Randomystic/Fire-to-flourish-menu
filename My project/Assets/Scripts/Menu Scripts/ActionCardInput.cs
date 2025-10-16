@@ -20,11 +20,30 @@ public class ActionCardInput : MonoBehaviour
     public Button confirmButtonPrefab;       // assign a Button prefab
     public TMP_Text statusText;              // optional TMP text for feedback
 
+    [Header("Tile UI Layout")]
+    public Vector2 tileDropdownSize   = new Vector2(320, 34);
+    public Vector3 tileDropdownScale  = new Vector3(0.25f, 0.25f, 1f);
+    public float   tileDropdownOffsetX = -100f;   // anchored X relative to role title
+    public float   tileDropdownOffsetY = -160f;   // anchored Y relative to role title
+    public Vector2 tileConfirmOffset   = new Vector2(60f, -100f); // confirm button offset from dropdown anchor
+
+
     // keep a handle to each role's title transform (so we can spawn under it)
     readonly Dictionary<RoleType, Transform> roleTitles = new();
 
     // UI bundle per role that needs tile input
-    class TileInputUI { public TMP_InputField x,y,z,name; public Button confirm; public bool confirmed; }
+    class TileInputUI 
+    { 
+        public TMP_InputField x,y,z,name; 
+        public Button confirm; 
+        public bool confirmed; 
+
+        public TMP_Dropdown tileDropdown;
+        public List<Vector3Int> coordByIndex = new List<Vector3Int>();
+
+    }
+
+
     readonly Dictionary<RoleType, TileInputUI> roleTileUI = new();
 
     readonly HashSet<RoleType> rolesNeedingTile = new();
@@ -150,6 +169,8 @@ public class ActionCardInput : MonoBehaviour
                     if (kv.Value.z) Destroy(kv.Value.z.gameObject);
                     if (kv.Value.name) Destroy(kv.Value.name.gameObject);
                     if (kv.Value.confirm) Destroy(kv.Value.confirm.gameObject);
+
+                    if (kv.Value.tileDropdown) Destroy(kv.Value.tileDropdown.gameObject);
                 }
                 roleTileUI.Clear();
 
@@ -176,8 +197,8 @@ public class ActionCardInput : MonoBehaviour
         {
             SpawnTileInputsForRoles();
             awaitingTileInputs = true;
-            Debug.Log("Enter tile coords + name under roles with fuel load effects, then press Confirm. Press Save again to continue.");
-            debugText.text = "Enter tile coords + name under roles with fuel load effects, then press Confirm. Press Save again to continue.";
+            Debug.Log("Select a tile for each role that affects a tile, press Confirm, then press Save again to continue.");
+            debugText.text = "Select a tile for each role that affects a tile, press Confirm, then press Save again to continue.";
             return;
         }
 
@@ -207,8 +228,11 @@ public class ActionCardInput : MonoBehaviour
         var card = Resources.Load<ActionCardData>($"Cards/{cardId}");
         if (!card) return false;
         foreach (var e in card.effects)
-            if (Normalize(e.resourceName) == "fuelload" && e.value != 0)
+        {
+            var key = Normalize(e.resourceName);
+            if ((key == "fuelload" || key == "population") && e.value != 0)
                 return true;
+        }
         return false;
     }
 
@@ -234,28 +258,53 @@ public class ActionCardInput : MonoBehaviour
 
             // stack under this role title
             var ui = new TileInputUI();
-            ui.x    = Instantiate(inputPrefab, parent);
-            ui.y    = Instantiate(inputPrefab, parent);
-            ui.z    = Instantiate(inputPrefab, parent);
-            ui.name = Instantiate(inputPrefab, parent);
-            ui.confirm = Instantiate(confirmButtonPrefab, parent);
-
-            ui.x.placeholder.GetComponent<TMP_Text>().text = "x (int)";
-            ui.y.placeholder.GetComponent<TMP_Text>().text = "y (int)";
-            ui.z.placeholder.GetComponent<TMP_Text>().text = "z (int)";
-            ui.name.placeholder.GetComponent<TMP_Text>().text = "tile name";
-            ui.x.contentType = TMP_InputField.ContentType.IntegerNumber;
-            ui.y.contentType = TMP_InputField.ContentType.IntegerNumber;
-            ui.z.contentType = TMP_InputField.ContentType.IntegerNumber;
 
             // simple vertical layout: offsets from title
             var y0 = -160f;
             var x0 = -100f;
-            ui.x.GetComponent<RectTransform>().anchoredPosition    = new Vector2(x0, y0);
-            ui.y.GetComponent<RectTransform>().anchoredPosition    = new Vector2(x0 + 120, y0);
-            ui.z.GetComponent<RectTransform>().anchoredPosition    = new Vector2(x0, y0 - 40);
-            ui.name.GetComponent<RectTransform>().anchoredPosition = new Vector2(x0 + 120, y0 - 40);
-            ui.confirm.GetComponent<RectTransform>().anchoredPosition = new Vector2(x0 + 60, y0 - 100);
+
+           // tile dropdown
+            ui.tileDropdown = Instantiate(dropdownPrefab, parent, false);
+            ui.tileDropdown.gameObject.SetActive(true);
+            ui.tileDropdown.gameObject.name = $"{role}_TileDropdown";
+            ui.tileDropdown.ClearOptions();
+            ConfigureTMP(ui.tileDropdown);
+
+            var ddRect = ui.tileDropdown.GetComponent<RectTransform>();
+            ddRect.anchorMin = ddRect.anchorMax = new Vector2(0.5f, 1f);
+            ddRect.pivot = new Vector2(0.5f, 1f);
+            ddRect.sizeDelta = tileDropdownSize;
+            ddRect.anchoredPosition = new Vector2(tileDropdownOffsetX, tileDropdownOffsetY);
+            ddRect.localScale = tileDropdownScale;
+
+            // confirm button
+            ui.confirm = Instantiate(confirmButtonPrefab, parent);
+            var cbRect = ui.confirm.GetComponent<RectTransform>();
+            cbRect.anchorMin = cbRect.anchorMax = new Vector2(0.5f, 1f);
+            cbRect.pivot = new Vector2(0.5f, 1f);
+            cbRect.anchoredPosition = new Vector2(
+                tileDropdownOffsetX + tileConfirmOffset.x,
+                tileDropdownOffsetY + tileConfirmOffset.y);
+
+            ConfigureTMP(ui.tileDropdown);
+
+
+            // deterministic order
+            var keys = new List<Vector3Int>(map.tiles.Keys);
+            keys.Sort((a,b) =>
+            {
+                int c = a.x.CompareTo(b.x); if (c != 0) return c;
+                c = a.y.CompareTo(b.y);     if (c != 0) return c;
+                return a.z.CompareTo(b.z);
+            });
+
+            foreach (var cube in keys)
+            {
+                var t = map.tiles[cube];
+                string label = $"({cube.x}, {cube.y}, {cube.z}): {t.tileName}";
+                ui.tileDropdown.options.Add(new TMP_Dropdown.OptionData(label));
+                ui.coordByIndex.Add(cube);
+            }
 
             var capturedRole = role; // capture for lambda
             ui.confirm.onClick.AddListener(() => ConfirmTileForRole(capturedRole));
@@ -265,66 +314,49 @@ public class ActionCardInput : MonoBehaviour
         }
     }
 
+
     void ConfirmTileForRole(RoleType role)
     {
         foreach (var kv in map.tiles)
             Debug.Log($"TILE KEY: ({kv.Key.x},{kv.Key.y},{kv.Key.z}) -> {kv.Value.tileName}");
 
-
         if (!roleTileUI.TryGetValue(role, out var ui)) return;
-        if (!int.TryParse(ui.x.text, out int x) ||
-             !int.TryParse(ui.y.text, out int y) ||
-            !int.TryParse(ui.z.text, out int z) ||
 
-            string.IsNullOrWhiteSpace(ui.name.text))
-        { 
-            Debug.Log("Invalid Syntax"); 
-            debugText.text = "Invalid Syntax";
-            return; 
+        if (!map || map.tiles == null)
+        {
+            Debug.Log("Map not found");
+            debugText.text = "Map not found";
+            return;
         }
 
-        if (x + y + z != 0) { 
-            Debug.Log("Invalid Syntax (x+y+z must equal 0)"); 
-            debugText.text = "Invalid Syntax (x+y+z must equal 0)";
-            return; 
-            }
+        // NEW: pull cube from dropdown selection
+        if (ui.tileDropdown == null || ui.tileDropdown.value <= 0 || ui.tileDropdown.value >= ui.coordByIndex.Count)
+        {
+            Debug.Log("Invalid Syntax");
+            debugText.text = "Please select a tile.";
+            return;
+        }
+        var key = ui.coordByIndex[ui.tileDropdown.value];
 
-        if (!map || map.tiles == null) 
-        { 
-            Debug.Log("Map not found"); 
-            debugText.text = "Map not found";
-            return; 
-            }
-
-        var key = new Vector3Int(x, y, z);
-        if (!map.tiles.TryGetValue(key, out var tile)) { 
-            Debug.Log("Invalid Syntax (tile not found)"); 
+        if (!map.tiles.TryGetValue(key, out var tile))
+        {
+            Debug.Log("Invalid Syntax (tile not found)");
             debugText.text = "Invalid Syntax (tile not found)";
-            return; 
-            }
-
-        // optional name check (case/underscore insensitive)
-        var inputName = Normalize(ui.name.text);
-        var tileName  = Normalize(tile.tileName);
-        if (inputName.Length > 0 && inputName != tileName)
-        { 
-            Debug.Log("Invalid Syntax (tile name mismatch)"); 
-            debugText.text = "Invalid Syntax (tile name mismatch)";
-            return; 
-            }
+            return;
+        }
 
         // apply the fuel delta for THIS role's selected card
-        if (!lastSelections.TryGetValue(role, out var cardId)) { 
-            Debug.Log("No card for role"); 
+        if (!lastSelections.TryGetValue(role, out var cardId))
+        {
+            Debug.Log("No card for role");
             debugText.text = "No card for role";
-            return; 
-            }
-
+            return;
+        }
 
         int delta = GetFuelDeltaForCard(cardId);
         tile.fuelLoad = Mathf.Max(0, tile.fuelLoad + delta);
 
-        ui.confirm.interactable = false;
+        if (ui.confirm) ui.confirm.interactable = false;
         ui.confirmed = true;
 
         Debug.Log($"Input Accepted → {role} applied Fuel:{delta} to Tile {tile.tileName} at {key} (type {tile.tileType}).");
@@ -333,6 +365,7 @@ public class ActionCardInput : MonoBehaviour
 
         Debug.Log($"Stored update info for TownActionsDisplay");
     }
+
 
 
 }
