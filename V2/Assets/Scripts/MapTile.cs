@@ -27,5 +27,5 @@ public enum TileType
     GRASSLAND,
     FARMLAND,
     BUILDING,
-    RIVER
+    WATERBODY
 }

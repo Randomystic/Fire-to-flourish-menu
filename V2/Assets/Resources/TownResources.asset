@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86dad0a69920d6e45944ecd3354c89e6, type: 3}
+  m_Script: {fileID: 11500000, guid: a6e43b13ff662a14f8b5df6e86e976db, type: 3}
   m_Name: TownResources
   m_EditorClassIdentifier: 
   provisions: 12
   education: 20
-  population: 4000
   firefightingEquipment: 2
-  fireSafetyRating: 60
+  fireSafetyRating: 0
   windSpeed: 2
   temperatureSeason: 2
+  happiness: 15
+  averageFuelLoad: 2
