@@ -13,8 +13,8 @@ public class NarrativeScene : MonoBehaviour
     public VideoPlayer videoPlayer;
     public VideoClip[] videos;
 
-    int currentIndex = 0;
-    bool waiting;
+    private int currentIndex = 0;
+    private bool waiting;
 
     // // Dictionary for the diagloue
     // private Dictionary<int, string> dialogueLines = new Dictionary<int, string>()
@@ -25,9 +25,8 @@ public class NarrativeScene : MonoBehaviour
     //     { 4, "Dialogue 3" },
     // };
 
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         // ShowLine(currentIndex);
         
@@ -38,7 +37,7 @@ public class NarrativeScene : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -46,7 +45,7 @@ public class NarrativeScene : MonoBehaviour
         }
     }
 
-    void OnEnd(VideoPlayer vp)
+    private void OnEnd(VideoPlayer vp)
     {
         videoPlayer.Pause();
         waiting = true;

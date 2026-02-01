@@ -8,21 +8,23 @@ using UnityEngine.UI;
 public class CharacterSelect : MonoBehaviour
 {
     public Dictionary<int, string> selected = new Dictionary<int, string>();
-    int index = 1;
     public GameObject continueButton;
+    
     // public GameObject randomizeButton;
     [SerializeField] private TextMeshProUGUI confirmationText;
-    [SerializeField] GameObject charactersPanel;
-    [SerializeField] GameObject confirmationPanel;
+    [SerializeField] private GameObject charactersPanel;
+    [SerializeField] private GameObject confirmationPanel;
+    
+    private int characterIndex = 1;
 
     public void Select(GameObject button)
     {
-        selected[index] = button.name;
+        selected[characterIndex] = button.name;
         button.SetActive(false);
-        if (index == 6) {
+        if (characterIndex == 6) {
             ShowContinue();
         }
-        index++;
+        characterIndex++;
     }
 
     public void RandomizeCharacter()
@@ -41,7 +43,7 @@ public class CharacterSelect : MonoBehaviour
         }
 
         selected.Clear();
-        index = 1;
+        characterIndex = 1;
         
         for (int i = 1; i <= names.Count; i++)
             selected[i] = names[i - 1];
@@ -52,7 +54,7 @@ public class CharacterSelect : MonoBehaviour
     public void ShowCharacterCards()
     {
         selected.Clear();
-        index = 1;
+        characterIndex = 1;
 
         foreach (var button in charactersPanel.GetComponentsInChildren<Button>(true))
             button.gameObject.SetActive(true);
@@ -62,7 +64,7 @@ public class CharacterSelect : MonoBehaviour
     }
 
 
-    void ShowContinue()
+    private void ShowContinue()
     {
         continueButton.SetActive(true);
         string str = "Player Characters:\n\n";
@@ -84,14 +86,8 @@ public class CharacterSelect : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         continueButton.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

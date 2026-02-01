@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     //Singleton
-    public static SceneLoader SceneInstance {get; private set;}
+    public static SceneLoader sceneInstance { get; private set; }
     private string currentScene;
 
     private void Awake()
     {
-        if (SceneInstance != null && SceneInstance != this)
+        if (sceneInstance != null && sceneInstance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        SceneInstance = this;
+        sceneInstance = this;
         DontDestroyOnLoad(gameObject);
         currentScene = SceneManager.GetActiveScene().name;
     }
@@ -37,7 +37,5 @@ public class SceneLoader : MonoBehaviour
         }
     }
     public string GetCurrentScene() => currentScene;
-
-
     
 }

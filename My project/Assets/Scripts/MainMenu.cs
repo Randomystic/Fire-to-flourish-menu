@@ -9,8 +9,7 @@ public class MainMenu : MonoBehaviour
     public VideoPlayer videoPlayer;
     public GameObject menuImage;
     public GameObject menuButtons;
-
-
+    
     public void ExitButton()
     {
         Application.Quit();
@@ -23,14 +22,14 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Game Started");
     }
 
-    void Start()
+    private void Start()
     {
         menuImage.SetActive(false);
         menuButtons.SetActive(false);
         videoPlayer.loopPointReached += VideoFinished;
     }
 
-    void VideoFinished(VideoPlayer vidPlayer)
+    private void VideoFinished(VideoPlayer vidPlayer)
     {   
         Debug.Log("Image Switched");
         menuImage.SetActive(true);
