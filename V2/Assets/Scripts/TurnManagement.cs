@@ -14,6 +14,17 @@ public class TurnManagement : MonoBehaviour
     public ScrollRect cardScrollBar;
     public TextMeshProUGUI cardListText;
 
+    public int minutes;
+    public int seconds;
+
+    public TextMeshProUGUI timerText;
+
+    float time;
+    bool running;
+
+    public Button resetTimerButton;
+    public Button startTimerButton;
+
 
     public int currentTurn = 1;
     public int currentPhase = 1; // 1: Preparation, 2: Firebush, 3: Reflection
@@ -30,12 +41,40 @@ public class TurnManagement : MonoBehaviour
         currentPhase = 1;
         phaseText.text = "Current Phase: " + "Preparation";
         
+        time = minutes * 60 + seconds;
+        running = false;
+        UpdateDisplay();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!running) return;
+        
+        if (time <= 0) { 
+            time = 0; 
+            running = false; 
+            UpdateDisplay(); 
+            return; 
+        }
+
+        time -= Time.deltaTime;
+        if (time < 0) time = 0;
+        UpdateDisplay();
+
+        if (time <= 0) running = false;
     }
+
+
+    void UpdateDisplay()
+    {
+        int m = Mathf.FloorToInt(time / 60f);
+        int s = Mathf.FloorToInt(time % 60f);
+
+        timerText.text = m.ToString("00") + ":" + s.ToString("00");
+    }
+
 
     public void EndTurnButtonClicked()
     {
@@ -85,6 +124,20 @@ public class TurnManagement : MonoBehaviour
 
         
 
+    }
+
+    public void OnResetTimerButtonClicked()
+    {
+        running = false;
+        time = minutes * 60 + seconds;
+        UpdateDisplay();
+    }
+
+    public void OnStartTimerButtonClicked()
+    {
+        if (time <= 0) time = minutes * 60 + seconds;
+        running = true;
+        UpdateDisplay();
     }
 
 
