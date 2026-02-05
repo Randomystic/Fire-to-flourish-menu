@@ -25,7 +25,7 @@ public class HexagonalGrid : MonoBehaviour
         public float HexHeight => Mathf.Sqrt(3f) * hexRadius;
     }
 
-    [SerializeField] private HexData hexData;
+    [SerializeField] protected HexData hexData;
 
     private void Awake() {
         hexData.spriteRenderer = GetComponent<SpriteRenderer>();
@@ -53,13 +53,13 @@ public class HexagonalGrid : MonoBehaviour
 
     private Vector3 HexToWorld(int x, int y)
     {
-        float worldX = hexData.HexWidth * 0.75f * x;
-        float worldY = hexData.HexHeight * (y + (x % 2 == 0 ? 0.5f : 0f));
+        float worldX = hexData.HexWidth * 0.75f * x; // math idk... go do research
+        float worldY = hexData.HexHeight * (y + (x % 2 == 0 ? 0.5f : 0f)); // go do even more research
         return new Vector3(worldX, worldY, transform.position.z);
     }
 
     public void Dim(float alpha = 0.5f) {
-        if (!hexData.spriteRenderer)
+        if (!hexData.spriteRenderer || !hexData.isHoverable)
             return;
         
         Color og = hexData.originalColor;
@@ -67,7 +67,7 @@ public class HexagonalGrid : MonoBehaviour
     }
     
     public void UnDim() {
-        if (!hexData.spriteRenderer)
+        if (!hexData.spriteRenderer || !hexData.isHoverable)
             return;
         
         Color og = hexData.originalColor;
