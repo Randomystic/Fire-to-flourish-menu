@@ -18,15 +18,22 @@ public class HexagonalGrid : MonoBehaviour
         public bool snapInEditor = true;
 
         public SpriteRenderer spriteRenderer;
+        public Color originalColor;
+        public bool isHoverable = true;
+        
         public float HexWidth => 2f * hexRadius;
         public float HexHeight => Mathf.Sqrt(3f) * hexRadius;
     }
 
     [SerializeField] private HexData hexData;
 
+    private void Awake() {
+        hexData.spriteRenderer = GetComponent<SpriteRenderer>();
+        hexData.originalColor = hexData.spriteRenderer.color;
+    }
+
     private void OnEnable()
     {
-        hexData.spriteRenderer = GetComponent<SpriteRenderer>();
         UpdateHexSize();
     }
 
@@ -49,6 +56,22 @@ public class HexagonalGrid : MonoBehaviour
         float worldX = hexData.HexWidth * 0.75f * x;
         float worldY = hexData.HexHeight * (y + (x % 2 == 0 ? 0.5f : 0f));
         return new Vector3(worldX, worldY, transform.position.z);
+    }
+
+    public void Dim(float alpha = 0.5f) {
+        if (!hexData.spriteRenderer)
+            return;
+        
+        Color og = hexData.originalColor;
+        hexData.spriteRenderer.color = new Color(og.r, og.g, og.b, alpha); // TODO: Maybe instead of changing alpha I can mathematically make it dim so that the background doesn't show through
+    }
+    
+    public void UnDim() {
+        if (!hexData.spriteRenderer)
+            return;
+        
+        Color og = hexData.originalColor;
+        hexData.spriteRenderer.color = og;
     }
 }
 
