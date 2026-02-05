@@ -22,3 +22,13 @@ public class TileUpgrade {
     
     // TODO: Add other attribute upgrade perhaps?
 }
+
+public enum TileType
+{
+    FOREST,
+    GRASSLAND,
+    GROUNDLAND,
+    FARMLAND,
+    BUILDING,
+    WATERBODY
+}

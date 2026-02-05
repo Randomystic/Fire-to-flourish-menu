@@ -25,15 +25,12 @@ public class HexagonalGrid : MonoBehaviour
         public float HexHeight => Mathf.Sqrt(3f) * hexRadius;
     }
 
-    [SerializeField] protected HexData hexData;
-
-    private void Awake() {
-        hexData.spriteRenderer = GetComponent<SpriteRenderer>();
-        hexData.originalColor = hexData.spriteRenderer.color;
-    }
+    [SerializeField] protected HexData hexData = new HexData();
 
     private void OnEnable()
     {
+        hexData.spriteRenderer = GetComponent<SpriteRenderer>();
+        hexData.originalColor = hexData.spriteRenderer.color;
         UpdateHexSize();
     }
 
@@ -73,13 +70,4 @@ public class HexagonalGrid : MonoBehaviour
         Color og = hexData.originalColor;
         hexData.spriteRenderer.color = og;
     }
-}
-
-public enum TileType
-{
-    FOREST,
-    GRASSLAND,
-    FARMLAND,
-    BUILDING,
-    WATERBODY
 }
