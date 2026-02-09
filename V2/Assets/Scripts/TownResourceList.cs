@@ -13,6 +13,16 @@ public class TownResourceList : ScriptableObject
 
     public float averageFuelLoad = 2f;
 
+
+    [SerializeField, HideInInspector] private int oldProvisions;
+    [SerializeField, HideInInspector] private int oldEducation;
+    [SerializeField, HideInInspector] private int oldFirefightingEquipment;
+    [SerializeField, HideInInspector] private int oldFireSafetyRating;
+    [SerializeField, HideInInspector] private int oldWindSpeed;
+    [SerializeField, HideInInspector] private int oldTemperatureSeason;
+    [SerializeField, HideInInspector] private int oldHappiness;
+    [SerializeField, HideInInspector] private float oldAverageFuelLoad;
+
     public float CalculateFireSafety()
     {
         float result =
@@ -72,5 +82,28 @@ public class TownResourceList : ScriptableObject
         temperatureSeason = 2;
         happiness = 15;
         averageFuelLoad = 2f;
+    }
+
+    public void GetOldValuesBeforeTurn()
+    {
+        oldProvisions = provisions;
+        oldEducation = education;
+        oldFirefightingEquipment = firefightingEquipment;
+        oldFireSafetyRating = fireSafetyRating;
+        oldWindSpeed = windSpeed;
+        oldTemperatureSeason = temperatureSeason;
+        oldHappiness = happiness;
+    }
+
+    public string GetResourceSummary()
+    {
+
+        return $"Provisions: {oldProvisions} -> {provisions}\n" +
+               $"Education: {oldEducation} -> {education}\n" +
+               $"Firefighting Equipment: {oldFirefightingEquipment} -> {firefightingEquipment}\n" +
+               $"Fire Safety Rating: {oldFireSafetyRating} -> {fireSafetyRating}\n" +
+               $"Wind Speed: {oldWindSpeed} -> {windSpeed}\n" +
+               $"Temperature/Season: {oldTemperatureSeason} -> {temperatureSeason}\n" +
+               $"Happiness: {oldHappiness} -> {happiness}";
     }
 }
