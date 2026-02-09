@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da837571469cad49a70e7540bc2442b, type: 3}
+  m_Name: E10
+  m_EditorClassIdentifier: 
+  cardId: '#E10'
+  cardName: Emergency Declaration
+  cardDescription: 'This card can only be played if <2 Money.
+
+
+    Preparation:
+    Gain 2 Money. Lose 1 AP
+
+    Bushfire: Gain 2 Firefighting Equipment. Lose 6
+    Happiness'
+  keywords: 020000000000000001000000
+  baseEffects: []
+  phaseEffects:
+  - phase: 0
+    effects: []
+  - phase: 1
+    effects:
+    - resource: 6
+      mode: 0
+      amount: 2
+      multiplier: 0
+    - resource: 2
+      mode: 0
+      amount: -6
+      multiplier: 0
+  outcomeEffects: []

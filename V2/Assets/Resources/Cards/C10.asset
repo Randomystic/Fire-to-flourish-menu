@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da837571469cad49a70e7540bc2442b, type: 3}
+  m_Name: C10
+  m_EditorClassIdentifier: 
+  cardId: '#C10'
+  cardName: Distribute Provisions
+  cardDescription: Must have 10 Provisions or more to play this. Lose 10 Provisions.
+    Every other player gains 1 AP
+  keywords: 01000000
+  baseEffects:
+  - resource: 0
+    mode: 0
+    amount: -10
+    multiplier: 0
+  phaseEffects: []
+  outcomeEffects: []

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da837571469cad49a70e7540bc2442b, type: 3}
+  m_Name: A11
+  m_EditorClassIdentifier: 
+  cardId: '#A11'
+  cardName: United Community
+  cardDescription: Each player discards 1 card and draws 1 card.
+  keywords: 050000000100000002000000
+  baseEffects: []
+  phaseEffects: []
+  outcomeEffects: []

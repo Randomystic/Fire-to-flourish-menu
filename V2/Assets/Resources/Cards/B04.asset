@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da837571469cad49a70e7540bc2442b, type: 3}
+  m_Name: B04
+  m_EditorClassIdentifier: 
+  cardId: '#B04'
+  cardName: Fire Response Plan
+  cardDescription: '-1 Firefighting Equipment
+
+    Per turn, choose a tile on fire.
+    Roll a dice. If 5+, put out the chosen fire.'
+  keywords: 03000000
+  baseEffects:
+  - resource: 6
+    mode: 0
+    amount: -1
+    multiplier: 0
+  phaseEffects: []
+  outcomeEffects: []
