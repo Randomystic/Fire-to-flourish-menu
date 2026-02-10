@@ -14,16 +14,17 @@ public static class CardCsvImporter
     [MenuItem("Tools/Cards/Import Cards From CSV")]
     public static void ImportCardsFromCsv()
     {
-        // Pick file
+
+        
         string csvPath = EditorUtility.OpenFilePanel("Select cards CSV", Application.dataPath, "csv");
         if (string.IsNullOrEmpty(csvPath))
             return;
 
-        if (!File.Exists(csvPath))
-        {
-            Debug.LogError($"CSV not found: {csvPath}");
-            return;
-        }
+        // if (!File.Exists(csvPath))
+        // {
+        //     Debug.LogError($"CSV not found: {csvPath}");
+        //     return;
+        // }
 
         Directory.CreateDirectory(OutputFolder);
 
@@ -90,7 +91,7 @@ public static class CardCsvImporter
                 updated++;
             }
 
-            // Requires CardActionData.SetData(...) with base/phase/outcome fields (the version we discussed)
+            // Requires CardActionData.SetData(...) with base/phase/outcome fields to avoid losing data when updating from CSV
             asset.SetData(
                 id,
                 name,
@@ -110,9 +111,7 @@ public static class CardCsvImporter
         Debug.Log($"Import complete. Created: {created}, Updated: {updated}. Output: {OutputFolder}");
     }
 
-    // -----------------------------
     // Keyword parsing
-    // -----------------------------
     private static List<Keyword> ParseKeywords(string text)
     {
         var list = new List<Keyword>();
@@ -133,15 +132,12 @@ public static class CardCsvImporter
         return list;
     }
 
-    // -----------------------------
     // Effects parsing
-    // Supports:
     // - None
     // - Resource:+2;Resource:-1
     // - Resource:+X / Resource:-X
     // - (P) ... | (B) ...
     // - (1) ... | (2) ...
-    // -----------------------------
     private static void ParseEffects(
         string effectsText,
         out List<ResourceEffect> baseEffects,
@@ -261,9 +257,7 @@ public static class CardCsvImporter
         return list;
     }
 
-    // -----------------------------
-    // CSV parser (supports quoted commas + quoted newlines)
-    // -----------------------------
+    // CSV parser
     private static List<string[]> ParseCsv(string text)
     {
         var rows = new List<string[]>();

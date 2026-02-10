@@ -2,10 +2,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
+
 public class MouseManager : MonoBehaviour
 {
     private Tile lastHovered;
     private Tile lastClicked;
+
+    public Button mapButton;
 
     void Update()
     {
@@ -64,4 +70,9 @@ public class MouseManager : MonoBehaviour
         }
     }
     
+    public void OnMapButtonClicked()
+    {
+       SceneManager.LoadScene("GameDashboard");
+    }
+
 }

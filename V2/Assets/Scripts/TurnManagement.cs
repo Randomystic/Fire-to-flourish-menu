@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class TurnManagement : MonoBehaviour
@@ -15,6 +16,7 @@ public class TurnManagement : MonoBehaviour
     public TextMeshProUGUI cardListText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI townSummaryText;
+    public Button mapButton;
 
     [Header("Timer")]
     public int minutes;
@@ -161,14 +163,18 @@ public class TurnManagement : MonoBehaviour
     {
         TownResourceList town = Resources.Load<TownResourceList>(townResourcesPath);
 
-        // if (town == null)
-        // {
-        //     Debug.LogError($"Could not load TownResourceList at Resources/{townResourcesPath}.asset");
-        //     return false;
-        // }
-
-
         townSummaryText.text = town.GetResourceSummary();
-        Debug.Log("Current Town Resources:\n" + town.GetResourceSummary());
+        // Debug.Log("Current Town Resources:\n" + town.GetResourceSummary());
     }
+
+    public void OnMapButtonClicked()
+    {
+       SceneManager.LoadScene("MainMap");
+    }
+
+    public void OnNarrativeButtonClicked()
+    {
+       SceneManager.LoadScene("Narrative");
+    }
+    
 }

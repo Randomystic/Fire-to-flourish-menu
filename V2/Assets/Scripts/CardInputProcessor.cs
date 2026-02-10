@@ -9,12 +9,11 @@ public class CardInputProcessor : MonoBehaviour
     [SerializeField] private string townResourcesPath = "TownResources"; // TownResources.asset
     [SerializeField] private string cardsFolderPath = "Data/Cards/Generated"; // folder containing card assets
     
-    // Turn history: turn -> list of raw tokens
     private readonly Dictionary<int, List<string>> turnLog = new();
     private int currentTurn = 1;
 
     // Grammar: #ID optionally followed by up to 3 parentheses groups.
-    // Examples accepted:
+    // Examples:
     // #X01
     // #A10(P)
     // #A06(3)
@@ -24,10 +23,8 @@ public class CardInputProcessor : MonoBehaviour
         new Regex(@"^(#?[A-Za-z]\d{2})(\([^)]+\))*$",
             RegexOptions.Compiled);
 
-    /// <summary>
-    /// Validate + apply a whole input line for the current turn.
-    /// Returns true if applied; false if rejected.
-    /// </summary>
+    // Validate + apply a whole input line for the current turn.
+    // Returns true if applied; false if rejected.
     public bool SubmitTurn(string inputLine)
     {
         var errors = new List<string>();
@@ -121,10 +118,7 @@ public class CardInputProcessor : MonoBehaviour
         return true;
     }
 
-    // -----------------------------
     // Parsing
-    // -----------------------------
-
     private static bool TryParseToken(string token, out CardPlay play, out string error)
     {
         play = default;
@@ -148,7 +142,7 @@ public class CardInputProcessor : MonoBehaviour
         foreach (Match m in Regex.Matches(token, @"\(([^)]+)\)"))
             groups.Add(m.Groups[1].Value);
 
-        // Your grammar: #ID(P)(1)(3) etc. We interpret:
+        // example: #ID(P)(1)(3)
         // - Phase is a group equal to P or B (case-insensitive)
         // - Outcome is a group that is an int 1..6 (if card uses outcomes)
         // - X is a group that is an int (used for +X/-X effects)
@@ -173,8 +167,7 @@ public class CardInputProcessor : MonoBehaviour
             // Numeric group
             if (int.TryParse(g, out int n))
             {
-                // Temporarily store; we will resolve final assignment after we know card requirements.
-                // For minimal approach, we set:
+                // Temporarily store. will resolve final assignment after we know card requirements.
                 // - first numeric becomes outcome
                 // - second numeric becomes X
                 if (outcome == null) outcome = n;
@@ -289,10 +282,8 @@ public class CardInputProcessor : MonoBehaviour
         return false;
     }
 
-    // -----------------------------
-    // Applying effects
-    // -----------------------------
 
+    // Applying effects
     private static void ApplyCardPlay(TownResourceList town, CardPlay play)
     {
         // Apply base effects
@@ -345,10 +336,7 @@ public class CardInputProcessor : MonoBehaviour
         }
     }
 
-    // -----------------------------
     // Optional: expose history
-    // -----------------------------
-
     public string GetTurnLogAsText()
     {
         // Example output:
@@ -362,9 +350,7 @@ public class CardInputProcessor : MonoBehaviour
         return string.Join("\n", lines);
     }
 
-    // -----------------------------
     // Data struct for a parsed token
-    // -----------------------------
     private struct CardPlay
     {
         public string RawToken;
@@ -375,7 +361,7 @@ public class CardInputProcessor : MonoBehaviour
         public int? Outcome;
 
         // If token has only one numeric group, we store it in Outcome first.
-        // If token has two numeric groups, second becomes XValue.
+        // If it has two numeric groups, second becomes XValue.
         public int? XValue;
 
         public CardActionData Card;

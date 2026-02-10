@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleTilesScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/MainMap.unity
+    guid: 9dc2e8789ac0d9943a4441c466ef278f
+  - enabled: 1
+    path: Assets/Scenes/GameDashboard.unity
+    guid: dd88e67d621b69d4385e3b15025623c5
+  - enabled: 1
+    path: Assets/Scenes/Narrative.unity
+    guid: cf1f34a640f778547b0a3b01eb7d3731
   m_configObjects: {}
