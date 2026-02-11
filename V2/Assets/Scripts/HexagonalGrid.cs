@@ -23,6 +23,11 @@ public class HexagonalGrid : MonoBehaviour
         
         public float HexWidth => 2f * hexRadius;
         public float HexHeight => Mathf.Sqrt(3f) * hexRadius;
+
+
+        // public int GridX => hexData.x;
+        // public int GridY => hexData.y;
+
     }
 
     [SerializeField] protected HexData hexData = new HexData();
