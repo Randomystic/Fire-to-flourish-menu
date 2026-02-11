@@ -176,5 +176,11 @@ public class TurnManagement : MonoBehaviour
     {
        SceneManager.LoadScene("Narrative");
     }
+
+    public void OnGameSummaryButtonClicked()
+    {
+       SceneManager.LoadScene("GameSummary");
+    }
+
     
 }

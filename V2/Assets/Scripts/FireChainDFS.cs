@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,6 +52,7 @@ public static class FireChainDFS
 
     private static void DFSComponent(
         string currentId,
+
         Dictionary<string, Vector3Int> fireTiles,
         Dictionary<Vector3Int, string> coordToId,
         HashSet<string> visited,

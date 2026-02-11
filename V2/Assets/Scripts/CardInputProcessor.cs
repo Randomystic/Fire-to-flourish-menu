@@ -10,6 +10,10 @@ public class CardInputProcessor : MonoBehaviour
     [SerializeField] private string cardsFolderPath = "Data/Cards/Generated"; // folder containing card assets
     
     private readonly Dictionary<int, List<string>> turnLog = new();
+
+    public IReadOnlyDictionary<int, List<string>> GetTurnLog() => turnLog;
+
+
     private int currentTurn = 1;
 
     // Grammar: #ID optionally followed by up to 3 parentheses groups.

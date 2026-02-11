@@ -17,7 +17,7 @@ MonoBehaviour:
   apCost: 2
   moneyCost: 0
   cardDescription: Add 5 Education.
-  keywords: 
+  keywords: 00000000
   baseEffects:
   - resource: 1
     mode: 0

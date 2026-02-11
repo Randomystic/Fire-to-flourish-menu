@@ -1,4 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameOverEvaluator : MonoBehaviour
 {
@@ -7,7 +12,15 @@ public class GameOverEvaluator : MonoBehaviour
     // =========================
 
     [Header("Required (you already have this asset)")]
-    [SerializeField] private TownResourceList townResources;
+    [SerializeField] private string townResourcesPath = "TownResources"; // TownResources.asset
+
+    [SerializeField] private TurnLogGradeStats stats;
+
+    [Header("UI")]
+    public TextMeshProUGUI townSummaryText;
+    public TextMeshProUGUI endConditionsText;
+    public TextMeshProUGUI gradeScoresText;
+    public TextMeshProUGUI finalScoreText;
 
     [Header("End Condition Inputs (NOT created yet in your project)")]
     [SerializeField] private int totalCulturalSites = 3;
@@ -20,9 +33,9 @@ public class GameOverEvaluator : MonoBehaviour
     [Tooltip("Longest chain of linked fires currently on the board.")]
     [SerializeField] private int longestLinkedFireChain = 0;
 
-    [Header("Grade Inputs (NOT created yet in your project)")]
+    [Header("Grade Inputs")]
     [SerializeField] private int totalCulturalActionCards = 0;
-    [SerializeField] private int uniqueCulturalActionCardsPlayed = 0;
+    [SerializeField] private int uniqueCulturalActionCardsUsed = 0;
 
     [SerializeField] private int numCulturalCardsPlayedIndigenousLeader = 0; // clamp 0..6
     [SerializeField] private int numPlayersUsedCulturalCard = 0;
@@ -48,15 +61,24 @@ public class GameOverEvaluator : MonoBehaviour
     private void OnEnable()
     {
         EvaluateAndLog();
+        
+
     }
+
+
 
     public void EvaluateAndLog()
     {
+        TownResourceList townResources = Resources.Load<TownResourceList>(townResourcesPath);
+
+
         if (townResources == null)
         {
             Debug.LogError("[GAME OVER] TownResourceList reference is missing.");
             return;
         }
+
+        townSummaryText.text = townResources.GetResourceSummary();
 
         // Keep derived rating up to date
         float fireRiskRating = townResources.CalculateFireSafety();
@@ -83,9 +105,40 @@ public class GameOverEvaluator : MonoBehaviour
             $"- Uncontrolled Fire: {uncontrolledFire} (Longest linked chain = {longestLinkedFireChain})"
         );
 
+        endConditionsText.text =
+            "End Conditions\n" +
+            $"- Irrepairable Cultural Damage: {irrepairableCulturalDamage} (Destroyed {destroyedCulturalSites}/{totalCulturalSites})\n" +
+            $"- Infrastructure Collapse: {infrastructureCollapse} (Buildings damaged+destroyed {damagedBuildingTiles + destroyedBuildingTiles}/{totalBuildingTiles} = {(buildingDamageRatio * 100f):0.#}%)\n" +
+            $"- Uncontrolled Fire: {uncontrolledFire} (Longest linked chain = {longestLinkedFireChain})";
+
         // -------------------------
         // 2) GAME END GRADES
         // -------------------------
+
+        stats.Refresh();
+
+        totalCulturalActionCards = stats.TotalCulturalActionCards;
+        uniqueCulturalActionCardsUsed = stats.uniqueCulturalActionCardsUsed;
+
+        numCulturalCardsPlayedIndigenousLeader = stats.NumCulturalCardsPlayedIndigenousLeader;
+        numPlayersUsedCulturalCard = stats.NumPlayersUsedCulturalCard;
+        numPlayers = stats.NumPlayers;
+
+        uniqueCollabActionCardsUsed = stats.UniqueCollabActionCardsUsed;
+        totalUniqueCollabActionCardsUsed = stats.TotalUniqueCollabActionCardsUsed;
+        numPlayersUsedCollabCard = stats.NumPlayersUsedCollabCard;
+
+        uniquePreparednessActionCardsUsed = stats.UniquePreparednessActionCardsUsed;
+        totalUniquePreparednessActionCards = stats.TotalUniquePreparednessActionCards;
+
+        uniqueActionTypesUsed = stats.UniqueActionTypesUsed;
+        totalActionTypes = stats.TotalActionTypes;
+
+        totalAPUsed = stats.TotalAPUsed;
+        totalTurns = stats.TotalTurns;
+
+
+
 
         // CulturalSiteIntegrity = 100 * (Undamaged / Total)
         int undamagedCulturalSites = Mathf.Max(0, totalCulturalSites - destroyedCulturalSites);
@@ -93,7 +146,7 @@ public class GameOverEvaluator : MonoBehaviour
 
         // A) Cultural safety, integrity and inclusion :contentReference[oaicite:6]{index=6}
         float culturalCardCoverage01 = Clamp01((totalCulturalActionCards > 0)
-            ? (uniqueCulturalActionCardsPlayed / (float)totalCulturalActionCards) / 0.75f
+            ? (uniqueCulturalActionCardsUsed / (float)totalCulturalActionCards) / 0.75f
             : 0f);
         float gradeCulturalSafety =
             0.6f * (culturalSiteIntegrity / 100f) +
@@ -110,9 +163,11 @@ public class GameOverEvaluator : MonoBehaviour
         gradeIndigenousKnowledge *= 100f;
 
         // CollaborativeScore definition :contentReference[oaicite:8]{index=8}
+        // CollaborativeScore definition
         float collabScore01 =
             0.5f * Ratio(numPlayersUsedCollabCard, numPlayers) +
-            0.5f * Ratio(uniqueCollabActionCardsUsed, totalUniqueCollabActionCardsUsed);
+            0.5f * Mathf.Clamp((Ratio(uniqueCollabActionCardsUsed, totalUniqueCollabActionCardsUsed) / 0.75f), 0f, 1f);
+
         float collaborativeScore = collabScore01 * 100f;
 
         // C) Building and maintaining networks :contentReference[oaicite:9]{index=9} :contentReference[oaicite:10]{index=10}
@@ -166,6 +221,15 @@ public class GameOverEvaluator : MonoBehaviour
             $"- Social innovation: {gradeSocialInnovation:0.#}"
         );
 
+        gradeScoresText.text =
+            "Grade Scores\n" +
+            $"- Cultural safety, integrity and inclusion: {gradeCulturalSafety:0.#}\n" +
+            $"- Indigenous knowledge, experience and practice: {gradeIndigenousKnowledge:0.#}\n" +
+            $"- Building and maintaining networks: {gradeNetworks:0.#}\n" +
+            $"- Community disaster resilience knowledge: {gradeDisasterResilience:0.#}\n" +
+            $"- Community led action: {gradeCommunityLedAction:0.#}\n" +
+            $"- Social innovation: {gradeSocialInnovation:0.#}";
+
         // -------------------------
         // 3) FINAL SCORE + LETTER
         // -------------------------
@@ -178,6 +242,8 @@ public class GameOverEvaluator : MonoBehaviour
         string letter = ToLetterGrade(finalScore); // thresholds :contentReference[oaicite:16]{index=16}
 
         Debug.Log($"[GAME OVER] Final\n- Score: {finalScore:0.#}/100\n- Grade: {letter}");
+
+        finalScoreText.text = $"Final\n- Score: {finalScore:0.#}/100\n- Grade: {letter}";
     }
 
     // =========================
