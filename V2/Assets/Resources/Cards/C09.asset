@@ -27,4 +27,16 @@ MonoBehaviour:
   - phase: 1
     effects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: (P)FuelDelta(-2) (T=2) (D=0)|(B)FireImmuneTile (T=1) (D=0)
+  baseTileEffects: []
+  phaseTileEffects:
+  - phase: 0
+    effects:
+    - type: 1
+      target: 0
+      args: feffffff000000000200000000000000
+  - phase: 1
+    effects:
+    - type: 5
+      target: 0
+      args: 00000000000000000000000000000000
+  outcomeTileEffects: []

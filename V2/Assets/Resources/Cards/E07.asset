@@ -26,4 +26,9 @@ MonoBehaviour:
     multiplier: 0
   phaseResourceEffects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: IgniteMod(-40) (T=Global) (D=2)|SpreadMod(-40) (T=Global) (D=2)
+  baseTileEffects:
+  - type: 3
+    target: 1
+    args: d8ffffff000000000000000002000000
+  phaseTileEffects: []
+  outcomeTileEffects: []

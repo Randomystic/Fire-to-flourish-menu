@@ -22,4 +22,9 @@ MonoBehaviour:
   baseResourceEffects: []
   phaseResourceEffects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: FireReduce(-1,0) (T=2) (D=0)|FireReduce(-1,0) (T=3) (D=0)
+  baseTileEffects:
+  - type: 2
+    target: 0
+    args: ffffffff000000000200000000000000
+  phaseTileEffects: []
+  outcomeTileEffects: []

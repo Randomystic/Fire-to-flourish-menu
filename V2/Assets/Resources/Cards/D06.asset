@@ -23,4 +23,9 @@ MonoBehaviour:
   baseResourceEffects: []
   phaseResourceEffects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: FireImmuneTile (T=1) (D=1)|FireImmuneTile (T=1) (D=3)
+  baseTileEffects:
+  - type: 5
+    target: 0
+    args: 00000000000000000100000003000000
+  phaseTileEffects: []
+  outcomeTileEffects: []

@@ -35,4 +35,9 @@ MonoBehaviour:
       amount: -1
       multiplier: 0
   outcomeResourceEffects: []
-  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)
+  baseTileEffects:
+  - type: 2
+    target: 0
+    args: feffffff000000000100000000000000
+  phaseTileEffects: []
+  outcomeTileEffects: []

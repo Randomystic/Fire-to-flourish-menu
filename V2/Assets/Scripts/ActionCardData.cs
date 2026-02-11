@@ -35,6 +35,32 @@ public enum EffectValueMode
     UseInput // use input X (from GM) * Multiplier
 }
 
+public enum TileEffectType
+{
+    None,
+    FuelDelta,
+    FireReduce,
+    IgniteMod,
+    SpreadMod,
+    FireImmuneTile,
+    PreventSpreadTile,
+    BuildingDevelop
+}
+
+// What "T=" means for mods.
+// Numeric tiles count still comes from TileEffect.Args[2] (t).
+public enum TileTarget
+{
+    Tile,       // single chosen tile
+    Global,     // whole map/global rule
+    Farmland,
+    Building,
+    Forest,
+    Grassland,
+    Groundland,
+    Waterbody
+}
+
 [CreateAssetMenu(fileName = "NewActionCard", menuName = "Cards/ActionCard")]
 public class CardActionData : ScriptableObject
 {
@@ -53,18 +79,14 @@ public class CardActionData : ScriptableObject
     [SerializeField] private List<Keyword> keywords = new();
 
     [Header("Resource Effects")]
-    [Tooltip("Always applied when the card is logged as played.")]
     [SerializeField] private List<ResourceEffect> baseResourceEffects = new();
-
-    [Tooltip("Applied only when a phase is supplied in input: (P) or (B).")]
-    [SerializeField] private List<PhaseEffectBlock> phaseResourceEffects = new();
-
-    [Tooltip("Applied only when an outcome is supplied in input: (1..6) or coin (1|2).")]
-    [SerializeField] private List<OutcomeEffectBlock> outcomeResourceEffects = new();
+    [SerializeField] private List<PhaseResourceEffects> phaseResourceEffects = new();
+    [SerializeField] private List<OutcomeResourceEffects> outcomeResourceEffects = new();
 
     [Header("Tile Effects")]
-    [Tooltip("Raw tile effects text from CSV (kept as-is for minimal approach).")]
-    [SerializeField] private string tileEffectsRaw = "None";
+    [SerializeField] private List<TileEffect> baseTileEffects = new();
+    [SerializeField] private List<PhaseTileEffects> phaseTileEffects = new();
+    [SerializeField] private List<OutcomeTileEffects> outcomeTileEffects = new();
 
     public string CardId => cardId;
     public string CardName => cardName;
@@ -74,20 +96,15 @@ public class CardActionData : ScriptableObject
 
     public IReadOnlyList<Keyword> Keywords => keywords;
 
-    // New preferred names
     public IReadOnlyList<ResourceEffect> BaseResourceEffects => baseResourceEffects;
-    public IReadOnlyList<PhaseEffectBlock> PhaseResourceEffects => phaseResourceEffects;
-    public IReadOnlyList<OutcomeEffectBlock> OutcomeResourceEffects => outcomeResourceEffects;
+    public IReadOnlyList<PhaseResourceEffects> PhaseResourceEffects => phaseResourceEffects;
+    public IReadOnlyList<OutcomeResourceEffects> OutcomeResourceEffects => outcomeResourceEffects;
 
-    public string TileEffectsRaw => tileEffectsRaw;
-
-    // Backwards-compatible names (so existing CardInputProcessor keeps working)
-    public IReadOnlyList<ResourceEffect> BaseEffects => baseResourceEffects;
-    public IReadOnlyList<PhaseEffectBlock> PhaseEffects => phaseResourceEffects;
-    public IReadOnlyList<OutcomeEffectBlock> OutcomeEffects => outcomeResourceEffects;
+    public IReadOnlyList<TileEffect> BaseTileEffects => baseTileEffects;
+    public IReadOnlyList<PhaseTileEffects> PhaseTileEffects => phaseTileEffects;
+    public IReadOnlyList<OutcomeTileEffects> OutcomeTileEffects => outcomeTileEffects;
 
 #if UNITY_EDITOR
-    // Minimal setter so an importer can populate assets.
     public void SetData(
         string id,
         string name,
@@ -95,10 +112,12 @@ public class CardActionData : ScriptableObject
         int money,
         string desc,
         List<Keyword> keys,
-        List<ResourceEffect> baseFx,
-        List<PhaseEffectBlock> phaseFx,
-        List<OutcomeEffectBlock> outcomeFx,
-        string tileFxRaw)
+        List<ResourceEffect> baseResFx,
+        List<PhaseResourceEffects> phaseResFx,
+        List<OutcomeResourceEffects> outcomeResFx,
+        List<TileEffect> baseTileFx,
+        List<PhaseTileEffects> phaseTileFx,
+        List<OutcomeTileEffects> outcomeTileFx)
     {
         cardId = id;
         cardName = name;
@@ -109,11 +128,13 @@ public class CardActionData : ScriptableObject
         cardDescription = desc;
         keywords = keys ?? new List<Keyword>();
 
-        baseResourceEffects = baseFx ?? new List<ResourceEffect>();
-        phaseResourceEffects = phaseFx ?? new List<PhaseEffectBlock>();
-        outcomeResourceEffects = outcomeFx ?? new List<OutcomeEffectBlock>();
+        baseResourceEffects = baseResFx ?? new List<ResourceEffect>();
+        phaseResourceEffects = phaseResFx ?? new List<PhaseResourceEffects>();
+        outcomeResourceEffects = outcomeResFx ?? new List<OutcomeResourceEffects>();
 
-        tileEffectsRaw = string.IsNullOrWhiteSpace(tileFxRaw) ? "None" : tileFxRaw.Trim();
+        baseTileEffects = baseTileFx ?? new List<TileEffect>();
+        phaseTileEffects = phaseTileFx ?? new List<PhaseTileEffects>();
+        outcomeTileEffects = outcomeTileFx ?? new List<OutcomeTileEffects>();
     }
 #endif
 }
@@ -123,17 +144,10 @@ public struct ResourceEffect
 {
     public ResourceType resource;
     public EffectValueMode mode;
+    public int amount;      // Fixed
+    public int multiplier;  // UseInput
 
-    [Tooltip("Used when mode == Fixed")]
-    public int amount;
-
-    [Tooltip("Used when mode == UseInput. Typically +1 or -1.")]
-    public int multiplier;
-
-    public int Resolve(int inputX)
-    {
-        return mode == EffectValueMode.Fixed ? amount : inputX * multiplier;
-    }
+    public int Resolve(int inputX) => mode == EffectValueMode.Fixed ? amount : inputX * multiplier;
 
     public static ResourceEffect Fixed(ResourceType r, int amount)
         => new ResourceEffect { resource = r, mode = EffectValueMode.Fixed, amount = amount, multiplier = 0 };
@@ -143,16 +157,50 @@ public struct ResourceEffect
 }
 
 [Serializable]
-public struct PhaseEffectBlock
+public struct PhaseResourceEffects
 {
     public Phase phase;
     public List<ResourceEffect> effects;
 }
 
 [Serializable]
-public struct OutcomeEffectBlock
+public struct OutcomeResourceEffects
 {
-    [Tooltip("Outcome number: 1..6 (or coin: 1..2)")]
-    public int outcome;
+    public int outcome; // 1..6 (or 1..2 for coin)
     public List<ResourceEffect> effects;
+}
+
+/// <summary>
+/// Minimal ordered args:
+/// Args[0] = v (value delta)       e.g. -2, -1, +1
+/// Args[1] = s (stage filter)      FireReduce only: 0 all, 1, 2; otherwise 0
+/// Args[2] = t (tiles count)       int; use -1 for X
+/// Args[3] = d (duration)          0 this phase, 1 next, 2 two turns, 3 three turns...
+/// Extra target used by Ignite/Spread mods (Tile/Global/Farmland/etc)
+/// </summary>
+[Serializable]
+public struct TileEffect
+{
+    public TileEffectType type;
+    public TileTarget target;   // only meaningful for IgniteMod/SpreadMod; default Tile
+    public List<int> args;      // must be length 4
+
+    public int V => args != null && args.Count > 0 ? args[0] : 0;
+    public int S => args != null && args.Count > 1 ? args[1] : 0;
+    public int T => args != null && args.Count > 2 ? args[2] : 0;
+    public int D => args != null && args.Count > 3 ? args[3] : 0;
+}
+
+[Serializable]
+public struct PhaseTileEffects
+{
+    public Phase phase;
+    public List<TileEffect> effects;
+}
+
+[Serializable]
+public struct OutcomeTileEffects
+{
+    public int outcome;
+    public List<TileEffect> effects;
 }

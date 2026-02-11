@@ -39,4 +39,6 @@ MonoBehaviour:
       mode: 0
       amount: -6
       multiplier: 0
-  tileEffectsRaw: None|PreventSpreadTile (T=1) (D=1)
+  baseTileEffects: []
+  phaseTileEffects: []
+  outcomeTileEffects: []

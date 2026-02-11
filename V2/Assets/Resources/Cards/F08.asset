@@ -34,4 +34,6 @@ MonoBehaviour:
       mode: 0
       amount: -4
       multiplier: 0
-  tileEffectsRaw: None
+  baseTileEffects: []
+  phaseTileEffects: []
+  outcomeTileEffects: []

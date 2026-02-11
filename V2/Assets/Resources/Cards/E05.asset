@@ -21,4 +21,9 @@ MonoBehaviour:
   baseResourceEffects: []
   phaseResourceEffects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: BuildingDevelop(3) (T=1) (D=0)
+  baseTileEffects:
+  - type: 7
+    target: 0
+    args: 03000000000000000100000000000000
+  phaseTileEffects: []
+  outcomeTileEffects: []

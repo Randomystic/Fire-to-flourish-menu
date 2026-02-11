@@ -209,7 +209,7 @@ public class CardInputProcessor : MonoBehaviour
         error = "";
 
         // If card has phase effects, require phase
-        bool cardUsesPhase = card.PhaseEffects != null && card.PhaseEffects.Count > 0;
+        bool cardUsesPhase = card.PhaseResourceEffects != null && card.PhaseResourceEffects.Count > 0;
         if (cardUsesPhase && play.Phase == null)
         {
             error = "Card requires a phase selector: add (P) or (B).";
@@ -217,7 +217,7 @@ public class CardInputProcessor : MonoBehaviour
         }
 
         // If card has outcome effects, require outcome number
-        bool cardUsesOutcome = card.OutcomeEffects != null && card.OutcomeEffects.Count > 0;
+        bool cardUsesOutcome = card.OutcomeResourceEffects != null && card.OutcomeResourceEffects.Count > 0;
         if (cardUsesOutcome && play.Outcome == null)
         {
             error = "Card requires an outcome selector: add (1) or (2) (or 1..6).";
@@ -257,7 +257,7 @@ public class CardInputProcessor : MonoBehaviour
     private static bool CardNeedsX(CardActionData card, CardPlay play)
     {
         // Base effects
-        if (ListNeedsX(card.BaseEffects))
+        if (ListNeedsX(card.BaseResourceEffects))
 
             return true;
 
@@ -266,7 +266,7 @@ public class CardInputProcessor : MonoBehaviour
         if (play.Phase != null)
         {
 
-            foreach (var pb in card.PhaseEffects)
+            foreach (var pb in card.PhaseResourceEffects)
             {
 
                 if (pb.phase == play.Phase.Value && ListNeedsX(pb.effects))
@@ -277,7 +277,7 @@ public class CardInputProcessor : MonoBehaviour
         // Outcome effects
         if (play.Outcome != null)
         {
-            foreach (var ob in card.OutcomeEffects)
+            foreach (var ob in card.OutcomeResourceEffects)
             {
        
                 if (ob.outcome == play.Outcome.Value && ListNeedsX(ob.effects))
@@ -311,13 +311,13 @@ public class CardInputProcessor : MonoBehaviour
     {
         // Apply base effects
 
-        ApplyEffectList(town, play.Card.BaseEffects, play.GetResolvedX() ?? 0);
+        ApplyEffectList(town, play.Card.BaseResourceEffects, play.GetResolvedX() ?? 0);
 
         // Apply phase effects (if specified)
         if (play.Phase != null)
         {
 
-            foreach (var pb in play.Card.PhaseEffects)
+            foreach (var pb in play.Card.PhaseResourceEffects)
             {
 
                 if (pb.phase == play.Phase.Value)
@@ -330,7 +330,7 @@ public class CardInputProcessor : MonoBehaviour
         if (play.Outcome != null)
         {
           
-            foreach (var ob in play.Card.OutcomeEffects)
+            foreach (var ob in play.Card.OutcomeResourceEffects)
             {
                 if (ob.outcome == play.Outcome.Value)
                     ApplyEffectList(town, ob.effects, play.GetResolvedX() ?? 0);
@@ -412,7 +412,7 @@ public class CardInputProcessor : MonoBehaviour
             // - If card has outcomeEffects, treat Outcome as outcome, otherwise treat Outcome as X.
             if (Outcome == null) return null;
 
-            bool cardUsesOutcome = Card != null && Card.OutcomeEffects != null && Card.OutcomeEffects.Count > 0;
+            bool cardUsesOutcome = Card != null && Card.OutcomeResourceEffects != null && Card.OutcomeResourceEffects.Count > 0;
 
             return cardUsesOutcome ? null : Outcome;
             

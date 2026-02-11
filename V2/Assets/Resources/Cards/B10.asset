@@ -28,4 +28,6 @@ MonoBehaviour:
   - phase: 1
     effects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: None
+  baseTileEffects: []
+  phaseTileEffects: []
+  outcomeTileEffects: []

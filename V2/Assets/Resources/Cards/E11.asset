@@ -34,4 +34,9 @@ MonoBehaviour:
     multiplier: 0
   phaseResourceEffects: []
   outcomeResourceEffects: []
-  tileEffectsRaw: FuelDelta(-2) (T=1) (D=0)
+  baseTileEffects:
+  - type: 1
+    target: 0
+    args: feffffff000000000100000000000000
+  phaseTileEffects: []
+  outcomeTileEffects: []
