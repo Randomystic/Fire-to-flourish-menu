@@ -1088,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12462e6d8efa754c838c5f20edf4967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapRootName: Map
+  mapRootName: Map(Clone)
   culturalSiteName: Indigenous Land
   expectedCulturalSites: 3
 --- !u!1 &1633306672

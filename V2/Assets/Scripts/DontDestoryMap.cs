@@ -1,27 +1,29 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.SceneManagement;
 
 public class DontDestroyMap : MonoBehaviour
 {
-    [Header("Visibility")]
+    [Header("Scene Settings")]
     [SerializeField] private string mainMapSceneName = "MainMap";
+
+    [Header("Auto Load Settings")]
+    [SerializeField] private string mapPrefabResourcesPath = "Map"; 
+    // Put Map prefab inside: Assets/Resources/Map.prefab
+
+    private static DontDestroyMap instance;
 
     private void Awake()
     {
-        // Prevent duplicate persistent Maps
-        var existing = GameObject.Find(gameObject.name);
-        if (existing != null && existing != gameObject && existing.scene.name != null)
+        // Singleton protection
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
+        instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Apply visibility for whatever scene we start in
         ApplyVisibility(SceneManager.GetActiveScene().name);
     }
 
@@ -44,12 +46,41 @@ public class DontDestroyMap : MonoBehaviour
     {
         bool shouldBeVisible = sceneName == mainMapSceneName;
 
-        // Hide/show visuals
         foreach (var r in GetComponentsInChildren<Renderer>(true))
             r.enabled = shouldBeVisible;
 
-        // Optional: prevent interactions in non-MainMap scenes
         foreach (var c in GetComponentsInChildren<Collider2D>(true))
             c.enabled = shouldBeVisible;
+    }
+
+
+    // Auto-load Map if scene starts without it
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void EnsureMapExists()
+    {
+        if (instance != null) return;
+
+        DontDestroyMap existing = FindObjectOfType<DontDestroyMap>();
+        if (existing != null)
+        {
+            instance = existing;
+            return;
+        }
+
+        GameObject prefab = Resources.Load<GameObject>("Map");
+        if (prefab == null)
+        {
+            Debug.LogError("[DontDestroyMap] Could not find Map prefab in Resources/Map");
+            return;
+        }
+
+        GameObject mapInstance = Instantiate(prefab);
+        instance = mapInstance.GetComponent<DontDestroyMap>();
+
+        if (instance == null)
+        {
+            Debug.LogError("[DontDestroyMap] Map prefab is missing DontDestroyMap component.");
+        }
     }
 }
