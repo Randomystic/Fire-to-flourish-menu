@@ -7,9 +7,10 @@ public class TileData
 {
     public string tileName;
     public TileType tileType;
-    public bool onFire;
-    public bool burnt;
-    public int fuelLoad;
+    public int onFire = 0; // 0 = not on fire, 1 = on fire, 2 = heavily on fire
+    public bool destroyed = false; 
+    public bool damaged = false; 
+    public int fuelLoad = 0;
     public int currentTileLevel = 0;
 
     public List<TileUpgrade> upgrades;

@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   townResourcesPath: TownResources
-  stats: {fileID: 1955875382}
+  gradeStats: {fileID: 1955875382}
+  mapStats: {fileID: 1611983337}
   townSummaryText: {fileID: 204184378}
   endConditionsText: {fileID: 724009642}
   gradeScoresText: {fileID: 2052485817}
@@ -192,6 +193,7 @@ Transform:
   m_Children:
   - {fileID: 1955875383}
   - {fileID: 1633306674}
+  - {fileID: 1611983336}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &157616563
@@ -1042,6 +1044,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273041517}
   m_CullTransparentMesh: 1
+--- !u!1 &1611983335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1611983336}
+  - component: {fileID: 1611983337}
+  m_Layer: 0
+  m_Name: MapEndConditionStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1611983336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611983335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 43552650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1611983337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611983335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12462e6d8efa754c838c5f20edf4967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapRootName: Map
+  culturalSiteName: Indigenous Land
+  expectedCulturalSites: 3
 --- !u!1 &1633306672
 GameObject:
   m_ObjectHideFlags: 0

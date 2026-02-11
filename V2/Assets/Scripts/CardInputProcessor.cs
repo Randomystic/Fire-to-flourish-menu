@@ -23,6 +23,8 @@ public class CardInputProcessor : MonoBehaviour
     // #A06(3)
     // #F10(B)(3)
     // #F08(P)(1)
+
+
     private static readonly Regex TokenRegex =
         new Regex(@"^(#?[A-Za-z]\d{2})(\([^)]+\))*$",
             RegexOptions.Compiled);
@@ -56,7 +58,7 @@ public class CardInputProcessor : MonoBehaviour
             return false;
         }
 
-        // Parse + validate all tokens first
+        // Parse and validate all the tokens first
         for (int i = 0; i < rawTokens.Length; i++)
         {
             string token = rawTokens[i].Trim();
@@ -69,6 +71,7 @@ public class CardInputProcessor : MonoBehaviour
             }
 
             // Load card asset by ID (we assume asset name equals ID without '#', as importer saved)
+
             // Example: #F10 -> Resources/Data/Cards/Generated/F10
             string cardResourcePath = $"{cardsFolderPath}/{play.CardIdSansHash}";
             CardActionData card = Resources.Load<CardActionData>(cardResourcePath);
@@ -122,6 +125,7 @@ public class CardInputProcessor : MonoBehaviour
         return true;
     }
 
+
     // Parsing
     private static bool TryParseToken(string token, out CardPlay play, out string error)
     {
@@ -146,10 +150,13 @@ public class CardInputProcessor : MonoBehaviour
         foreach (Match m in Regex.Matches(token, @"\(([^)]+)\)"))
             groups.Add(m.Groups[1].Value);
 
+
         // example: #ID(P)(1)(3)
-        // - Phase is a group equal to P or B (case-insensitive)
-        // - Outcome is a group that is an int 1..6 (if card uses outcomes)
-        // - X is a group that is an int (used for +X/-X effects)
+        // Phase is a group equal to P or B (case-insensitive)
+        // Outcome is a group that is an int 1..6 (if card uses outcomes)
+        // X is a group that is an int (used for +X/-X effects)
+
+
         // If multiple ints exist, last int becomes X unless card expects outcome without X.
         Phase? phase = null;
         int? outcome = null;
@@ -218,10 +225,8 @@ public class CardInputProcessor : MonoBehaviour
         }
 
         // If any effect uses input X (base or selected phase/outcome), require XValue.
-        // We do a minimal check by scanning:
-        // - baseEffects
-        // - selected phase effects (if any)
-        // - selected outcome effects (if any)
+        // We do a minimal check by scanning the base effects, selected phase effects, and selected outcome effects
+        
         bool needsX = CardNeedsX(card, play);
         if (needsX && play.GetResolvedX() == null)
         {
@@ -243,20 +248,27 @@ public class CardInputProcessor : MonoBehaviour
             return false;
         }
 
+
         return true;
     }
+
+
 
     private static bool CardNeedsX(CardActionData card, CardPlay play)
     {
         // Base effects
         if (ListNeedsX(card.BaseEffects))
+
             return true;
+
 
         // Phase effects
         if (play.Phase != null)
         {
+
             foreach (var pb in card.PhaseEffects)
             {
+
                 if (pb.phase == play.Phase.Value && ListNeedsX(pb.effects))
                     return true;
             }
@@ -267,19 +279,26 @@ public class CardInputProcessor : MonoBehaviour
         {
             foreach (var ob in card.OutcomeEffects)
             {
+       
                 if (ob.outcome == play.Outcome.Value && ListNeedsX(ob.effects))
                     return true;
             }
         }
 
+
         return false;
+
+
     }
+
+
 
     private static bool ListNeedsX(IReadOnlyList<ResourceEffect> list)
     {
         if (list == null) return false;
         for (int i = 0; i < list.Count; i++)
         {
+
             if (list[i].mode == EffectValueMode.UseInput)
                 return true;
         }
@@ -291,31 +310,39 @@ public class CardInputProcessor : MonoBehaviour
     private static void ApplyCardPlay(TownResourceList town, CardPlay play)
     {
         // Apply base effects
+
         ApplyEffectList(town, play.Card.BaseEffects, play.GetResolvedX() ?? 0);
 
         // Apply phase effects (if specified)
         if (play.Phase != null)
         {
+
             foreach (var pb in play.Card.PhaseEffects)
             {
+
                 if (pb.phase == play.Phase.Value)
                     ApplyEffectList(town, pb.effects, play.GetResolvedX() ?? 0);
             }
+
         }
 
         // Apply outcome effects (if specified)
         if (play.Outcome != null)
         {
+          
             foreach (var ob in play.Card.OutcomeEffects)
             {
                 if (ob.outcome == play.Outcome.Value)
                     ApplyEffectList(town, ob.effects, play.GetResolvedX() ?? 0);
             }
+
         }
+
     }
 
     private static void ApplyEffectList(TownResourceList town, IReadOnlyList<ResourceEffect> effects, int xValue)
     {
+
         if (effects == null) return;
 
         for (int i = 0; i < effects.Count; i++)
@@ -328,7 +355,9 @@ public class CardInputProcessor : MonoBehaviour
                 case ResourceType.Provision: town.AdjustProvisions(delta); break;
                 case ResourceType.Education: town.AdjustEducation(delta); break;
                 case ResourceType.Happiness: town.AdjustHappiness(delta); break;
+
                 case ResourceType.FirefightingEquipment: town.AdjustFireFightingEquipment(delta); break;
+
                 case ResourceType.WindSpeed: town.AdjustWindSpeed(delta); break;
                 case ResourceType.Temperature: town.AdjustTemperatureSeason(delta); break;
                 case ResourceType.FireSafetyRating: town.AdjustFireSafetyRating(delta); break;
@@ -336,23 +365,26 @@ public class CardInputProcessor : MonoBehaviour
                 default:
                     Debug.LogWarning($"Unhandled resource type: {e.resource}");
                     break;
+
             }
+
         }
+
     }
 
-    // Optional: expose history
-    public string GetTurnLogAsText()
-    {
-        // Example output:
-        // 1: #X01, #F10, #C03
-        // 2: #B01, #X04, #X04, #E04
-        var lines = new List<string>();
-        foreach (var kvp in turnLog)
-        {
-            lines.Add($"{kvp.Key}: {string.Join(", ", kvp.Value)}");
-        }
-        return string.Join("\n", lines);
-    }
+    // // Optional: expose history
+    // public string GetTurnLogAsText()
+    // {
+    //     // Example output:
+    //     // 1: #X01, #F10, #C03
+    //     // 2: #B01, #X04, #X04, #E04
+    //     var lines = new List<string>();
+    //     foreach (var kvp in turnLog)
+    //     {
+    //         lines.Add($"{kvp.Key}: {string.Join(", ", kvp.Value)}");
+    //     }
+    //     return string.Join("\n", lines);
+    // }
 
     // Data struct for a parsed token
     private struct CardPlay
@@ -365,7 +397,7 @@ public class CardInputProcessor : MonoBehaviour
         public int? Outcome;
 
         // If token has only one numeric group, we store it in Outcome first.
-        // If it has two numeric groups, second becomes XValue.
+        // If it has two, second becomes XValue.
         public int? XValue;
 
         public CardActionData Card;
@@ -377,12 +409,13 @@ public class CardInputProcessor : MonoBehaviour
 
             // If only one numeric group exists, it might be X for +X cards OR outcome for outcome cards.
             // We resolve as:
-            // - If card has outcomeEffects, treat Outcome as outcome.
-            // - Else treat Outcome as X.
+            // - If card has outcomeEffects, treat Outcome as outcome, otherwise treat Outcome as X.
             if (Outcome == null) return null;
 
             bool cardUsesOutcome = Card != null && Card.OutcomeEffects != null && Card.OutcomeEffects.Count > 0;
+
             return cardUsesOutcome ? null : Outcome;
+            
         }
     }
 }

@@ -76,11 +76,14 @@ public class CardActionData : ScriptableObject
 #if UNITY_EDITOR
     // Minimal setter so an importer can populate assets.
     public void SetData(
+
         string id,
         string name,
+
         int ap,
         int money,
         string desc,
+
         List<Keyword> keys,
         List<ResourceEffect> baseFx,
         List<PhaseEffectBlock> phaseFx,
@@ -95,18 +98,24 @@ public class CardActionData : ScriptableObject
         cardDescription = desc;
         keywords = keys ?? new List<Keyword>();
         baseEffects = baseFx ?? new List<ResourceEffect>();
+
         phaseEffects = phaseFx ?? new List<PhaseEffectBlock>();
         outcomeEffects = outcomeFx ?? new List<OutcomeEffectBlock>();
     }
+
+
 #endif
+
 }
 
 [Serializable]
+
 public struct ResourceEffect
 {
     public ResourceType resource;
     public EffectValueMode mode;
 
+ 
     [Tooltip("Used when mode == Fixed")]
     public int amount;
 
@@ -126,16 +135,22 @@ public struct ResourceEffect
 }
 
 [Serializable]
+
 public struct PhaseEffectBlock
 {
     public Phase phase;
+
     public List<ResourceEffect> effects;
 }
 
 [Serializable]
+
 public struct OutcomeEffectBlock
+
 {
     [Tooltip("Outcome number: 1..6 (or coin: 1..2)")]
     public int outcome;
     public List<ResourceEffect> effects;
+
+
 }

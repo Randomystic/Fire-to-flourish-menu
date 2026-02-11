@@ -14,7 +14,11 @@ public class GameOverEvaluator : MonoBehaviour
     [Header("Required (you already have this asset)")]
     [SerializeField] private string townResourcesPath = "TownResources"; // TownResources.asset
 
-    [SerializeField] private TurnLogGradeStats stats;
+    [SerializeField] private TurnLogGradeStats gradeStats;
+
+    [SerializeField] private MapEndConditionStats mapStats;
+
+
 
     [Header("UI")]
     public TextMeshProUGUI townSummaryText;
@@ -22,7 +26,7 @@ public class GameOverEvaluator : MonoBehaviour
     public TextMeshProUGUI gradeScoresText;
     public TextMeshProUGUI finalScoreText;
 
-    [Header("End Condition Inputs (NOT created yet in your project)")]
+    [Header("End Condition Inputs (NOT created yet)")]
     [SerializeField] private int totalCulturalSites = 3;
     [SerializeField] private int destroyedCulturalSites = 0;
 
@@ -83,20 +87,33 @@ public class GameOverEvaluator : MonoBehaviour
         // Keep derived rating up to date
         float fireRiskRating = townResources.CalculateFireSafety();
 
-        // -------------------------
-        // 1) GAME END CONDITIONS
-        // -------------------------
-        bool irrepairableCulturalDamage =
-            totalCulturalSites > 0 && destroyedCulturalSites >= Mathf.CeilToInt(totalCulturalSites * (2f / 3f)); // 2/3 destroyed :contentReference[oaicite:3]{index=3}
 
+    
+        // 1) GAME END CONDITIONS
+
+
+        mapStats.Refresh();
+
+        totalCulturalSites = mapStats.TotalCulturalSites;
+        destroyedCulturalSites = mapStats.DestroyedCulturalSites;
+
+        totalBuildingTiles = mapStats.TotalBuildingTiles;
+        damagedBuildingTiles = mapStats.DamagedBuildingTiles;
+        destroyedBuildingTiles = mapStats.DestroyedBuildingTiles;
+
+
+
+       
+        bool irrepairableCulturalDamage =
+            totalCulturalSites > 0 && destroyedCulturalSites >= Mathf.CeilToInt(totalCulturalSites * (2f / 3f)); // 2/3 destroyed 
         float buildingDamageRatio =
             totalBuildingTiles > 0 ? (damagedBuildingTiles + destroyedBuildingTiles) / (float)totalBuildingTiles : 0f;
 
         bool infrastructureCollapse =
-            totalBuildingTiles > 0 && buildingDamageRatio >= 0.40f; // >=40% :contentReference[oaicite:4]{index=4}
+            totalBuildingTiles > 0 && buildingDamageRatio >= 0.40f; // >=40% 
 
         bool uncontrolledFire =
-            longestLinkedFireChain >= 6; // chain of 6+ :contentReference[oaicite:5]{index=5}
+            longestLinkedFireChain >= 6; // chain of 6+
 
         Debug.Log(
             "[GAME OVER] End Conditions\n" +
@@ -111,31 +128,31 @@ public class GameOverEvaluator : MonoBehaviour
             $"- Infrastructure Collapse: {infrastructureCollapse} (Buildings damaged+destroyed {damagedBuildingTiles + destroyedBuildingTiles}/{totalBuildingTiles} = {(buildingDamageRatio * 100f):0.#}%)\n" +
             $"- Uncontrolled Fire: {uncontrolledFire} (Longest linked chain = {longestLinkedFireChain})";
 
-        // -------------------------
+ 
+
         // 2) GAME END GRADES
-        // -------------------------
 
-        stats.Refresh();
+        gradeStats.Refresh();
 
-        totalCulturalActionCards = stats.TotalCulturalActionCards;
-        uniqueCulturalActionCardsUsed = stats.uniqueCulturalActionCardsUsed;
+        totalCulturalActionCards = gradeStats.TotalCulturalActionCards;
+        uniqueCulturalActionCardsUsed = gradeStats.uniqueCulturalActionCardsUsed;
 
-        numCulturalCardsPlayedIndigenousLeader = stats.NumCulturalCardsPlayedIndigenousLeader;
-        numPlayersUsedCulturalCard = stats.NumPlayersUsedCulturalCard;
-        numPlayers = stats.NumPlayers;
+        numCulturalCardsPlayedIndigenousLeader = gradeStats.NumCulturalCardsPlayedIndigenousLeader;
+        numPlayersUsedCulturalCard = gradeStats.NumPlayersUsedCulturalCard;
+        numPlayers = gradeStats.NumPlayers;
 
-        uniqueCollabActionCardsUsed = stats.UniqueCollabActionCardsUsed;
-        totalUniqueCollabActionCardsUsed = stats.TotalUniqueCollabActionCardsUsed;
-        numPlayersUsedCollabCard = stats.NumPlayersUsedCollabCard;
+        uniqueCollabActionCardsUsed = gradeStats.UniqueCollabActionCardsUsed;
+        totalUniqueCollabActionCardsUsed = gradeStats.TotalUniqueCollabActionCardsUsed;
+        numPlayersUsedCollabCard = gradeStats.NumPlayersUsedCollabCard;
 
-        uniquePreparednessActionCardsUsed = stats.UniquePreparednessActionCardsUsed;
-        totalUniquePreparednessActionCards = stats.TotalUniquePreparednessActionCards;
+        uniquePreparednessActionCardsUsed = gradeStats.UniquePreparednessActionCardsUsed;
+        totalUniquePreparednessActionCards = gradeStats.TotalUniquePreparednessActionCards;
 
-        uniqueActionTypesUsed = stats.UniqueActionTypesUsed;
-        totalActionTypes = stats.TotalActionTypes;
+        uniqueActionTypesUsed = gradeStats.UniqueActionTypesUsed;
+        totalActionTypes = gradeStats.TotalActionTypes;
 
-        totalAPUsed = stats.TotalAPUsed;
-        totalTurns = stats.TotalTurns;
+        totalAPUsed = gradeStats.TotalAPUsed;
+        totalTurns = gradeStats.TotalTurns;
 
 
 
@@ -144,25 +161,27 @@ public class GameOverEvaluator : MonoBehaviour
         int undamagedCulturalSites = Mathf.Max(0, totalCulturalSites - destroyedCulturalSites);
         float culturalSiteIntegrity = Percent(undamagedCulturalSites, totalCulturalSites);
 
-        // A) Cultural safety, integrity and inclusion :contentReference[oaicite:6]{index=6}
+
+        // A) Cultural safety, integrity and inclusion
         float culturalCardCoverage01 = Clamp01((totalCulturalActionCards > 0)
-            ? (uniqueCulturalActionCardsUsed / (float)totalCulturalActionCards) / 0.75f
-            : 0f);
+            ? (uniqueCulturalActionCardsUsed / (float)totalCulturalActionCards) / 0.75f : 0f);
+
         float gradeCulturalSafety =
             0.6f * (culturalSiteIntegrity / 100f) +
             0.4f * culturalCardCoverage01;
         gradeCulturalSafety *= 100f;
 
-        // B) Indigenous knowledge, experience and practice :contentReference[oaicite:7]{index=7}
+        // B) Indigenous knowledge, experience and practice 
         float indigenousLeader01 = Mathf.Clamp(numCulturalCardsPlayedIndigenousLeader, 0, 6) / 6f;
         float playersUsedCultural01 = Ratio(numPlayersUsedCulturalCard, numPlayers);
         float gradeIndigenousKnowledge =
             0.5f * indigenousLeader01 +
             0.3f * (culturalSiteIntegrity / 100f) +
             0.2f * playersUsedCultural01;
+        
         gradeIndigenousKnowledge *= 100f;
 
-        // CollaborativeScore definition :contentReference[oaicite:8]{index=8}
+        // CollaborativeScore definition 
         // CollaborativeScore definition
         float collabScore01 =
             0.5f * Ratio(numPlayersUsedCollabCard, numPlayers) +
@@ -170,32 +189,38 @@ public class GameOverEvaluator : MonoBehaviour
 
         float collaborativeScore = collabScore01 * 100f;
 
-        // C) Building and maintaining networks :contentReference[oaicite:9]{index=9} :contentReference[oaicite:10]{index=10}
+        // C) Building and maintaining networks 
         float gradeNetworks =
             (0.3f * Percent01(townResources.happiness, 50)) +
             (0.4f * (collaborativeScore / 100f)) +
+
             (0.3f * Percent01(townResources.education, 50));
         gradeNetworks *= 100f;
 
-        // PreparednessScore :contentReference[oaicite:11]{index=11}
+
+
+        // PreparednessScore 
         float preparedness01 = Clamp01((totalUniquePreparednessActionCards > 0)
             ? (uniquePreparednessActionCardsUsed / (float)totalUniquePreparednessActionCards) / 0.75f
             : 0f);
         float preparednessScore = preparedness01 * 100f;
 
-        // D) Community disaster resilience knowledge :contentReference[oaicite:12]{index=12}
+        // D) Community disaster resilience knowledge 
         float gradeDisasterResilience =
             (0.3f * Percent01(townResources.education, 50)) +
             (0.3f * (fireRiskRating / 100f)) +
+
             (0.2f * Percent01(townResources.firefightingEquipment, 10)) +
             (0.2f * (preparednessScore / 100f));
         gradeDisasterResilience *= 100f;
 
-        // AvgActivityScore :contentReference[oaicite:13]{index=13}
+
+
+        // Avg Activity Score 
         // clamp( ((TotalAPUsed / TotalTurns * NumPlayers) - 0.40) / 0.40, 0, 1 )
         float avgActivity01 = Clamp01(((Ratio(totalAPUsed, totalTurns) * numPlayers) - 0.40f) / 0.40f);
 
-        // E) Community led action :contentReference[oaicite:14]{index=14}
+        // E) Community led action 
         float actionTypes01 = Ratio(uniqueActionTypesUsed, totalActionTypes);
         float gradeCommunityLedAction =
             (0.4f * avgActivity01) +
@@ -204,7 +229,7 @@ public class GameOverEvaluator : MonoBehaviour
             (0.1f * Percent01(townResources.happiness, 50));
         gradeCommunityLedAction *= 100f;
 
-        // F) Social innovation :contentReference[oaicite:15]{index=15}
+        // F) Social innovation 
         float gradeSocialInnovation =
             (0.4f * Percent01(townResources.education, 50)) +
             (0.4f * actionTypes01) +
@@ -231,7 +256,7 @@ public class GameOverEvaluator : MonoBehaviour
             $"- Social innovation: {gradeSocialInnovation:0.#}";
 
         // -------------------------
-        // 3) FINAL SCORE + LETTER
+        // 3) FINAL SCORE + LETTER GRADE
         // -------------------------
         // Minimal aggregation (NOT specified in PDF): simple average of the 6 grade scores.
         float finalScore =
@@ -239,16 +264,16 @@ public class GameOverEvaluator : MonoBehaviour
              gradeDisasterResilience + gradeCommunityLedAction + gradeSocialInnovation) / 6f;
 
         finalScore = Mathf.Clamp(finalScore, 0f, 100f);
-        string letter = ToLetterGrade(finalScore); // thresholds :contentReference[oaicite:16]{index=16}
+        string letter = ToLetterGrade(finalScore); // thresholds 
 
         Debug.Log($"[GAME OVER] Final\n- Score: {finalScore:0.#}/100\n- Grade: {letter}");
 
         finalScoreText.text = $"Final\n- Score: {finalScore:0.#}/100\n- Grade: {letter}";
     }
 
-    // =========================
-    // Helpers (minimal)
-    // =========================
+
+
+    // Helpers/Functions
 
     private static float Ratio(int num, int den)
     {
@@ -257,24 +282,28 @@ public class GameOverEvaluator : MonoBehaviour
     }
 
     private static float Clamp01(float v) => Mathf.Clamp01(v);
-
     private static float Percent(int num, int den) => Ratio(num, den) * 100f;
+
+
 
     private static float Percent01(int value, int max)
     {
         if (max <= 0) return 0f;
+
         return Mathf.Clamp01(value / (float)max);
     }
 
     private static string ToLetterGrade(float score)
     {
-        // 90-100 S, 75-89 A, 65-74 B, 55-64 C, 40-54 D, 25-39 E, 0-24 F :contentReference[oaicite:17]{index=17}
+        // 90-100 S, 75-89 A, 65-74 B, 55-64 C, 40-54 D, 25-39 E, 0-24 F, 
+
         if (score >= 90f) return "S";
         if (score >= 75f) return "A";
         if (score >= 65f) return "B";
         if (score >= 55f) return "C";
         if (score >= 40f) return "D";
         if (score >= 25f) return "E";
+
         return "F";
     }
 }
