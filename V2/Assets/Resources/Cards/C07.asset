@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C07'
   cardName: Irrigate Fields
+  apCost: 2
+  moneyCost: 2
   cardDescription: Reduce chance of Fire starting on Farmland tiles by 10%. Reduce
     chance of Fire spreading on Farmland tiles by 10%.
   keywords: 

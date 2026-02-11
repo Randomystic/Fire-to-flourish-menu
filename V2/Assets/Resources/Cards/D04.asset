@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#D04'
   cardName: Regrowth and Renewal
+  apCost: 2
+  moneyCost: 0
   cardDescription: 'Build on a destroyed tile.
 
     OR

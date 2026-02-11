@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A05'
   cardName: Neighbour Check-In
+  apCost: 1
+  moneyCost: 0
   cardDescription: Add 2 Happiness. If in Bushfire Phase, gain 2 more Happiness.
   keywords: 02000000
   baseEffects: []

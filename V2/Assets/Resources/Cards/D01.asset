@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#D01'
   cardName: Cultural Burning
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'Choose a tile: reduce its Fuel Load. If the chosen tile is Forest
     / Grassland & is damaged, place this card in the playfield; At the start of every
     turn, put a counter on this card. If this card has 3 counters, flip a coin: if

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F02'
   cardName: School Evacuation Drill
+  apCost: 1
+  moneyCost: 0
   cardDescription: 8 Education -4 Happiness
   keywords: 0000000002000000
   baseEffects:

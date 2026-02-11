@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#D06'
   cardName: Guided by Country
+  apCost: 1
+  moneyCost: 0
   cardDescription: Choose a tile not currently on fire. That tile is immune from
     being on fire next turn. If it is a cultural site, it is immune for the next
     three turns.

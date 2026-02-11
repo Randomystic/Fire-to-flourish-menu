@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#E10'
   cardName: Emergency Declaration
+  apCost: 0
+  moneyCost: 0
   cardDescription: 'This card can only be played if <2 Money.
 
 

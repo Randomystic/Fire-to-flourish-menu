@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A10'
   cardName: Community Reserves
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'Preparation: Add 3 Provisions Bushfire: Remove 3 Provisions.
     Choose a player to receive 2 AP in this turn'
   keywords: 000000000100000002000000

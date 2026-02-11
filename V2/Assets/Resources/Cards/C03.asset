@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C03'
   cardName: Planned Firebreak
+  apCost: 2
+  moneyCost: 0
   cardDescription: Choose 3 tiles. Reduce their Fuel Loads.
   keywords: 0000000002000000
   baseEffects: []

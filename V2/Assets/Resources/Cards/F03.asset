@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F03'
   cardName: Parent Information Night
+  apCost: 2
+  moneyCost: 0
   cardDescription: add 4 Education. Choose a player to play an additional card next
     turn.
   keywords: 0000000002000000

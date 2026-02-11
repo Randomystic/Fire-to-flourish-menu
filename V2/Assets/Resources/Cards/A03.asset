@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A03'
   cardName: Community Support Group
+  apCost: 2
+  moneyCost: 0
   cardDescription: Add 2 Happiness. Add 2 Education. If a Fire was put out last turn,
     gain 2 more Happiness.
   keywords: 02000000

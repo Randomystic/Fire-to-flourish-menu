@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F08'
   cardName: Tough Lesson
+  apCost: 2
+  moneyCost: 0
   cardDescription: If it is the preparation phase, flip a coin. On heads, +4 Education.
     On tails, -4 Happiness and discard this card.
   keywords: 0000000003000000

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#D03'
   cardName: Participate in Emergency Planning
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'Choose a player: that player may select a card in their hand.
     If a card was selected, that player may shuffle it back into their deck and draw
     1.'

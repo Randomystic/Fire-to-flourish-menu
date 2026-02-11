@@ -42,6 +42,10 @@ public class CardActionData : ScriptableObject
     [SerializeField] private string cardId;     // e.g. "#F10"
     [SerializeField] private string cardName;
 
+    [Header("Costs")]
+    [SerializeField] private int apCost;
+    [SerializeField] private int moneyCost;
+
     [Header("Text")]
     [TextArea, SerializeField] private string cardDescription;
 
@@ -60,6 +64,8 @@ public class CardActionData : ScriptableObject
 
     public string CardId => cardId;
     public string CardName => cardName;
+    public int ApCost => apCost;
+    public int MoneyCost => moneyCost;
     public string CardDescription => cardDescription;
 
     public IReadOnlyList<Keyword> Keywords => keywords;
@@ -72,6 +78,8 @@ public class CardActionData : ScriptableObject
     public void SetData(
         string id,
         string name,
+        int ap,
+        int money,
         string desc,
         List<Keyword> keys,
         List<ResourceEffect> baseFx,
@@ -80,6 +88,10 @@ public class CardActionData : ScriptableObject
     {
         cardId = id;
         cardName = name;
+
+        apCost = Mathf.Max(0, ap);
+        moneyCost = Mathf.Max(0, money);
+
         cardDescription = desc;
         keywords = keys ?? new List<Keyword>();
         baseEffects = baseFx ?? new List<ResourceEffect>();

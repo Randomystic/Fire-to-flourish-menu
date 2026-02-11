@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F06'
   cardName: Classroom Preparation
+  apCost: 1
+  moneyCost: 0
   cardDescription: '-3 Provisions
 
     Choose a player: They draw 1 card.'

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#E09'
   cardName: Emergency Supply Drop
+  apCost: 2
+  moneyCost: 2
   cardDescription: "Remove 6 Provisions. Choose one: \n \u2022 Add 4 Firefighting
     equipment, or \n \u2022 Choose a tile that is on-fire: Next turn, this fire cannot
     spread."

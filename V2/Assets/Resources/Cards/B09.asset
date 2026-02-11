@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#B09'
   cardName: Fuel Reduction Burn
+  apCost: 1
+  moneyCost: 1
   cardDescription: Choose a tile and flip a coin. If Heads, reduce fuel load to 0.
     If Tails, fuel load increases by 1 :(
   keywords: 0000000002000000

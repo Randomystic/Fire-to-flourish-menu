@@ -16,15 +16,6 @@ public class NarrativeScene : MonoBehaviour
     int currentIndex = 0;
     bool waiting = false;
 
-    // // Dictionary for the diagloue
-    // private Dictionary<int, string> dialogueLines = new Dictionary<int, string>()
-    // {
-    //     { 1, "Narrative Dialogue" },
-    //     { 2, "Dialogue 1" },
-    //     { 3, "Dialogue 2" },
-    //     { 4, "Dialogue 3" },
-    // };
-
 
     // Start is called before the first frame update
     void Start()

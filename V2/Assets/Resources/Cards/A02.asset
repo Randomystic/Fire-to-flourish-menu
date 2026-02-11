@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A02'
   cardName: Share a meal
+  apCost: 1
+  moneyCost: 0
   cardDescription: Remove 2 Provisions. Add 4 Happiness.
   keywords: 0000000002000000
   baseEffects:

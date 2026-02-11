@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C04'
   cardName: Farm Water Tank
+  apCost: 2
+  moneyCost: 0
   cardDescription: This card stays on the field unless its tile is destroyed. Once
     during a Bushfire Phase, a player may reroll a dice / reflip a coin on a Bushfire
     card.

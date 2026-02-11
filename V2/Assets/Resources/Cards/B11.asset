@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#B11'
   cardName: Equipment Overhaul
+  apCost: 2
+  moneyCost: 0
   cardDescription: 'Preparation: Spend 3 Money, Add 2 Firefighting Equipment Bushfire:
     Destroy 1 Firefighting Equipment. Allows you to put out a fire on any burning
     tile.'

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#B02'
   cardName: Facilitate Community Drills
+  apCost: 2
+  moneyCost: 1
   cardDescription: "Add 6 Education. \nNext turn, if Civilian plays a Preparation
     Card, reduce its AP cost by 1.\nShuffle \u201CFund Community Drills\u201D back
     into the Mayor\u2019s deck."

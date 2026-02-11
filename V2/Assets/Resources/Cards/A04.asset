@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A04'
   cardName: Community Fundraiser
+  apCost: 2
+  moneyCost: 1
   cardDescription: 'Remove 3 provisions. Add 2 Happiness. Flip a coin: If heads,
     give 3 money to a player. Else, give 2 money to a player.'
   keywords: 0000000002000000

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#B01'
   cardName: 
+  apCost: 0
+  moneyCost: 0
   cardDescription: 
   keywords: 
   baseEffects: []

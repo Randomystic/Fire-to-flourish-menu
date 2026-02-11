@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#D07'
   cardName: Learning from the Burning
+  apCost: 2
+  moneyCost: 0
   cardDescription: 'If a fire is put out, flip a coin. On heads, give an AP to any
     player.
 

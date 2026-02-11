@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C01'
   cardName: Develop Firebreak
+  apCost: 1
+  moneyCost: 0
   cardDescription: Choose a tile. Reduce its Fuel Load significantly.
   keywords: 02000000
   baseEffects: []

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C06'
   cardName: "Farmer\u2019s Insight"
+  apCost: 1
+  moneyCost: 0
   cardDescription: Add 3 Education.
   keywords: 
   baseEffects:

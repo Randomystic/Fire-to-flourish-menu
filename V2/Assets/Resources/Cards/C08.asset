@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C08'
   cardName: Tending Livestock
+  apCost: 1
+  moneyCost: 0
   cardDescription: Add 3 Provisions. Add 1 Happiness.
   keywords: 
   baseEffects:

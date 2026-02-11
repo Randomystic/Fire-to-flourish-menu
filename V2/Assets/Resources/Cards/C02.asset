@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#C02'
   cardName: Harvest Crops
+  apCost: 1
+  moneyCost: 1
   cardDescription: This card stays on the field until the next Bushfire phase. At
     the start of every turn, flip a coin. If heads, gain 2 Provision.
   keywords: 03000000

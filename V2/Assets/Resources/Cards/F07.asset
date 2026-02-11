@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F07'
   cardName: Learning from Mistakes
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'The next time a card fails to put out a fire, that player draws
     a card. Discard this card.
 

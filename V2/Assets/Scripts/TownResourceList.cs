@@ -38,7 +38,7 @@ public class TownResourceList : ScriptableObject
 
     public void AdjustProvisions(int amount)
     {
-        provisions = Mathf.Clamp(provisions + amount, 0, 25);
+        provisions = Mathf.Clamp(provisions + amount, 0, 50);
     }
 
     public void AdjustEducation(int amount)
@@ -48,12 +48,12 @@ public class TownResourceList : ScriptableObject
 
     public void AdjustHappiness(int amount)
     {
-        happiness = Mathf.Clamp(happiness + amount, 0, 25);
+        happiness = Mathf.Clamp(happiness + amount, 0, 50);
     }
 
     public void AdjustFireFightingEquipment(int amount)
     {
-        firefightingEquipment = Mathf.Clamp(firefightingEquipment + amount, 0, 5);
+        firefightingEquipment = Mathf.Clamp(firefightingEquipment + amount, 0, 10);
     }
 
     public void AdjustWindSpeed(int amount)

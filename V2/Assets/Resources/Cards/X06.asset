@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#X06'
   cardName: Clear Vegetation
+  apCost: 1
+  moneyCost: 0
   cardDescription: Pick a non-burning tile. Once per turn, flip two coins. If either
     of them are heads that tile has a lower chance of being set on fire
   keywords: 0100000003000000

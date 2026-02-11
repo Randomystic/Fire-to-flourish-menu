@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#E08'
   cardName: Fund Community Drills
+  apCost: 1
+  moneyCost: 2
   cardDescription: "Add 1 Money to RFS Member. Put a \u201CFacilitate Community Drills\u201D
     Action Card from the RFS Member\u2019s deck into their hand. \u201CFund Community
     Drills\u201D stays on the field unless \u201CFacilitate Community Drills\u201D

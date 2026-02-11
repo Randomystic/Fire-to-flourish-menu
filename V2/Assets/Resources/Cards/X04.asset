@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#X04'
   cardName: Volunteer
+  apCost: 1
+  moneyCost: 0
   cardDescription: "Pick a building tile to upgrade/recover/build. \nOnce per turn,
     flip a coin. If heads, that building is upgraded/recovered/build and this card
     is discarded."

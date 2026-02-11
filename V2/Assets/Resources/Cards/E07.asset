@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#E07'
   cardName: Evacuation Order
+  apCost: 3
+  moneyCost: 0
   cardDescription: Remove 10 Happiness. For the next 2 turns, reduce Fire Start chance
     and Fire Spread chance by 40%.
   keywords: 01000000

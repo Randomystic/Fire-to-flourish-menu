@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#X05'
   cardName: Douse embers
+  apCost: 1
+  moneyCost: 0
   cardDescription: Pick a burning tile and roll a dice. If it is in the first stage
     of burning, on a 4+ the fire is put out. If it is in the second stage of burning
     then the fire is put out on a 5+.

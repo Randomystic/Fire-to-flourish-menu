@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#X01'
   cardName: Community Garden
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'Add 2 Provisions
 
     Add 2 Happiness'

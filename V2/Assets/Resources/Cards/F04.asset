@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F04'
   cardName: Peer Learning
+  apCost: 2
+  moneyCost: 0
   cardDescription: 'When another player plays an operation card, flip a coin. On
     heads, refund an AP to that player and put a token on this card.
 

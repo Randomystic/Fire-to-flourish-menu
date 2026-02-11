@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F10'
   cardName: Practical Application
+  apCost: 1
+  moneyCost: 0
   cardDescription: 'Operation: Add 3 Education
 
 

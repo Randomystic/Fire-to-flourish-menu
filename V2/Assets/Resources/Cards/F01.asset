@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#F01'
   cardName: Fire Safety Workshops
+  apCost: 1
+  moneyCost: 2
   cardDescription: Choose a player. If it is the preparation phase, that player draws
     a preparation card of their choosing. If it is the bushfire phase, that player
     draws a bushfire card of their choosing. That player then shuffles their deck.

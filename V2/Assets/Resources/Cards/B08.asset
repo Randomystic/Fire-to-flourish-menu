@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#B08'
   cardName: Firefighting Expertise
+  apCost: 1
+  moneyCost: 0
   cardDescription: "-1 Firefighting Equipment\nFlip two coins:\n \u2022 1 Heads -
     Put out the Fire of the chosen tile. This card returns to your hand\n \u2022
     2 Heads - Additionally, +1 Firefighting Equipment"

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#X07'
   cardName: Lead the Way
+  apCost: 1
+  moneyCost: 0
   cardDescription: Give an extra Action Point to another player. Next turn, you can
     play one less card.
   keywords: 0100000002000000

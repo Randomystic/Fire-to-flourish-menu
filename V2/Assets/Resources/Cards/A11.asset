@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: '#A11'
   cardName: United Community
+  apCost: 2
+  moneyCost: 0
   cardDescription: Each player discards 1 card and draws 1 card.
   keywords: 050000000100000002000000
   baseEffects: []
