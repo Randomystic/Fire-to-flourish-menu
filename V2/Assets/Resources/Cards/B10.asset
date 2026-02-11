@@ -21,10 +21,11 @@ MonoBehaviour:
     of currently burning tiles. The same number of AP are distributed amongst the
     other players. You cannot play any more cards this turn.'
   keywords: 0000000001000000
-  baseEffects: []
-  phaseEffects:
+  baseResourceEffects: []
+  phaseResourceEffects:
   - phase: 0
     effects: []
   - phase: 1
     effects: []
-  outcomeEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

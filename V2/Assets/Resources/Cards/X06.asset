@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Pick a non-burning tile. Once per turn, flip two coins. If either
     of them are heads that tile has a lower chance of being set on fire
   keywords: 0100000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: IgniteMod(-20) (T=Tile) (D=0)

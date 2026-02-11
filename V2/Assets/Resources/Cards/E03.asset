@@ -17,11 +17,12 @@ MonoBehaviour:
   apCost: 2
   moneyCost: 0
   cardDescription: Add 5 Education.
-  keywords: 00000000
-  baseEffects:
+  keywords: 
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 5
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

@@ -18,7 +18,7 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Add 3 Provisions. Add 1 Happiness.
   keywords: 
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: 3
@@ -27,5 +27,6 @@ MonoBehaviour:
     mode: 0
     amount: 1
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

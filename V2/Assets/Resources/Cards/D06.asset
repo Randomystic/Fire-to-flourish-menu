@@ -20,6 +20,7 @@ MonoBehaviour:
     being on fire next turn. If it is a cultural site, it is immune for the next
     three turns.
   keywords: 0100000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireImmuneTile (T=1) (D=1)|FireImmuneTile (T=1) (D=3)

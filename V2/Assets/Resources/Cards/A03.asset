@@ -19,9 +19,9 @@ MonoBehaviour:
   cardDescription: Add 2 Happiness. Add 2 Education. If a Fire was put out last turn,
     gain 2 more Happiness.
   keywords: 02000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects:
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects:
   - outcome: 1
     effects:
     - resource: 2
@@ -42,3 +42,4 @@ MonoBehaviour:
       mode: 0
       amount: 2
       multiplier: 0
+  tileEffectsRaw: None

@@ -27,17 +27,23 @@ public static class CardCsvImporter
             return;
         }
 
+        // Header
         string[] header = rows[0];
         int colId = FindCol(header, "ID");
         int colName = FindCol(header, "Name");
         int colCost = FindCol(header, "Cost");
         int colDesc = FindCol(header, "Description");
         int colKeywords = FindCol(header, "Keywords");
-        int colEffects = FindCol(header, "Effects");
 
-        if (colId < 0 || colName < 0 || colCost < 0)
+        // Accept either "Effects" or "ResourceEffects" header (spreadsheet currently uses "Effects")
+        int colEffects = FindCol(header, "ResourceEffects");
+        if (colEffects < 0) colEffects = FindCol(header, "Effects");
+
+        int colTileEffects = FindCol(header, "TileEffects");
+
+        if (colId < 0 || colName < 0)
         {
-            Debug.LogError("CSV must contain columns: ID, Name, Cost (and preferably Description, Keywords, Effects).");
+            Debug.LogError("CSV must contain columns: ID, Name (and preferably Cost, Description, Keywords, Effects, TileEffects).");
             return;
         }
 
@@ -47,26 +53,28 @@ public static class CardCsvImporter
         for (int i = 1; i < rows.Count; i++)
         {
             string[] r = rows[i];
-
             string id = Get(r, colId).Trim();
             if (string.IsNullOrWhiteSpace(id))
                 continue;
 
             string name = Get(r, colName).Trim();
-            string costText = Get(r, colCost).Trim();
+            string costText = Get(r, colCost);
             string desc = Get(r, colDesc);
             string keywordsText = Get(r, colKeywords);
             string effectsText = Get(r, colEffects);
+            string tileEffectsText = Get(r, colTileEffects);
 
             ParseCost(costText, out int apCost, out int moneyCost);
 
             List<Keyword> keywords = ParseKeywords(keywordsText);
 
+            // Parse resource effects into base/phase/outcome blocks
             List<ResourceEffect> baseEffects;
             List<PhaseEffectBlock> phaseEffects;
             List<OutcomeEffectBlock> outcomeEffects;
             ParseEffects(effectsText, out baseEffects, out phaseEffects, out outcomeEffects);
 
+            // Stable filename based on ID only
             string fileName = MakeSafeFileName(id) + ".asset";
             string assetPath = $"{OutputFolder}/{fileName}";
 
@@ -93,7 +101,8 @@ public static class CardCsvImporter
                 keywords,
                 baseEffects,
                 phaseEffects,
-                outcomeEffects
+                outcomeEffects,
+                tileEffectsText
             );
 
             EditorUtility.SetDirty(asset);
@@ -105,25 +114,30 @@ public static class CardCsvImporter
         Debug.Log($"Import complete. Created: {created}, Updated: {updated}. Output: {OutputFolder}");
     }
 
-    // Minimal: find "number + AP" and "number + Money" anywhere in the cost string.
-    private static void ParseCost(string costText, out int apCost, out int moneyCost)
+    // -------- Cost parsing --------
+    // Examples: "1 AP", "2 AP, 1 Money", "", "None"
+    private static void ParseCost(string costText, out int ap, out int money)
     {
-        apCost = 0;
-        moneyCost = 0;
+        ap = 0;
+        money = 0;
 
         if (string.IsNullOrWhiteSpace(costText))
             return;
 
-        // e.g. "2 AP, 1 Money"
-        var apMatch = Regex.Match(costText, @"(\d+)\s*AP\b", RegexOptions.IgnoreCase);
-        if (apMatch.Success && int.TryParse(apMatch.Groups[1].Value, out int ap))
-            apCost = ap;
+        string t = costText.Trim();
 
-        var moneyMatch = Regex.Match(costText, @"(\d+)\s*Money\b", RegexOptions.IgnoreCase);
-        if (moneyMatch.Success && int.TryParse(moneyMatch.Groups[1].Value, out int money))
-            moneyCost = money;
+        // Find "N AP"
+        var apMatch = Regex.Match(t, @"(\d+)\s*AP", RegexOptions.IgnoreCase);
+        if (apMatch.Success && int.TryParse(apMatch.Groups[1].Value, out int apVal))
+            ap = Mathf.Max(0, apVal);
+
+        // Find "N Money"
+        var moneyMatch = Regex.Match(t, @"(\d+)\s*Money", RegexOptions.IgnoreCase);
+        if (moneyMatch.Success && int.TryParse(moneyMatch.Groups[1].Value, out int moneyVal))
+            money = Mathf.Max(0, moneyVal);
     }
 
+    // -------- Keyword parsing --------
     private static List<Keyword> ParseKeywords(string text)
     {
         var list = new List<Keyword>();
@@ -144,6 +158,12 @@ public static class CardCsvImporter
         return list;
     }
 
+    // -------- Resource Effects parsing --------
+    // - None
+    // - Resource:+2;Resource:-1
+    // - Resource:+X / Resource:-X
+    // - (P) . | (B) .
+    // - (1) . | (2) .
     private static void ParseEffects(
         string effectsText,
         out List<ResourceEffect> baseEffects,
@@ -162,7 +182,9 @@ public static class CardCsvImporter
         if (string.Equals(trimmed, "None", StringComparison.OrdinalIgnoreCase))
             return;
 
-        bool looksLikePhase = trimmed.Contains("(P)") || trimmed.Contains("(B)");
+        bool looksLikePhase = trimmed.Contains("(P)", StringComparison.OrdinalIgnoreCase) ||
+                              trimmed.Contains("(B)", StringComparison.OrdinalIgnoreCase);
+
         bool looksLikeOutcome = Regex.IsMatch(trimmed, @"\(\d+\)");
 
         if (looksLikePhase)
@@ -170,10 +192,13 @@ public static class CardCsvImporter
             foreach (string branch in trimmed.Split('|'))
             {
                 string b = branch.Trim();
-                var m = Regex.Match(b, @"^\((P|B)\)\s*(.*)$");
+                var m = Regex.Match(b, @"^\((P|B)\)\s*(.*)$", RegexOptions.IgnoreCase);
                 if (!m.Success) continue;
 
-                Phase phase = m.Groups[1].Value == "P" ? Phase.Preparation : Phase.Bushfire;
+                Phase phase = m.Groups[1].Value.Equals("P", StringComparison.OrdinalIgnoreCase)
+                    ? Phase.Preparation
+                    : Phase.Bushfire;
+
                 string payload = m.Groups[2].Value.Trim();
 
                 var fxList = ParseEffectList(payload);
@@ -218,6 +243,7 @@ public static class CardCsvImporter
             string token = p.Trim();
             if (token.Length == 0) continue;
 
+            // Format: Resource:+2 / Resource:-X / Resource:0
             string[] kv = token.Split(':');
             if (kv.Length != 2)
             {
@@ -254,6 +280,7 @@ public static class CardCsvImporter
         return list;
     }
 
+    // -------- CSV parsing + helpers --------
     private static List<string[]> ParseCsv(string text)
     {
         var rows = new List<string[]>();

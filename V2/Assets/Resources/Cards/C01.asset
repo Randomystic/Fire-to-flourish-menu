@@ -18,6 +18,7 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Choose a tile. Reduce its Fuel Load significantly.
   keywords: 02000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FuelDelta(-2) (T=1) (D=0)

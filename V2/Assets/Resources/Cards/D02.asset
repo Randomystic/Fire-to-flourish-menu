@@ -18,7 +18,7 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Add 3 Education. Add 3 Happiness.
   keywords: 000000000400000005000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 3
@@ -27,5 +27,6 @@ MonoBehaviour:
     mode: 0
     amount: 3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

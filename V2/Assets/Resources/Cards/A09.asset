@@ -20,6 +20,7 @@ MonoBehaviour:
     they may choose to redo a dice roll or coin flip once. This card stays on the
     field until the end of next turn."
   keywords: 03000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

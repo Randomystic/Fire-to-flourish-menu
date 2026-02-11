@@ -19,8 +19,8 @@ MonoBehaviour:
   cardDescription: 'Preparation: Add 3 Provisions Bushfire: Remove 3 Provisions.
     Choose a player to receive 2 AP in this turn'
   keywords: 000000000100000002000000
-  baseEffects: []
-  phaseEffects:
+  baseResourceEffects: []
+  phaseResourceEffects:
   - phase: 0
     effects:
     - resource: 0
@@ -33,4 +33,5 @@ MonoBehaviour:
       mode: 0
       amount: -3
       multiplier: 0
-  outcomeEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

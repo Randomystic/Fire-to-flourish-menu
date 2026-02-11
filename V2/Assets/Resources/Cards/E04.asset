@@ -18,7 +18,8 @@ MonoBehaviour:
   moneyCost: 1
   cardDescription: Reduce chance of Fire starting by 10%. Reduce chance of Fire spreading
     by 10%.
-  keywords: 
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  keywords: 00000000
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: IgniteMod(-10) (T=Global) (D=0)|SpreadMod(-10) (T=Global) (D=0)

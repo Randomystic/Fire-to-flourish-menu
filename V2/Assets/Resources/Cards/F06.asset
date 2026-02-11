@@ -20,10 +20,11 @@ MonoBehaviour:
 
     Choose a player: They draw 1 card.'
   keywords: 0100000002000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: -3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

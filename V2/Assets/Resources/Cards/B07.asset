@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Choose a burning tile. Roll a dice. On a 4+ the fire is put out.
     If the tile is a building, put out the fire on a 2+.
   keywords: 0100000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)

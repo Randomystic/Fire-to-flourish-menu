@@ -22,8 +22,8 @@ MonoBehaviour:
     Bushfire: Lose X education to
     reduce Fuel Load of X number of tiles near School tile by 1.'
   keywords: 0300000001000000
-  baseEffects: []
-  phaseEffects:
+  baseResourceEffects: []
+  phaseResourceEffects:
   - phase: 0
     effects:
     - resource: 1
@@ -36,4 +36,5 @@ MonoBehaviour:
       mode: 1
       amount: 0
       multiplier: -1
-  outcomeEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: (B)FuelDelta(-1) (T=X) (D=0)

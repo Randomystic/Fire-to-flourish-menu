@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: "Choose two tiles on fire. Decrease their stage of fire by 1.
     \nYou may choose to spend an additional AP to choose a third tile for this card."
   keywords: 0100000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireReduce(-1,0) (T=2) (D=0)|FireReduce(-1,0) (T=3) (D=0)

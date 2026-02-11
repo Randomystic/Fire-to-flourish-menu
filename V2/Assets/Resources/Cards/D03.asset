@@ -20,6 +20,7 @@ MonoBehaviour:
     If a card was selected, that player may shuffle it back into their deck and draw
     1.'
   keywords: 0400000000000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

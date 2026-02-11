@@ -18,6 +18,7 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: 
   keywords: 
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

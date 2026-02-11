@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Choose a tile and flip a coin. If Heads, reduce fuel load to 0.
     If Tails, fuel load increases by 1 :(
   keywords: 0000000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FuelDelta(-4) (T=1) (D=0)|FuelDelta(+1) (T=1) (D=0)

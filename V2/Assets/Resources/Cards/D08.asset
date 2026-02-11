@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Look at the top 3 cards. Reorder them and place them on top of
     your deck.
   keywords: 000000000500000004000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

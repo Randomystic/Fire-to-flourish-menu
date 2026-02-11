@@ -19,10 +19,11 @@ MonoBehaviour:
   cardDescription: Remove 10 Happiness. For the next 2 turns, reduce Fire Start chance
     and Fire Spread chance by 40%.
   keywords: 01000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 2
     mode: 0
     amount: -10
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: IgniteMod(-40) (T=Global) (D=2)|SpreadMod(-40) (T=Global) (D=2)

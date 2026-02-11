@@ -19,10 +19,11 @@ MonoBehaviour:
   cardDescription: add 4 Education. Choose a player to play an additional card next
     turn.
   keywords: 0000000002000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 4
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

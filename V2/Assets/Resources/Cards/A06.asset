@@ -18,10 +18,11 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Roll a dice. Gain that much Education.
   keywords: 02000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 1
     amount: 0
     multiplier: 1
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

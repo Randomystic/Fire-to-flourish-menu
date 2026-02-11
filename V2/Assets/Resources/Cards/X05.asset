@@ -20,6 +20,7 @@ MonoBehaviour:
     of burning, on a 4+ the fire is put out. If it is in the second stage of burning
     then the fire is put out on a 5+.
   keywords: 0100000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)

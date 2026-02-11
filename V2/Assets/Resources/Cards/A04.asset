@@ -19,7 +19,7 @@ MonoBehaviour:
   cardDescription: 'Remove 3 provisions. Add 2 Happiness. Flip a coin: If heads,
     give 3 money to a player. Else, give 2 money to a player.'
   keywords: 0000000002000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: -3
@@ -28,5 +28,6 @@ MonoBehaviour:
     mode: 0
     amount: 2
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

@@ -7,7 +7,7 @@ public class CardInputProcessor : MonoBehaviour
 {
     [Header("Resources paths (inside Assets/Resources/)")]
     [SerializeField] private string townResourcesPath = "TownResources"; // TownResources.asset
-    [SerializeField] private string cardsFolderPath = "Data/Cards/Generated"; // folder containing card assets
+    [SerializeField] private string cardsFolderPath = "Cards"; // folder containing card assets
     
     private readonly Dictionary<int, List<string>> turnLog = new();
 

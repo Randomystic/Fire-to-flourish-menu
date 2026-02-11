@@ -52,15 +52,19 @@ public class CardActionData : ScriptableObject
     [Header("Tags")]
     [SerializeField] private List<Keyword> keywords = new();
 
-    [Header("Effects")]
+    [Header("Resource Effects")]
     [Tooltip("Always applied when the card is logged as played.")]
-    [SerializeField] private List<ResourceEffect> baseEffects = new();
+    [SerializeField] private List<ResourceEffect> baseResourceEffects = new();
 
     [Tooltip("Applied only when a phase is supplied in input: (P) or (B).")]
-    [SerializeField] private List<PhaseEffectBlock> phaseEffects = new();
+    [SerializeField] private List<PhaseEffectBlock> phaseResourceEffects = new();
 
     [Tooltip("Applied only when an outcome is supplied in input: (1..6) or coin (1|2).")]
-    [SerializeField] private List<OutcomeEffectBlock> outcomeEffects = new();
+    [SerializeField] private List<OutcomeEffectBlock> outcomeResourceEffects = new();
+
+    [Header("Tile Effects")]
+    [Tooltip("Raw tile effects text from CSV (kept as-is for minimal approach).")]
+    [SerializeField] private string tileEffectsRaw = "None";
 
     public string CardId => cardId;
     public string CardName => cardName;
@@ -69,25 +73,32 @@ public class CardActionData : ScriptableObject
     public string CardDescription => cardDescription;
 
     public IReadOnlyList<Keyword> Keywords => keywords;
-    public IReadOnlyList<ResourceEffect> BaseEffects => baseEffects;
-    public IReadOnlyList<PhaseEffectBlock> PhaseEffects => phaseEffects;
-    public IReadOnlyList<OutcomeEffectBlock> OutcomeEffects => outcomeEffects;
+
+    // New preferred names
+    public IReadOnlyList<ResourceEffect> BaseResourceEffects => baseResourceEffects;
+    public IReadOnlyList<PhaseEffectBlock> PhaseResourceEffects => phaseResourceEffects;
+    public IReadOnlyList<OutcomeEffectBlock> OutcomeResourceEffects => outcomeResourceEffects;
+
+    public string TileEffectsRaw => tileEffectsRaw;
+
+    // Backwards-compatible names (so existing CardInputProcessor keeps working)
+    public IReadOnlyList<ResourceEffect> BaseEffects => baseResourceEffects;
+    public IReadOnlyList<PhaseEffectBlock> PhaseEffects => phaseResourceEffects;
+    public IReadOnlyList<OutcomeEffectBlock> OutcomeEffects => outcomeResourceEffects;
 
 #if UNITY_EDITOR
     // Minimal setter so an importer can populate assets.
     public void SetData(
-
         string id,
         string name,
-
         int ap,
         int money,
         string desc,
-
         List<Keyword> keys,
         List<ResourceEffect> baseFx,
         List<PhaseEffectBlock> phaseFx,
-        List<OutcomeEffectBlock> outcomeFx)
+        List<OutcomeEffectBlock> outcomeFx,
+        string tileFxRaw)
     {
         cardId = id;
         cardName = name;
@@ -97,25 +108,22 @@ public class CardActionData : ScriptableObject
 
         cardDescription = desc;
         keywords = keys ?? new List<Keyword>();
-        baseEffects = baseFx ?? new List<ResourceEffect>();
 
-        phaseEffects = phaseFx ?? new List<PhaseEffectBlock>();
-        outcomeEffects = outcomeFx ?? new List<OutcomeEffectBlock>();
+        baseResourceEffects = baseFx ?? new List<ResourceEffect>();
+        phaseResourceEffects = phaseFx ?? new List<PhaseEffectBlock>();
+        outcomeResourceEffects = outcomeFx ?? new List<OutcomeEffectBlock>();
+
+        tileEffectsRaw = string.IsNullOrWhiteSpace(tileFxRaw) ? "None" : tileFxRaw.Trim();
     }
-
-
 #endif
-
 }
 
 [Serializable]
-
 public struct ResourceEffect
 {
     public ResourceType resource;
     public EffectValueMode mode;
 
- 
     [Tooltip("Used when mode == Fixed")]
     public int amount;
 
@@ -135,22 +143,16 @@ public struct ResourceEffect
 }
 
 [Serializable]
-
 public struct PhaseEffectBlock
 {
     public Phase phase;
-
     public List<ResourceEffect> effects;
 }
 
 [Serializable]
-
 public struct OutcomeEffectBlock
-
 {
     [Tooltip("Outcome number: 1..6 (or coin: 1..2)")]
     public int outcome;
     public List<ResourceEffect> effects;
-
-
 }

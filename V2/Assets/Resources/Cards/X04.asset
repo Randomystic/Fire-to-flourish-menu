@@ -20,6 +20,8 @@ MonoBehaviour:
     flip a coin. If heads, that building is upgraded/recovered/build and this card
     is discarded."
   keywords: 0000000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: BuildingDevelop(1) (T=1) (D=0)|BuildingDevelop(2) (T=1) (D=0)|BuildingDevelop(3)
+    (T=1) (D=0)

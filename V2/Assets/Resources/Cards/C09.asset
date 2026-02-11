@@ -20,10 +20,11 @@ MonoBehaviour:
     load significantly. \nBushfire: Choose a non-burning tile next to a burning one.
     Flip a coin. If Heads, fire will not spread to this tile in this phase."
   keywords: 0000000001000000
-  baseEffects: []
-  phaseEffects:
+  baseResourceEffects: []
+  phaseResourceEffects:
   - phase: 0
     effects: []
   - phase: 1
     effects: []
-  outcomeEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: (P)FuelDelta(-2) (T=2) (D=0)|(B)FireImmuneTile (T=1) (D=0)

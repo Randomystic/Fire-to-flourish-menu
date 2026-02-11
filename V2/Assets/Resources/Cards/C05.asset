@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Choose two connecting tiles that are not on-fire. Set their Fuel
     Load to 0 for the remainder of the current Bushfire period.
   keywords: 01000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FuelDelta(-4) (T=2) (D=0)

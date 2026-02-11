@@ -19,9 +19,9 @@ MonoBehaviour:
   cardDescription: "Choose a Tile that is in Stage 1 Fire: Put it out. \nYou may
     remove 1 Firefighting equipment to choose a Stage 2 Fire instead."
   keywords: 02000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects:
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects:
   - outcome: 1
     effects: []
   - outcome: 2
@@ -30,3 +30,4 @@ MonoBehaviour:
       mode: 0
       amount: -1
       multiplier: 0
+  tileEffectsRaw: FireReduce(-2,1) (T=1) (D=0)|FireReduce(-2,2) (T=1) (D=0)

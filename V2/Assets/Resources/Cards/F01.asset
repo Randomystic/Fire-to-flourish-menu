@@ -20,6 +20,7 @@ MonoBehaviour:
     a preparation card of their choosing. If it is the bushfire phase, that player
     draws a bushfire card of their choosing. That player then shuffles their deck.
   keywords: 02000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

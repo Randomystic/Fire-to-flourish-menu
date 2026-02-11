@@ -22,6 +22,7 @@ MonoBehaviour:
 
     If it is the preparation phase, this card is discarded.'
   keywords: 0100000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

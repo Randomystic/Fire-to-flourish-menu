@@ -18,8 +18,8 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Add 2 Happiness. If in Bushfire Phase, gain 2 more Happiness.
   keywords: 02000000
-  baseEffects: []
-  phaseEffects:
+  baseResourceEffects: []
+  phaseResourceEffects:
   - phase: 0
     effects:
     - resource: 2
@@ -32,4 +32,5 @@ MonoBehaviour:
       mode: 0
       amount: 4
       multiplier: 0
-  outcomeEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

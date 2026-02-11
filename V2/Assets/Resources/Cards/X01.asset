@@ -20,7 +20,7 @@ MonoBehaviour:
 
     Add 2 Happiness'
   keywords: 000000000200000005000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: 2
@@ -29,5 +29,6 @@ MonoBehaviour:
     mode: 0
     amount: 2
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

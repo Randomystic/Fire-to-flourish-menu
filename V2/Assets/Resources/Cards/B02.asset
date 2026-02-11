@@ -20,10 +20,11 @@ MonoBehaviour:
     Card, reduce its AP cost by 1.\nShuffle \u201CFund Community Drills\u201D back
     into the Mayor\u2019s deck."
   keywords: 00000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 6
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

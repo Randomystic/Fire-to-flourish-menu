@@ -18,10 +18,11 @@ MonoBehaviour:
   moneyCost: 1
   cardDescription: Add 3 Happiness. Flip a coin. If heads, give 1 money to any player.
   keywords: 0000000005000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 2
     mode: 0
     amount: 3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

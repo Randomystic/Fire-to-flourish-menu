@@ -18,10 +18,11 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: Add 3 Education.
   keywords: 
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

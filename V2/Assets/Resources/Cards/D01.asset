@@ -21,6 +21,7 @@ MonoBehaviour:
     turn, put a counter on this card. If this card has 3 counters, flip a coin: if
     heads, repair the tile.'
   keywords: 0400000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FuelDelta(-2) (T=1) (D=0)|BuildingDevelop(2) (T=1) (D=0)

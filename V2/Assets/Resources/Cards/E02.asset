@@ -18,10 +18,11 @@ MonoBehaviour:
   moneyCost: 2
   cardDescription: Add 3 Firefighting equipment.
   keywords: 
-  baseEffects:
+  baseResourceEffects:
   - resource: 6
     mode: 0
     amount: 3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

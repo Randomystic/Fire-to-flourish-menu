@@ -18,6 +18,7 @@ MonoBehaviour:
   moneyCost: 1
   cardDescription: Choose a building and upgrade it.
   keywords: 
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: BuildingDevelop(3) (T=1) (D=0)

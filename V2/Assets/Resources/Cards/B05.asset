@@ -21,10 +21,11 @@ MonoBehaviour:
     Flip two coins. If one of the
     coins is heads, put out a fire.'
   keywords: 0100000002000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 6
     mode: 0
     amount: -1
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)

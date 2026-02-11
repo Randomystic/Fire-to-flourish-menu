@@ -18,10 +18,11 @@ MonoBehaviour:
   moneyCost: 1
   cardDescription: Roll a d6. On a 5+ add 1 firefighting equipment
   keywords: 0000000003000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 6
     mode: 0
     amount: 1
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

@@ -20,6 +20,7 @@ MonoBehaviour:
     counter on this card. If this card has 3 counters, roll a dice. If 5+, add 3
     money. Else, add 2 money.
   keywords: 0500000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

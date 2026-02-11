@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: Give an extra Action Point to another player. Next turn, you can
     play one less card.
   keywords: 0100000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

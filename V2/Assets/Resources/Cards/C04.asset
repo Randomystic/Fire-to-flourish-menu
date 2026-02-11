@@ -20,6 +20,7 @@ MonoBehaviour:
     during a Bushfire Phase, a player may reroll a dice / reflip a coin on a Bushfire
     card.
   keywords: 0000000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

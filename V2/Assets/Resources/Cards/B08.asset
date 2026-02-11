@@ -20,9 +20,9 @@ MonoBehaviour:
     Put out the Fire of the chosen tile. This card returns to your hand\n \u2022
     2 Heads - Additionally, +1 Firefighting Equipment"
   keywords: 0100000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects:
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects:
   - outcome: 1
     effects:
     - resource: 6
@@ -35,3 +35,4 @@ MonoBehaviour:
       mode: 0
       amount: 0
       multiplier: 0
+  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)|FireReduce(-2,0) (T=1) (D=0)

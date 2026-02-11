@@ -19,6 +19,7 @@ MonoBehaviour:
   cardDescription: If it is the bushfire phase, everyone draws an additional card.
     Discard this card.
   keywords: 0000000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

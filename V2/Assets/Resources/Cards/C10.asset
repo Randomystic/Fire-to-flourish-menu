@@ -19,10 +19,11 @@ MonoBehaviour:
   cardDescription: Must have 10 Provisions or more to play this. Lose 10 Provisions.
     Every other player gains 1 AP
   keywords: 01000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: -10
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

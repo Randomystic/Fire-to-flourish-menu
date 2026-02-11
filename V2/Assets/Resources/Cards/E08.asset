@@ -21,6 +21,7 @@ MonoBehaviour:
     Drills\u201D stays on the field unless \u201CFacilitate Community Drills\u201D
     is played."
   keywords: 03000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

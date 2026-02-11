@@ -21,10 +21,11 @@ MonoBehaviour:
     Per turn, choose a tile on fire.
     Roll a dice. If 5+, put out the chosen fire.'
   keywords: 03000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 6
     mode: 0
     amount: -1
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: FireReduce(-2,0) (T=1) (D=0)

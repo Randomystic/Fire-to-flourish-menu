@@ -19,7 +19,7 @@ MonoBehaviour:
   cardDescription: You can only play this card if Firefighting Equipment <3. Add
     2 Firefighting Equipment. Remove 3 Provisions.
   keywords: 0200000001000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 6
     mode: 0
     amount: 2
@@ -28,5 +28,6 @@ MonoBehaviour:
     mode: 0
     amount: -3
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

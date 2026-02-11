@@ -19,10 +19,11 @@ MonoBehaviour:
   cardDescription: This card stays on the field until the next Bushfire phase. At
     the start of every turn, flip a coin. If heads, gain 2 Provision.
   keywords: 03000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 0
     mode: 0
     amount: 2
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

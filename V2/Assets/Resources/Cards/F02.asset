@@ -18,7 +18,7 @@ MonoBehaviour:
   moneyCost: 0
   cardDescription: 8 Education -4 Happiness
   keywords: 0000000002000000
-  baseEffects:
+  baseResourceEffects:
   - resource: 1
     mode: 0
     amount: 8
@@ -27,5 +27,6 @@ MonoBehaviour:
     mode: 0
     amount: -4
     multiplier: 0
-  phaseEffects: []
-  outcomeEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

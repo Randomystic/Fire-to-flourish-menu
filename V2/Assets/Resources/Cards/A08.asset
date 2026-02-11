@@ -20,6 +20,7 @@ MonoBehaviour:
     targets a tile, it costs 1 less AP. This card stays on the field until the end
     of next turn.'
   keywords: 03000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

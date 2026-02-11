@@ -20,9 +20,9 @@ MonoBehaviour:
     equipment, or \n \u2022 Choose a tile that is on-fire: Next turn, this fire cannot
     spread."
   keywords: 
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects:
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects:
   - outcome: 1
     effects:
     - resource: 0
@@ -39,3 +39,4 @@ MonoBehaviour:
       mode: 0
       amount: -6
       multiplier: 0
+  tileEffectsRaw: None|PreventSpreadTile (T=1) (D=1)

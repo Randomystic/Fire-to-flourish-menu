@@ -23,6 +23,7 @@ MonoBehaviour:
     Discard
     this card when it gets 3 tokens on it.'
   keywords: 03000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: None

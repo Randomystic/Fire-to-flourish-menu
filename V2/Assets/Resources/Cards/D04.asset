@@ -24,6 +24,7 @@ MonoBehaviour:
     tile. If the damaged building tile was at stage 1 of damage, give an AP to any
     player.'
   keywords: 0000000002000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects: []
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects: []
+  tileEffectsRaw: BuildingDevelop(1) (T=1) (D=0)|BuildingDevelop(2) (T=1) (D=0)

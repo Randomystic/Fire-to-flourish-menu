@@ -19,9 +19,9 @@ MonoBehaviour:
   cardDescription: If it is the preparation phase, flip a coin. On heads, +4 Education.
     On tails, -4 Happiness and discard this card.
   keywords: 0000000003000000
-  baseEffects: []
-  phaseEffects: []
-  outcomeEffects:
+  baseResourceEffects: []
+  phaseResourceEffects: []
+  outcomeResourceEffects:
   - outcome: 1
     effects:
     - resource: 1
@@ -34,3 +34,4 @@ MonoBehaviour:
       mode: 0
       amount: -4
       multiplier: 0
+  tileEffectsRaw: None
